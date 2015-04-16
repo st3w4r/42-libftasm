@@ -14,9 +14,17 @@ global _ft_strlen
 
 section .text
 _ft_strlen:
+	xor rcx, rcx
 	test rdi, rdi
 	jz done
-	
+
+next:
+	mov al, byte[rdi + rcx]
+	test al, al
+	jz done
+	inc rcx
+	jmp next
 
 done:
+	mov rax, rcx
 	ret

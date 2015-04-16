@@ -24,6 +24,7 @@ int		ft_toupper(int c);
 int		ft_tolower(int c);
 
 void	ft_puts(char *s);
+int		ft_strlen(char *s);
 
 int main(void)
 {
@@ -299,7 +300,18 @@ int main(void)
 */
 
 	//ft_puts
+	/*
 	printf("__ft_puts__\n");
-	ft_puts("Test");
+	ft_puts(NULL);
+	*/
+
+	//ftstrlen
+	printf("Len: %d\n", ft_strlen("TESTokTESTokTESTok"));
+	printf("Len: %d\n", ft_strlen("TEST"));
+	printf("Len: %d\n", ft_strlen("123"));
+	printf("Len: %d\n", ft_strlen("12"));
+	printf("Len: %d\n", ft_strlen("1"));
+	printf("Len: %d\n", ft_strlen(""));
+	printf("Len: %d\n", ft_strlen(NULL));
 	return (0);
 }
