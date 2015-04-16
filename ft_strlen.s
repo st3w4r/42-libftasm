@@ -1,34 +1,22 @@
 ; **************************************************************************** ;
 ;                                                                              ;
 ;                                                         :::      ::::::::    ;
-;    ft_puts.s                                          :+:      :+:    :+:    ;
+;    ft_strlen.s                                        :+:      :+:    :+:    ;
 ;                                                     +:+ +:+         +:+      ;
 ;    By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+         ;
 ;                                                 +#+#+#+#+#+   +#+            ;
-;    Created: 2015/04/15 17:50:15 by ybarbier          #+#    #+#              ;
-;    Updated: 2015/04/15 17:50:17 by ybarbier         ###   ########.fr        ;
+;    Created: 2015/04/16 16:00:23 by ybarbier          #+#    #+#              ;
+;    Updated: 2015/04/16 16:00:24 by ybarbier         ###   ########.fr        ;
 ;                                                                              ;
 ; **************************************************************************** ;
 
-%define MACH_SYSCALL(nb) 0x2000000 | nb
-%define STDOUT 1
-%define WRITE 4
-
-global _ft_puts
-extern _write
+global _ft_strlen
 
 section .text
-_ft_puts:
+_ft_strlen:
 	test rdi, rdi
 	jz done
-	mov r10, rdi
-
-	mov rdi, STDOUT
-	lea rsi, [rel r10]
-	mov rdx, 1
-	mov rax, MACH_SYSCALL(WRITE)
-	syscall
-	leave
+	
 
 done:
 	ret
