@@ -300,12 +300,15 @@ int main(void)
 */
 
 	//ft_puts
-	/*
-	printf("__ft_puts__\n");
+	// printf("__ft_puts__\n");
+	ft_puts("Ok");
+	ft_puts("");
+	ft_puts("YES");
 	ft_puts(NULL);
-	*/
+	puts(NULL);
 
 	//ftstrlen
+	/*
 	printf("Len: %d\n", ft_strlen("TESTokTESTokTESTok"));
 	printf("Len: %d\n", ft_strlen("TEST"));
 	printf("Len: %d\n", ft_strlen("123"));
@@ -313,5 +316,6 @@ int main(void)
 	printf("Len: %d\n", ft_strlen("1"));
 	printf("Len: %d\n", ft_strlen(""));
 	printf("Len: %d\n", ft_strlen(NULL));
+	*/
 	return (0);
 }
