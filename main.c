@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <strings.h>
 
+//Function ASM
 void	ft_bzero(void *s, size_t n);
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
@@ -22,48 +23,56 @@ int		ft_isascii(int c);
 int		ft_isprint(int c);
 int		ft_toupper(int c);
 int		ft_tolower(int c);
-
 void	ft_puts(char *s);
 int		ft_strlen(char *s);
 
+
+//Functions test
+void	test_bzero();
+void	test_isalpha();
+void	test_isdigit();
+void	test_isalnum();
+void	test_isascii();
+void	test_isprint();
+void	test_toupper();
+void	test_tolower();
+void	test_puts();
+void	test_strlen();
+
 int main(void)
 {
-	// Maxofthree
-	/*
-	printf("%ld\n", maxofthree(1, -4, -7));
-	printf("%ld\n", maxofthree(2, -6, 1));
-	printf("%ld\n", maxofthree(2, 3, 1));
-	printf("%ld\n", maxofthree(-2, 4, 3));
-	printf("%ld\n", maxofthree(2, -6, 5));
-	printf("%ld\n", maxofthree(2, 4, 6));
-	*/
+	test_bzero();
+	test_isalpha();
+	test_isdigit();
+	test_isalnum();
+	test_isascii();
+	test_isprint();
+	test_toupper();
+	test_tolower();
+	test_puts();
+	test_strlen();
 
-	// Plus_one
-	/*
-	int nb = 0;
-	nb = plus_one(nb);
-	printf("nb: %d\n", nb);
-	*/
+	return (0);
+}
 
-	// Additionner 2 nombres
-	/*
-	int nb1 = 20;
-	int nb2 = 22;
-	int res = 0;
-	res = add_two_numbers(nb1, nb2);
-	printf("Result: %d + %d = %d\n", nb1, nb2, res);
-	*/
-
-	//Bzero
-	/*
+void test_bzero()
+{
 	char str[10] = "Salut";
-	ft_bzero(&str, 1);
-	printf("Str: %s\n", str);
-	*/
+	ft_bzero(&str, 2);
+	putchar(str[0]== 0 ? 'Z': str[0]);
+	putchar(str[1]== 0 ? 'Z': str[1]);
+	putchar(str[2]== 0 ? 'Z': str[2]);
+	putchar(str[3]== 0 ? 'Z': str[3]);
+	putchar(str[4]== 0 ? 'Z': str[4]);
+	putchar(str[5]== 0 ? 'Z': str[5]);
+	putchar(str[6]== 0 ? 'Z': str[6]);
+	putchar(str[7]== 0 ? 'Z': str[7]);
+}
 
+void test_isalpha()
+{
 	//Is Alpha
 	// Majuscule
-/*
 	printf("Is alpha: %d\n", ft_isalpha('A'));
 	printf("Is alpha: %d\n", ft_isalpha('B'));
 	printf("Is alpha: %d\n", ft_isalpha('Z'));
@@ -84,11 +93,12 @@ int main(void)
 	//False
 	printf("Is alpha: %d\n", ft_isalpha(0x7c));
 	printf("Is alpha: %d\n", ft_isalpha(0x5e));
-*/
+}
 
+void test_isdigit()
+{
 	//Is Digit
 	//True
-/*
 	printf("Is digit: %d\n", ft_isdigit(0x30));
 	printf("Is digit: %d\n", ft_isdigit('0'));
 	printf("Is digit: %d\n", ft_isdigit('1'));
@@ -108,11 +118,11 @@ int main(void)
 	printf("Is digit: %d\n", ft_isdigit('/'));
 	printf("Is digit: %d\n", ft_isdigit('.'));
 	printf("Is digit: %d\n", ft_isdigit(':'));
-*/
+}
 
-
+void test_isalnum()
+{
 	//Is Alpha num
-/*
 	printf("__TRUE__\n");
 	printf("Is digit: %d\n", ft_isalnum(0x30));
 	printf("Is digit: %d\n", ft_isalnum('0'));
@@ -167,9 +177,10 @@ int main(void)
 	printf("Is digit: %d\n", ft_isalnum(':'));
 	printf("Is digit: %d\n", ft_isalnum(0));
 
-*/
+}
 
-/*
+void test_isascii()
+{
 	//Is ASCII
 	//True
 	printf("__TRUE__\n");
@@ -190,9 +201,10 @@ int main(void)
 	printf("Is ascii: %d\n", ft_isascii(128));
 	printf("Is ascii: %d\n", ft_isascii(0x8a));
 	printf("Is ascii: %d\n", ft_isascii(129));
-*/
+}
 
-/*
+void test_isprint()
+{
 	//Is Print
 	//True
 	printf("__TRUE__\n");
@@ -218,9 +230,10 @@ int main(void)
 	printf("Is print: %d\n", ft_isprint(128));
 	printf("Is print: %d\n", ft_isprint(0x8a));
 	printf("Is print: %d\n", ft_isprint(129));
-*/
+}
 
-/*
+void test_toupper()
+{
 	//ToUpper
 	//True
 	printf("__TRUE__\n");
@@ -255,9 +268,10 @@ int main(void)
 	printf("ToUpper: %c\n", ft_toupper(128));
 	printf("ToUpper: %c\n", ft_toupper(0x8a));
 	printf("ToUpper: %c\n", ft_toupper(129));
+}
 
-
-
+void test_tolower()
+{
 	//ToLower
 	printf("__ToLower__\n");
 	//True
@@ -297,18 +311,23 @@ int main(void)
 	printf("ToLower: %c\n", ft_tolower(128));
 	printf("ToLower: %c\n", ft_tolower(0x8a));
 	printf("ToLower: %c\n", ft_tolower(129));
-*/
+}
 
+void test_puts()
+{
 	//ft_puts
 	// printf("__ft_puts__\n");
 	ft_puts("Ok");
 	ft_puts("");
 	ft_puts("YES");
+	ft_puts("PLPLPLPLLASDPALSDLPASDL");
 	ft_puts(NULL);
-	puts(NULL);
+}
+	// puts(NULL);
 
-	//ftstrlen
-	/*
+void test_strlen()
+{
+	//ft_strlen
 	printf("Len: %d\n", ft_strlen("TESTokTESTokTESTok"));
 	printf("Len: %d\n", ft_strlen("TEST"));
 	printf("Len: %d\n", ft_strlen("123"));
@@ -316,6 +335,4 @@ int main(void)
 	printf("Len: %d\n", ft_strlen("1"));
 	printf("Len: %d\n", ft_strlen(""));
 	printf("Len: %d\n", ft_strlen(NULL));
-	*/
-	return (0);
 }

@@ -26,7 +26,8 @@ LIBS = -L ./ -lfts
 
 #HEAD = $(PATH_SRC)ftl.h
 
-SRC =	ft_isalpha.s \
+SRC =	ft_bzero.s \
+		ft_isalpha.s \
 		ft_isdigit.s \
 		ft_isalnum.s \
 		ft_isascii.s \
