@@ -17,9 +17,6 @@ _ft_bzero:
 	mov r10, rsi ; Recupere le parametre n
 	xor rcx, rcx ; Met a zero le compteur
 
-	;mov al, byte[rdi + rcx]
-	;test al, al
-	;jz done
 next:
 	cmp rcx, r10
 	jge done
@@ -29,12 +26,3 @@ next:
 
 done:
 	ret
-
-
-
-	;push rdi
-	;push rsi
-	;mov rax, [rdi]
-	;mov rax, 0
-	;dec rsi
-	;jnz _ft_bzero
