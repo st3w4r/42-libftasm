@@ -25,6 +25,7 @@ int		ft_toupper(int c);
 int		ft_tolower(int c);
 void	ft_puts(char *s);
 int		ft_strlen(char *s);
+char	*ft_strcat(char *s1, const char *s2);
 
 
 //Functions test
@@ -38,19 +39,21 @@ void	test_toupper();
 void	test_tolower();
 void	test_puts();
 void	test_strlen();
+void	test_strcat();
 
 int main(void)
 {
-	test_bzero();
-	test_isalpha();
-	test_isdigit();
-	test_isalnum();
-	test_isascii();
-	test_isprint();
-	test_toupper();
-	test_tolower();
-	test_puts();
-	test_strlen();
+	// test_bzero();
+	// test_isalpha();
+	// test_isdigit();
+	// test_isalnum();
+	// test_isascii();
+	// test_isprint();
+	// test_toupper();
+	// test_tolower();
+	// test_puts();
+	// test_strlen();
+	test_strcat();
 
 	return (0);
 }
@@ -335,4 +338,22 @@ void test_strlen()
 	printf("Len: %d\n", ft_strlen("1"));
 	printf("Len: %d\n", ft_strlen(""));
 	printf("Len: %d\n", ft_strlen(NULL));
+}
+
+void	test_strcat()
+{
+	// char s1[10] = "OK";
+	// char s2[4] = "test";
+	// char s2[5] = "test";
+	// char s3[10] = "LOL";
+
+	// ft_strcat(s1, s2);
+
+	// printf("%s", ft_strcat(s1, s2));
+
+	char s10[10] = "OK";
+	char s12[5] = "test";
+	//char s13[10] = "LOL";
+	printf("\n%s", strcat(s10, s12));
+
 }
