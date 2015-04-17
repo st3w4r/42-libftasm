@@ -27,14 +27,15 @@ _ft_puts:
 	test rdi, rdi
 	jz done
 	mov r10, rdi
-	mov rdi, STDOUT
 	lea rsi, [rel r10]
 
-	push rdi
-	mov rdi, r10
-	call _ft_strlen
-	pop rdi
+	push rsi
 
+	call _ft_strlen
+
+	pop rsi
+
+	mov rdi, STDOUT
 	mov rdx, rax
 	mov rax, MACH_SYSCALL(WRITE)
 	syscall
