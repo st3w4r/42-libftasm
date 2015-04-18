@@ -365,7 +365,9 @@ void	test_strcat()
 void	test_memset()
 {
 	char str[10] = "Salut";
-	ft_memset(&str, 'B', 1);
+	// ft_memset(&str, 'B', 2);
+	printf("%s\n", ft_memset(&str, 'B', 3));
+
 	putchar(str[0]);
 	putchar(str[1]);
 	putchar(str[2]);

@@ -17,15 +17,11 @@ _ft_memset:
 	test rdi, rdi	; Test si le parametre est nul
 	jz done
 	mov rcx, rdx	; Met la len dans le compteur
-	dec rcx
 memset:
-	cmp rcx, 0
-	jl done
-	mov byte[rdi + rcx], sil
-	dec rcx
-	jmp memset
-	;rep movsb
-
+	mov r10, rdi	; Save le pointeur sur le debut de la chaine
+	mov al, sil
+	rep stosb		; Prend le contenue de al et le met dans rdi et inc rdi
+	mov rdi, r10
 done:
 	mov rax, rdi
 	ret

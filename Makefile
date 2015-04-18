@@ -17,12 +17,12 @@ PATH_OBJ = ./
 
 
 AS = nasm
-ASFLAGS = -f macho64
+ASFLAGS = -f macho64 -g
 CC = cc
 # CFLAGS = -f macho64
 # CFLAGS = -Ofast -I $(PATH_INC) -g
 
-LIBS = -L ./ -lfts
+LIBS = -L ./ -lfts -g
 
 #HEAD = $(PATH_SRC)ftl.h
 
