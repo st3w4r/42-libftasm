@@ -18,6 +18,7 @@ _ft_memset:
 	jz done
 	mov rcx, rdx	; Met la len dans le compteur
 memset:
+	cld
 	mov r10, rdi	; Save le pointeur sur le debut de la chaine
 	mov al, sil
 	rep stosb		; Prend le contenue de al et le met dans rdi et inc rdi
