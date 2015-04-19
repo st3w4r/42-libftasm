@@ -27,6 +27,7 @@ void	ft_puts(char *s);
 int		ft_strlen(char *s);
 char	*ft_strcat(char *s1, const char *s2);
 void	*ft_memset(void *b, int c, size_t len);
+void	*ft_memcpy(void *dst, const void *src, size_t n);
 
 //Functions test
 void	test_bzero();
@@ -41,6 +42,7 @@ void	test_puts();
 void	test_strlen();
 void	test_strcat();
 void	test_memset();
+void	test_memcpy();
 
 int main(void)
 {
@@ -55,7 +57,8 @@ int main(void)
 	// test_puts();
 	// test_strlen();
 	// test_strcat();
-	test_memset();
+	// test_memset();
+	test_memcpy();
 
 	return (0);
 }
@@ -376,4 +379,23 @@ void	test_memset()
 	putchar(str[5]);
 	putchar(str[6]);
 	putchar(str[7]);
+}
+
+void	test_memcpy()
+{
+	char str_src[10] = "Salut";
+	char str_dst[10] = "123456";
+
+	printf("%s\n", ft_memcpy(&str_dst, &str_src, 2));
+
+	putchar(str_dst[0]);
+	putchar(str_dst[1]);
+	putchar(str_dst[2]);
+	putchar(str_dst[3]);
+	putchar(str_dst[4]);
+	putchar(str_dst[5]);
+	putchar(str_dst[6]);
+	putchar(str_dst[7]);
+	putchar(str_dst[8]);
+	putchar(str_dst[9]);
 }
