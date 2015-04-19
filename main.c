@@ -386,7 +386,7 @@ void	test_memcpy()
 	char str_dst[10] = "123456789";
 	char str_src[10] = "SalutHello";
 
-	printf("%s\n", ft_memcpy(&str_dst, &str_src, 5));
+	printf("%s\n", ft_memcpy(&str_dst, &str_src, 3));
 
 	putchar(str_dst[0]);
 	putchar(str_dst[1]);

@@ -16,26 +16,14 @@ global _ft_memcpy
 
 section .text
 _ft_memcpy:
+	mov rax, rdi
 	test rdi, rdi
 	jz done
 	test rsi, rsi
 	jz done
-	cmp edx, 0
-	jle done
-
 memcpy:
-	cld
 	movsx rcx, edx
-	mov r10, rdi
-	mov r11, rsi
-
-next:
-	lodsb
-	stosb
-	loop next
-
-	mov rdi, r10
-	mov rsi, r11
+	cld
+	rep movsb
 done:
-	mov rax, rdi
 	ret
