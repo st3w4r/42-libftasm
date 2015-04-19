@@ -24,10 +24,11 @@ int		ft_isprint(int c);
 int		ft_toupper(int c);
 int		ft_tolower(int c);
 void	ft_puts(char *s);
-int		ft_strlen(char *s);
+size_t		ft_strlen(char *s);
 char	*ft_strcat(char *s1, const char *s2);
 void	*ft_memset(void *b, int c, size_t len);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
+char	*ft_strdup(const char *src);
 
 //Functions test
 void	test_bzero();
@@ -43,6 +44,7 @@ void	test_strlen();
 void	test_strcat();
 void	test_memset();
 void	test_memcpy();
+void	test_strdup();
 
 int main(void)
 {
@@ -58,7 +60,8 @@ int main(void)
 	// test_strlen();
 	// test_strcat();
 	// test_memset();
-	test_memcpy();
+	// test_memcpy();
+	test_strdup();
 
 	return (0);
 }
@@ -336,13 +339,13 @@ void test_puts()
 void test_strlen()
 {
 	//ft_strlen
-	printf("Len: %d\n", ft_strlen("TESTokTESTokTESTok"));
-	printf("Len: %d\n", ft_strlen("TEST"));
-	printf("Len: %d\n", ft_strlen("123"));
-	printf("Len: %d\n", ft_strlen("12"));
-	printf("Len: %d\n", ft_strlen("1"));
-	printf("Len: %d\n", ft_strlen(""));
-	printf("Len: %d\n", ft_strlen(NULL));
+	printf("Len: %lu\n", ft_strlen("TESTokTESTokTESTok"));
+	printf("Len: %lu\n", ft_strlen("TEST"));
+	printf("Len: %lu\n", ft_strlen("123"));
+	printf("Len: %lu\n", ft_strlen("12"));
+	printf("Len: %lu\n", ft_strlen("1"));
+	printf("Len: %lu\n", ft_strlen(""));
+	printf("Len: %lu\n", ft_strlen(NULL));
 }
 
 void	test_strcat()
@@ -386,7 +389,8 @@ void	test_memcpy()
 	char str_dst[10] = "123456789";
 	char str_src[10] = "SalutHello";
 
-	printf("%s\n", ft_memcpy(&str_dst, &str_src, 3));
+	ft_memcpy(&str_dst, &str_src, 3);
+	printf("%s\n", str_src);
 
 	putchar(str_dst[0]);
 	putchar(str_dst[1]);
@@ -398,4 +402,26 @@ void	test_memcpy()
 	putchar(str_dst[7]);
 	putchar(str_dst[8]);
 	putchar(str_dst[9]);
+}
+
+void	test_strdup()
+{
+	char str_src[11] = "SalutHello";
+	char *str_dst;
+
+	str_dst = ft_strdup(str_src);
+	printf("%s\n", str_dst);
+
+
+	putchar(str_dst[0]== 0 ? 'Z': str_dst[0]);
+	putchar(str_dst[1]== 0 ? 'Z': str_dst[1]);
+	putchar(str_dst[2]== 0 ? 'Z': str_dst[2]);
+	putchar(str_dst[3]== 0 ? 'Z': str_dst[3]);
+	putchar(str_dst[4]== 0 ? 'Z': str_dst[4]);
+	putchar(str_dst[5]== 0 ? 'Z': str_dst[5]);
+	putchar(str_dst[6]== 0 ? 'Z': str_dst[6]);
+	putchar(str_dst[7]== 0 ? 'Z': str_dst[7]);
+	putchar(str_dst[8]== 0 ? 'Z': str_dst[8]);
+	putchar(str_dst[9]== 0 ? 'Z': str_dst[9]);
+	putchar(str_dst[10]== 0 ? 'Z': str_dst[10]);
 }
