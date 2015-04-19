@@ -22,6 +22,7 @@ _ft_memcpy:
 	jz done
 	cmp edx, 0
 	jle done
+
 memcpy:
 	cld
 	movsx rcx, edx
@@ -29,11 +30,12 @@ memcpy:
 	mov r11, rsi
 
 next:
-	mov al, byte[rsi]
+	lodsb
 	stosb
-	add rsi, 1
 	loop next
+
 	mov rdi, r10
+	mov rsi, r11
 done:
 	mov rax, rdi
 	ret
