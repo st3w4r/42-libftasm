@@ -63,7 +63,7 @@ int main(void)
 	// test_memcpy();
 	test_strdup();
 
-	return (0);
+	return (127);
 }
 
 void test_bzero()
@@ -406,7 +406,7 @@ void	test_memcpy()
 
 void	test_strdup()
 {
-	char str_src[11] = "SalutHello";
+	char str_src[11] = "Salut";
 	char *str_dst;
 
 	str_dst = ft_strdup(str_src);

@@ -11,6 +11,7 @@
 # **************************************************************************** #
 
 NAME = libfts.a
+NAME_TEST = test
 PATH_SRC = ./
 PATH_OBJ = ./
 #PATH_INC = ./libft/includes/
@@ -61,4 +62,7 @@ fclean: clean
 re: fclean all
 
 test:
-	$(CC) main.c $(LIBS)
+	$(CC) main.c $(LIBS) -o $(NAME_TEST)
+
+clean_test:
+	/bin/rm -f $(NAME_TEST)
