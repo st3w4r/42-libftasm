@@ -19,11 +19,11 @@ _ft_strlen:
 	jz done
 
 next:
-	mov al, byte[rdi + rcx]
-	test al, al
-	jz done
-	inc rcx
-	jmp next
+	mov rcx, -1
+	mov al, 0x0
+	repne scasb
+	not rcx
+	dec rcx
 
 done:
 	mov rax, rcx

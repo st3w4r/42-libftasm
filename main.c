@@ -57,11 +57,11 @@ int main(void)
 	// test_toupper();
 	// test_tolower();
 	// test_puts();
-	// test_strlen();
+	test_strlen();
 	// test_strcat();
 	// test_memset();
 	// test_memcpy();
-	test_strdup();
+	// test_strdup();
 
 	return (127);
 }
@@ -402,27 +402,6 @@ void	test_memcpy()
 	putchar(str_dst[7]);
 	putchar(str_dst[8]);
 	putchar(str_dst[9]);
-}
-
-#include <stdlib.h>
-
-char *ft_strdup_2(const char *src)
-{
-	unsigned int	i;
-	size_t			len;
-	char			*str;
-
-	len = strlen(src);
-	if (!(str = (char*)malloc(sizeof(*str) * len + 1)))
-		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		str[i] = src[i];
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
 }
 
 
