@@ -404,12 +404,49 @@ void	test_memcpy()
 	putchar(str_dst[9]);
 }
 
+#include <stdlib.h>
+
+char *ft_strdup_2(const char *src)
+{
+	unsigned int	i;
+	size_t			len;
+	char			*str;
+
+	len = strlen(src);
+	if (!(str = (char*)malloc(sizeof(*str) * len + 1)))
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		str[i] = src[i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
+}
+
+
 void	test_strdup()
 {
+
 	char str_src[11] = "Salut";
 	char *str_dst;
-
 	str_dst = ft_strdup(str_src);
+/*
+	str_dst[0] = 'H';
+	str_dst[1] = 'e';
+	str_dst[2] = 'l';
+	str_dst[3] = 'l';
+	str_dst[4] = 'o';
+	str_dst[5] = '\0';
+	str_dst[6] = 'A';
+	str_dst[7] = 'A';
+	str_dst[8] = 'A';
+	str_dst[9] = 'A';
+	str_dst[10] = 'A';
+*/
+	// i = ft_strlen(str_src);
+	// printf("%d\n", i);
 	printf("%s\n", str_dst);
 
 
@@ -424,4 +461,6 @@ void	test_strdup()
 	putchar(str_dst[8]== 0 ? 'Z': str_dst[8]);
 	putchar(str_dst[9]== 0 ? 'Z': str_dst[9]);
 	putchar(str_dst[10]== 0 ? 'Z': str_dst[10]);
+
+	free(str_dst);
 }

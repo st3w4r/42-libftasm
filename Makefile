@@ -61,7 +61,7 @@ fclean: clean
 
 re: fclean all
 
-test:
+test: $(OBJ) main.c
 	$(CC) main.c $(LIBS) -o $(NAME_TEST)
 
 clean_test:

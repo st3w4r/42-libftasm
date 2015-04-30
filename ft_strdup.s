@@ -26,6 +26,7 @@ _ft_strdup:
 
 	test rdi, rdi
 	jz done
+
 len:
 	push rdi
 	call _ft_strlen	; Met la longeur de la chaine dans rax
@@ -42,33 +43,36 @@ memory_alloc:
 	; Save la len de la chaine, save la chaine
 	mov rdi, rax	; Met en parametre rax (len de la chaine) pour malloc
 
-	push rdi ; Save la len
 	push r10 ; Save la chaine
+	push rdi ; Save la len
 
-	; Aligment pour appel
 ;	push rbp
 ;	mov rbp, rsp
-	;sub rsp, 16
 
+	; Aligment pour appel
+	sub rsp, 16
 	call _malloc	; Appeller Malloc, rax pointe sur une chaine alloue
-
+	add rsp, 16
 	;add rsp, 8
 
 duplicate:
 
+	pop rcx  ; Len
 	pop rsi ; Chaine
-	pop rcx ; Len
 
 	mov rdi, rax	; Met le pointeur de la chaine alloue dans rdi
 
+	dec rcx ; Reduire le compteur pour le tour de boucle
 	cld
 	rep movsb
-
+	mov byte[rdi], 0 ; Mettre le Zero final
+	;mov rdi, rax
 
 done:
-	mov rax, rdi
+	;mov rax, rdi
+	mov rsp, rbp
 	pop rbp
-
+	ret
 
 
 ;----
