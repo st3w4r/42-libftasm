@@ -16,7 +16,6 @@
 
 global _ft_strdup
 extern _ft_strlen
-extern _ft_memcpy
 extern _malloc
 
 section .text
