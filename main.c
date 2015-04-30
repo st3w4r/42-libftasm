@@ -29,6 +29,7 @@ char	*ft_strcat(char *s1, const char *s2);
 void	*ft_memset(void *b, int c, size_t len);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 char	*ft_strdup(const char *src);
+void	ft_cat(int fd);
 
 //Functions test
 void	test_bzero();
@@ -45,6 +46,7 @@ void	test_strcat();
 void	test_memset();
 void	test_memcpy();
 void	test_strdup();
+void	test_cat();
 
 int main(void)
 {
@@ -57,11 +59,12 @@ int main(void)
 	// test_toupper();
 	// test_tolower();
 	// test_puts();
-	test_strlen();
+	// test_strlen();
 	// test_strcat();
 	// test_memset();
 	// test_memcpy();
 	// test_strdup();
+	test_cat();
 
 	return (127);
 }
@@ -426,8 +429,8 @@ void	test_strdup()
 */
 	// i = ft_strlen(str_src);
 	// printf("%d\n", i);
-	printf("%s\n", str_dst);
 
+	printf("%s\n", str_dst);
 
 	putchar(str_dst[0]== 0 ? 'Z': str_dst[0]);
 	putchar(str_dst[1]== 0 ? 'Z': str_dst[1]);
@@ -442,4 +445,33 @@ void	test_strdup()
 	putchar(str_dst[10]== 0 ? 'Z': str_dst[10]);
 
 	free(str_dst);
+}
+
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/uio.h>
+#include <unistd.h>
+
+#define BUF_SIZE 4200
+
+void	test_cat()
+{
+	char *buf;
+
+	buf = (char *)malloc(sizeof(char) * BUF_SIZE);
+	int fd = open("./ft_cat.s", O_RDONLY);
+	ft_cat(fd);
+	/*
+	printf("Fd: %d\n", fd);
+	read(fd, buf, BUF_SIZE);
+
+	printf("BUF 1:%s", buf);
+	read(fd, buf, BUF_SIZE);
+
+	if (read(fd, buf, BUF_SIZE) > 0)
+		printf("BUF 2:%s", buf);
+	else
+		printf("EMPTY");
+*/
+
 }
