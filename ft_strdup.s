@@ -10,10 +10,6 @@
 ;                                                                              ;
 ; **************************************************************************** ;
 
-%define MACH_SYSCALL(nb) 0x2000000 | nb
-%define malloc
-
-
 global _ft_strdup
 extern _ft_strlen
 extern _malloc
