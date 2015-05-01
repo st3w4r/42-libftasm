@@ -452,15 +452,19 @@ void	test_strdup()
 #include <sys/uio.h>
 #include <unistd.h>
 
-#define BUF_SIZE 4200
+// #define BUF_SIZE 4200
 
 void	test_cat()
 {
 	char *buf;
+	int nb;
 
-	buf = (char *)malloc(sizeof(char) * BUF_SIZE);
+	// buf = (char *)malloc(sizeof(char) * BUF_SIZE);
 	int fd = open("./ft_cat.s", O_RDONLY);
+	// nb =
 	ft_cat(fd);
+	// printf("NB: %d\n", nb);
+
 	/*
 	printf("Fd: %d\n", fd);
 	read(fd, buf, BUF_SIZE);

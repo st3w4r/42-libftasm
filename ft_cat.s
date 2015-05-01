@@ -21,36 +21,59 @@
 global _ft_cat
 extern _malloc
 
-section .data
+section .bss
 buffer:
-	db 0x2a
+	.buf resb 0x2a0
+
+section .data
+len:
+	db 0x2a0
 
 section .text
 _ft_cat:
 	push rbp
 	mov rbp, rsp
 
-	push rdi	; Save fd
+	;push rdi	; Save fd
 
-malloc_buf:
-	mov rdi, [rel buffer] ; Ajout de la taille pour malloc le buffer
-	call _malloc
-	mov rsi, rax ; Mettre le ptr alloue (buf) dans rsi
+init_data:
+	;mov rdi, [rel buffer] ; Ajout de la taille pour malloc le buffer
 
-	pop rdi ; fd dans rdi
-	mov rdx,  [rel buffer] ; size dans rdx
+	;call _malloc
+	;mov rsi, rax ; Mettre le ptr alloue (buf) dans rsi
+
+	;pop rdi ; fd dans rdi
+	; RDI contient le fd
+
+	mov rdx, [rel len] ; size dans rdx (3 eme parametre)
+	lea rsi, [rel buffer.buf]	; Mettre le ptr sur le buffer dans le 2 eme param
 
 cat:
+	push rdi ; Envoi de fd
+	push rsi ; Envoi de ptr
+	push rdx ; Envoi de size
+
 	mov rax, MACH_SYSCALL(READ)
 	syscall
 
-	push rax
+	;pop rdi
+	mov rdi, STDOUT
+	pop rdx ; Mettre la size
+	pop rsi ; Mettre ptr sur str
+
+	push rdx ; Envoi size
+	push rsi ; Ensoi ptr sur str
+	push rax ; Envoi nb charactere read
 
 	mov rax, MACH_SYSCALL(WRITE)
 	syscall
 
 	pop rax
-	cmp rax, 0x0
+	pop rsi
+	pop rdx
+	pop rdi
+
+	cmp rax, 0
 	jg cat
 
 done:
