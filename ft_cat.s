@@ -17,17 +17,18 @@
 %define STDOUT 1
 %define READ 3
 %define WRITE 4
+%define SIZE 0x20
 
 global _ft_cat
 extern _malloc
 
 section .bss
 buffer:
-	.buf resb 0x2a0
+	.buf resb SIZE
 
 section .data
 len:
-	db 0x2a0
+	db SIZE
 
 section .text
 _ft_cat:
@@ -50,19 +51,19 @@ init_data:
 
 cat:
 	push rdi ; Envoi de fd
-	push rsi ; Envoi de ptr
 	push rdx ; Envoi de size
+	push rsi ; Envoi de ptr
 
 	mov rax, MACH_SYSCALL(READ)
 	syscall
 
 	;pop rdi
 	mov rdi, STDOUT
-	pop rdx ; Mettre la size
+	;pop rdx ; Mettre la size
+	mov rdx, rax ; Mettre la size lu dans la size a afficher
 	pop rsi ; Mettre ptr sur str
 
-	push rdx ; Envoi size
-	push rsi ; Ensoi ptr sur str
+	push rsi ; Envoi ptr sur str
 	push rax ; Envoi nb charactere read
 
 	mov rax, MACH_SYSCALL(WRITE)

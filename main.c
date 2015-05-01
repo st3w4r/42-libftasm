@@ -452,30 +452,38 @@ void	test_strdup()
 #include <sys/uio.h>
 #include <unistd.h>
 
-// #define BUF_SIZE 4200
+#define BUF_SIZE 0x20
 
 void	test_cat()
 {
-	char *buf;
+	// char *buf;
+	char buf[BUF_SIZE];
 	int nb;
 
 	// buf = (char *)malloc(sizeof(char) * BUF_SIZE);
 	int fd = open("./ft_cat.s", O_RDONLY);
 	// nb =
-	ft_cat(fd);
+	ft_cat(0);
 	// printf("NB: %d\n", nb);
 
+
+	// printf("Fd: %d\n", fd);
 	/*
-	printf("Fd: %d\n", fd);
-	read(fd, buf, BUF_SIZE);
+	while ((nb = read(fd, buf, BUF_SIZE)))
+	{
+		// if (nb == -1)
+			printf("NB: %d\n", nb);
 
-	printf("BUF 1:%s", buf);
-	read(fd, buf, BUF_SIZE);
-
-	if (read(fd, buf, BUF_SIZE) > 0)
-		printf("BUF 2:%s", buf);
-	else
-		printf("EMPTY");
+		printf("%s", buf);
+	}
 */
+	// printf("BUF 1:%s", buf);
+	// read(fd, buf, BUF_SIZE);
+
+	// if (read(fd, buf, BUF_SIZE) > 0)
+		// printf("BUF 2:%s", buf);
+	// else
+		// printf("EMPTY");
+
 
 }
