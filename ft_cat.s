@@ -10,9 +10,6 @@
 ;                                                                              ;
 ; **************************************************************************** ;
 
-
-;   user_ssize_t read(int fildes, void *buf, size_t nbyte);
-;	user_ssize_t write(int fd, user_addr_t cbuf, user_size_t nbyte);
 %define MACH_SYSCALL(nb) 0x2000000 | nb
 %define STDOUT 1
 %define READ 3
@@ -20,7 +17,6 @@
 %define SIZE 0x200
 
 global _ft_cat
-extern _malloc
 
 section .bss
 buffer:
