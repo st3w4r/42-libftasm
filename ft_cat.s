@@ -17,7 +17,7 @@
 %define STDOUT 1
 %define READ 3
 %define WRITE 4
-%define SIZE 0x20
+%define SIZE 0x200
 
 global _ft_cat
 extern _malloc
@@ -26,10 +26,6 @@ section .bss
 buffer:
 	.buf resb SIZE
 
-section .data
-len:
-	db SIZE
-
 section .text
 _ft_cat:
 	push rbp
@@ -37,7 +33,7 @@ _ft_cat:
 
 init_data:
 	; RDI contient le file descriptor
-	mov rdx, [rel len] ; size dans rdx (3 eme parametre)
+	mov rdx, SIZE ; size dans rdx (3 eme parametre)
 	lea rsi, [rel buffer.buf]	; Mettre le ptr sur le buffer dans le 2 eme param
 
 cat:
