@@ -15,7 +15,6 @@
 %define WRITE 4
 
 global _ft_puts
-extern _write
 extern _ft_strlen
 
 section .data
