@@ -35,17 +35,8 @@ _ft_cat:
 	push rbp
 	mov rbp, rsp
 
-	;push rdi	; Save fd
-
 init_data:
-	;mov rdi, [rel buffer] ; Ajout de la taille pour malloc le buffer
-
-	;call _malloc
-	;mov rsi, rax ; Mettre le ptr alloue (buf) dans rsi
-
-	;pop rdi ; fd dans rdi
-	; RDI contient le fd
-
+	; RDI contient le file descriptor
 	mov rdx, [rel len] ; size dans rdx (3 eme parametre)
 	lea rsi, [rel buffer.buf]	; Mettre le ptr sur le buffer dans le 2 eme param
 
@@ -57,9 +48,7 @@ cat:
 	mov rax, MACH_SYSCALL(READ)
 	syscall
 
-	;pop rdi
 	mov rdi, STDOUT
-	;pop rdx ; Mettre la size
 	mov rdx, rax ; Mettre la size lu dans la size a afficher
 	pop rsi ; Mettre ptr sur str
 
@@ -74,15 +63,10 @@ cat:
 	pop rdx
 	pop rdi
 
-	cmp rax, 0
+	cmp rax, 0 ; Tant que Read ne retourne pas zero continuer la boucle
 	jg cat
 
 done:
 	mov rsp, rbp
 	pop rbp
 	ret
-; fd dans rdi
-; buf dans rsi
-; size dans rdx
-;
-; Appeler Read, tant que rax superieur à zero boucler sur Read

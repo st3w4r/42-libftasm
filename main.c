@@ -461,9 +461,9 @@ void	test_cat()
 	int nb;
 
 	// buf = (char *)malloc(sizeof(char) * BUF_SIZE);
-	int fd = open("./ft_cat.s", O_RDONLY);
+	int fd = open("./ft_bzero.s", O_RDONLY);
 	// nb =
-	ft_cat(0);
+	ft_cat(fd);
 	// printf("NB: %d\n", nb);
 
 
