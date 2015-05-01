@@ -36,7 +36,7 @@ cat:
 	push rdi ; Envoi de fd
 	push rdx ; Envoi de size
 	push rsi ; Envoi de ptr
-
+ 
 	mov rax, MACH_SYSCALL(READ)
 	syscall
 

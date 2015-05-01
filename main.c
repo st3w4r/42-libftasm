@@ -30,6 +30,7 @@ void	*ft_memset(void *b, int c, size_t len);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 char	*ft_strdup(const char *src);
 void	ft_cat(int fd);
+int		ft_strcmp(const char *s1, const char *s2);
 
 //Functions test
 void	test_bzero();
@@ -47,6 +48,8 @@ void	test_memset();
 void	test_memcpy();
 void	test_strdup();
 void	test_cat();
+void	test_strcmp();
+
 
 int main(void)
 {
@@ -64,7 +67,8 @@ int main(void)
 	// test_memset();
 	// test_memcpy();
 	// test_strdup();
-	test_cat();
+	// test_cat();
+	test_strcmp();
 
 	return (127);
 }
@@ -457,4 +461,14 @@ void	test_cat()
 	ft_cat(fd);
 	// fd = open("./ft_cat.s", O_RDONLY);
 	// ft_cat(fd);
+}
+
+void	test_strcmp()
+{
+	char s1[10] = "Salut A";
+	char s2[10] = "Salut B";
+	int diff;
+
+	diff = ft_strcmp(s1, s2);
+	printf("Diff: %d\n", diff);
 }

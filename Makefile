@@ -41,7 +41,8 @@ SRC =	ft_bzero.s \
 		ft_memset.s \
 		ft_memcpy.s \
 		ft_strdup.s \
-		ft_cat.s
+		ft_cat.s \
+		ft_strcmp.s
 
 OBJ = $(addprefix $(PATH_SRC), $(SRC:.s=.o))
 

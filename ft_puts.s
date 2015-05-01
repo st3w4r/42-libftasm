@@ -23,6 +23,8 @@ nl:
 
 section .text
 _ft_puts:
+	push rbp
+	mov rbp, rsp
 	test rdi, rdi
 	jz done
 	mov r10, rdi
@@ -47,4 +49,6 @@ new_line:
 	syscall
 
 done:
+	mov rsp, rbp
+	pop rbp
 	ret
