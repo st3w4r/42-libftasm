@@ -34,6 +34,7 @@ int		ft_strcmp(const char *s1, const char *s2);
 void	ft_putchar(char c);
 void	ft_putchar_fd(char c, int fd);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
+int		ft_strequ(char const *s1, char const *s2);
 
 //Functions test
 void	test_bzero();
@@ -55,6 +56,7 @@ void	test_strcmp();
 void	test_putchar();
 void	test_putchar_fd();
 void	test_memcmp();
+void	test_strequ();
 
 int main(void)
 {
@@ -75,8 +77,9 @@ int main(void)
 	// test_cat();
 	// test_strcmp();
 	// test_putchar();
-	//test_putchar_fd();
-	test_memcmp();
+	// test_putchar_fd();
+	// test_memcmp();
+	test_strequ();
 
 	return (127);
 }
@@ -528,5 +531,15 @@ void	test_memcmp()
 	diff = ft_memcmp(s1, s2, 5);
 	printf("Diff: %d\n", diff);
 	diff = memcmp(s1, s2, 5);
+	printf("Diff: %d\n", diff);
+}
+
+void	test_strequ()
+{
+	char s1[10] = "SalutA";
+	char s2[10] = "SalutA";
+	int diff;
+
+	diff = ft_strequ(s1, s2);
 	printf("Diff: %d\n", diff);
 }
