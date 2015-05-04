@@ -35,6 +35,7 @@ void	ft_putchar(char c);
 void	ft_putchar_fd(char c, int fd);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 int		ft_strequ(char const *s1, char const *s2);
+char	*ft_strcpy(char *dst, const char *src);
 
 //Functions test
 void	test_bzero();
@@ -57,6 +58,7 @@ void	test_putchar();
 void	test_putchar_fd();
 void	test_memcmp();
 void	test_strequ();
+void	test_strcpy();
 
 int main(void)
 {
@@ -79,9 +81,10 @@ int main(void)
 	// test_putchar();
 	// test_putchar_fd();
 	// test_memcmp();
-	test_strequ();
+	// test_strequ();
+	test_strcpy();
 
-	return (127);
+	return (1);
 }
 
 void test_bzero()
@@ -542,4 +545,29 @@ void	test_strequ()
 
 	diff = ft_strequ(s1, s2);
 	printf("Diff: %d\n", diff);
+}
+
+void	test_strcpy()
+{
+	char str_dst[20] = "0123456789ABCD";
+	char str_src[20] = "SalutHello";
+
+	ft_strcpy(str_dst, str_src);
+	printf("%s\n", str_src);
+	printf("%s\n", str_dst);
+
+	putchar(str_dst[0]);
+	putchar(str_dst[1]);
+	putchar(str_dst[2]);
+	putchar(str_dst[3]);
+	putchar(str_dst[4]);
+	putchar(str_dst[5]);
+	putchar(str_dst[6]);
+	putchar(str_dst[7]);
+	putchar(str_dst[8]);
+	putchar(str_dst[9]);
+	putchar(str_dst[10]);
+	putchar(str_dst[11]);
+	putchar(str_dst[12]);
+	putchar(str_dst[13]);
 }
