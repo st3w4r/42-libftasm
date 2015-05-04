@@ -24,13 +24,14 @@ int		ft_isprint(int c);
 int		ft_toupper(int c);
 int		ft_tolower(int c);
 void	ft_puts(char *s);
-size_t		ft_strlen(char *s);
+size_t	ft_strlen(char *s);
 char	*ft_strcat(char *s1, const char *s2);
 void	*ft_memset(void *b, int c, size_t len);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 char	*ft_strdup(const char *src);
 void	ft_cat(int fd);
 int		ft_strcmp(const char *s1, const char *s2);
+void	ft_putchar(char c);
 
 //Functions test
 void	test_bzero();
@@ -49,7 +50,7 @@ void	test_memcpy();
 void	test_strdup();
 void	test_cat();
 void	test_strcmp();
-
+void	test_putchar();
 
 int main(void)
 {
@@ -68,7 +69,8 @@ int main(void)
 	// test_memcpy();
 	// test_strdup();
 	// test_cat();
-	test_strcmp();
+	// test_strcmp();
+	test_putchar();
 
 	return (127);
 }
@@ -473,4 +475,27 @@ void	test_strcmp()
 	printf("Diff: %d\n", diff);
 	diff = strcmp(s1, s2);
 	printf("Diff: %d\n", diff);
+}
+
+void	test_putchar()
+{
+	ft_putchar('A');
+	ft_putchar('a');
+	ft_putchar('Z');
+	ft_putchar('z');
+	ft_putchar('0');
+	ft_putchar(' ');
+	ft_putchar(0);
+	ft_putchar('4');
+	ft_putchar('\n');
+
+	putchar('A');
+	putchar('a');
+	putchar('Z');
+	putchar('z');
+	putchar('0');
+	putchar(' ');
+	putchar(0);
+	putchar('4');
+	putchar('\n');
 }

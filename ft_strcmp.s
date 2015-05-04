@@ -44,6 +44,7 @@ next:
 	add rcx, 1
 	cmp al, bl
 	je next
+
 end:
 	sub rax, rbx
 	mov rdi, r8
