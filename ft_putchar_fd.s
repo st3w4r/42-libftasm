@@ -1,30 +1,29 @@
 ; **************************************************************************** ;
 ;                                                                              ;
 ;                                                         :::      ::::::::    ;
-;    ft_putchar.s                                       :+:      :+:    :+:    ;
+;    ft_putchar_fd.s                                    :+:      :+:    :+:    ;
 ;                                                     +:+ +:+         +:+      ;
 ;    By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+         ;
 ;                                                 +#+#+#+#+#+   +#+            ;
-;    Created: 2015/05/04 16:40:34 by ybarbier          #+#    #+#              ;
-;    Updated: 2015/05/04 16:40:35 by ybarbier         ###   ########.fr        ;
+;    Created: 2015/05/04 17:34:13 by ybarbier          #+#    #+#              ;
+;    Updated: 2015/05/04 17:34:14 by ybarbier         ###   ########.fr        ;
 ;                                                                              ;
 ; **************************************************************************** ;
 
 %define MACH_SYSCALL(nb) 0x2000000 | nb
-%define STDOUT 1
 %define WRITE 4
 
-global _ft_putchar
+global _ft_putchar_fd
 
 section .text
-_ft_putchar:
+_ft_putchar_fd:
 	push rbp
 	mov rbp, rsp
 
-putchar:
+putchar_fd:
 	push rdi
+	mov rdi, rsi
 	lea rsi, [rel rsp]
-	mov rdi, STDOUT
 	mov rdx, 1
 	mov rax, MACH_SYSCALL(WRITE)
 	syscall

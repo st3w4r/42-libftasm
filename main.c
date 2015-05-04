@@ -32,6 +32,7 @@ char	*ft_strdup(const char *src);
 void	ft_cat(int fd);
 int		ft_strcmp(const char *s1, const char *s2);
 void	ft_putchar(char c);
+void	ft_putchar_fd(char c, int fd);
 
 //Functions test
 void	test_bzero();
@@ -51,6 +52,7 @@ void	test_strdup();
 void	test_cat();
 void	test_strcmp();
 void	test_putchar();
+void	test_putchar_fd();
 
 int main(void)
 {
@@ -70,7 +72,8 @@ int main(void)
 	// test_strdup();
 	// test_cat();
 	// test_strcmp();
-	test_putchar();
+	// test_putchar();
+	test_putchar_fd();
 
 	return (127);
 }
@@ -498,4 +501,17 @@ void	test_putchar()
 	putchar(0);
 	putchar('4');
 	putchar('\n');
+}
+
+void	test_putchar_fd()
+{
+	ft_putchar_fd('A', 2);
+	ft_putchar_fd('a', 2);
+	ft_putchar_fd('Z', 2);
+	ft_putchar_fd('z', 1);
+	ft_putchar_fd('0', 1);
+	ft_putchar_fd(' ', 1);
+	ft_putchar_fd(0, 1);
+	ft_putchar_fd('4', 1);
+	ft_putchar_fd('\n', 1);
 }
