@@ -465,10 +465,12 @@ void	test_cat()
 
 void	test_strcmp()
 {
-	char s1[10] = "Salut A";
-	char s2[10] = "Salut B";
+	char s1[10] = "SalutA";
+	char s2[10] = "SalutC";
 	int diff;
 
 	diff = ft_strcmp(s1, s2);
+	printf("Diff: %d\n", diff);
+	diff = strcmp(s1, s2);
 	printf("Diff: %d\n", diff);
 }
