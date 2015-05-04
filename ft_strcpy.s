@@ -29,7 +29,7 @@ next:
 	mov al, byte[rsi + rcx]
 	mov byte[rdi + rcx], al
 	je end
-	add rcx, 0x1
+	inc rcx
 	jmp next
 
 end:
