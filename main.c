@@ -13,29 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <strings.h>
-
-//Function ASM
-void	ft_bzero(void *s, size_t n);
-int		ft_isalpha(int c);
-int		ft_isdigit(int c);
-int		ft_isalnum(int c);
-int		ft_isascii(int c);
-int		ft_isprint(int c);
-int		ft_toupper(int c);
-int		ft_tolower(int c);
-void	ft_puts(char *s);
-size_t	ft_strlen(char *s);
-char	*ft_strcat(char *s1, const char *s2);
-void	*ft_memset(void *b, int c, size_t len);
-void	*ft_memcpy(void *dst, const void *src, size_t n);
-char	*ft_strdup(const char *src);
-void	ft_cat(int fd);
-int		ft_strcmp(const char *s1, const char *s2);
-void	ft_putchar(char c);
-void	ft_putchar_fd(char c, int fd);
-int		ft_memcmp(const void *s1, const void *s2, size_t n);
-int		ft_strequ(char const *s1, char const *s2);
-char	*ft_strcpy(char *dst, const char *src);
+#include "libft.h"
 
 //Functions test
 void	test_bzero();
@@ -407,11 +385,12 @@ void	test_memset()
 
 void	test_memcpy()
 {
-	char str_dst[10] = "123456789";
-	char str_src[10] = "SalutHello";
+	char str_dst[20] = "0123456789ABCD";
+	char str_src[20] = "SalutHello";
 
-	ft_memcpy(&str_dst, &str_src, 3);
+	ft_memcpy(&str_dst, &str_src, 5);
 	printf("%s\n", str_src);
+	printf("%s\n", str_dst);
 
 	putchar(str_dst[0]);
 	putchar(str_dst[1]);
@@ -423,6 +402,10 @@ void	test_memcpy()
 	putchar(str_dst[7]);
 	putchar(str_dst[8]);
 	putchar(str_dst[9]);
+	putchar(str_dst[10]);
+	putchar(str_dst[11]);
+	putchar(str_dst[12]);
+	putchar(str_dst[13]);
 }
 
 

@@ -10,10 +10,12 @@
 #                                                                              #
 # **************************************************************************** #
 
+#____________CONFIG____________#
+
 NAME = libfts.a
 NAME_TEST = test
-PATH_SRC = ./
-PATH_OBJ = ./
+PATH_SRC = ./src/
+#PATH_OBJ = ./obj/
 #PATH_INC = ./libft/includes/
 
 
@@ -25,7 +27,7 @@ CC = cc
 
 LIBS = -L ./ -lfts -g
 
-#HEAD = $(PATH_SRC)ftl.h
+#____________FILES____________#
 
 SRC =	ft_bzero.s \
 		ft_isalpha.s \
@@ -52,13 +54,16 @@ SRC =	ft_bzero.s \
 OBJ = $(addprefix $(PATH_SRC), $(SRC:.s=.o))
 
 
+#____________REGLES____________#
+
+.PHONY: clean fclean re test clean_test
+
 all: $(NAME)
 
 $(NAME): $(OBJ)
 	ar rc $(NAME) $(OBJ)
 	ranlib $(NAME)
 
-.PHONY: clean fclean
 
 clean:
 	/bin/rm -f $(OBJ)
