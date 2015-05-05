@@ -13,17 +13,34 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <strings.h>
-#include "libft.h"
+#include <ctype.h>
+#include <assert.h>
+#include "libfts.h"
 
-//Functions test
+#undef KO
+#undef OK
+#define KO "\x1B[1;31mKO\033[0m"
+#define OK "\x1B[1;34mOK\033[0m"
+
+#undef TRUE
+#undef FALSE
+#define TRUE 1
+#define FALSE 0
+
+
+typedef unsigned char t_bool;
+
+
+/* Functions test */
+
 void	test_bzero();
-void	test_isalpha();
-void	test_isdigit();
-void	test_isalnum();
-void	test_isascii();
-void	test_isprint();
-void	test_toupper();
-void	test_tolower();
+// void	test_isalpha();
+// void	test_isdigit();
+// void	test_isalnum();
+// void	test_isascii();
+// void	test_isprint();
+// void	test_toupper();
+// void	test_tolower();
 void	test_puts();
 void	test_strlen();
 void	test_strcat();
@@ -38,8 +55,49 @@ void	test_memcmp();
 void	test_strequ();
 void	test_strcpy();
 
+
+t_bool	test_isalpha(t_bool debug);
+t_bool	test_isdigit(t_bool debug);
+t_bool	test_isalnum(t_bool debug);
+t_bool	test_isascii(t_bool debug);
+t_bool	test_isprint(t_bool debug);
+t_bool	test_toupper(t_bool debug);
+t_bool	test_tolower(t_bool debug);
+
+/*
+void	test_assert(int x)
+{
+		assert(x);
+}
+
+void	test_assert_string(char *s1, char *s2)
+{
+	assert(strcmp(s1, s2) == 0);
+}
+*/
+
+void	print_res_test(char *name, t_bool (*f)(t_bool))
+{
+	t_bool b;
+
+	b = (*f)(0);
+	printf("[\x1B[1;37m%s\033[0m] -> [%s]\n", name, (b ? OK : KO));
+	if (!b)
+		b = (*f)(1);
+}
+
+
 int main(void)
 {
+	//test_assert_string("Hello", "Hello");
+	print_res_test("ft_isalpha", test_isalpha);
+	print_res_test("ft_isdigit", test_isdigit);
+	print_res_test("ft_isalnum", test_isalnum);
+	print_res_test("ft_isascii", test_isascii);
+	print_res_test("ft_isprint", test_isprint);
+	print_res_test("ft_toupper", test_toupper);
+	print_res_test("ft_tolower", test_tolower);
+
 	// test_bzero();
 	// test_isalpha();
 	// test_isdigit();
@@ -60,9 +118,170 @@ int main(void)
 	// test_putchar_fd();
 	// test_memcmp();
 	// test_strequ();
-	test_strcpy();
+	//test_strcpy();
 
-	return (1);
+	return (0);
+}
+
+t_bool	test_isalpha(t_bool debug)
+{
+	t_bool ret = TRUE;
+	t_bool test = TRUE;
+	int i;
+	char buffer[256] = {0};
+
+	for (i = 0; i < 256; i++)
+		buffer[i] = i;
+	for (i = 0; i < 256; i++)
+	{
+		test = TRUE;
+		if (isalpha(buffer[i]) != ft_isalpha(buffer[i]))
+		{
+			ret = FALSE;
+			test = FALSE;
+		}
+		if (debug)
+			printf("\t%d | %d | %d | [%s]\n", buffer[i], isalpha(buffer[i]), ft_isalpha(buffer[i]), test ? OK : KO);
+	}
+	return (ret);
+}
+
+t_bool	test_isdigit(t_bool debug)
+{
+	t_bool ret = TRUE;
+	t_bool test = TRUE;
+	int i;
+	char buffer[256] = {0};
+
+	for (i = 0; i < 256; i++)
+		buffer[i] = i;
+	for (i = 0; i < 256; i++)
+	{
+		test = TRUE;
+		if (isdigit(buffer[i]) != ft_isdigit(buffer[i]))
+		{
+			ret = FALSE;
+			test = FALSE;
+		}
+		if (debug)
+			printf("\t%d | %d | %d | [%s]\n", buffer[i], isdigit(buffer[i]), ft_isdigit(buffer[i]), test ? OK : KO);
+	}
+	return (ret);
+}
+
+t_bool	test_isalnum(t_bool debug)
+{
+	t_bool ret = TRUE;
+	t_bool test = TRUE;
+	int i;
+	char buffer[256] = {0};
+
+	for (i = 0; i < 256; i++)
+		buffer[i] = i;
+	for (i = 0; i < 256; i++)
+	{
+		test = TRUE;
+		if (isalnum(buffer[i]) != ft_isalnum(buffer[i]))
+		{
+			ret = FALSE;
+			test = FALSE;
+		}
+		if (debug)
+			printf("\t%d | %d | %d | [%s]\n", buffer[i], isalnum(buffer[i]), ft_isalnum(buffer[i]), test ? OK : KO);
+	}
+	return (ret);
+}
+
+t_bool	test_isascii(t_bool debug)
+{
+	t_bool ret = TRUE;
+	t_bool test = TRUE;
+	int i;
+	char buffer[256] = {0};
+
+	for (i = 0; i < 256; i++)
+		buffer[i] = i;
+	for (i = 0; i < 256; i++)
+	{
+		test = TRUE;
+		if (isascii(buffer[i]) != ft_isascii(buffer[i]))
+		{
+			ret = FALSE;
+			test = FALSE;
+		}
+		if (debug)
+			printf("\t%d | %d | %d | [%s]\n", buffer[i], isascii(buffer[i]), ft_isascii(buffer[i]), test ? OK : KO);
+	}
+	return (ret);
+}
+
+t_bool	test_isprint(t_bool debug)
+{
+	t_bool ret = TRUE;
+	t_bool test = TRUE;
+	int i;
+	char buffer[256] = {0};
+
+	for (i = 0; i < 256; i++)
+		buffer[i] = i;
+	for (i = 0; i < 256; i++)
+	{
+		test = TRUE;
+		if (isprint(buffer[i]) != ft_isprint(buffer[i]))
+		{
+			ret = FALSE;
+			test = FALSE;
+		}
+		if (debug)
+			printf("\t%d | %d | %d | [%s]\n", buffer[i], isprint(buffer[i]), ft_isprint(buffer[i]), test ? OK : KO);
+	}
+	return (ret);
+}
+
+t_bool	test_toupper(t_bool debug)
+{
+	t_bool ret = TRUE;
+	t_bool test = TRUE;
+	int i;
+	char buffer[256] = {0};
+
+	for (i = 0; i < 256; i++)
+		buffer[i] = i;
+	for (i = 0; i < 256; i++)
+	{
+		test = TRUE;
+		if (toupper(buffer[i]) != ft_toupper(buffer[i]))
+		{
+			ret = FALSE;
+			test = FALSE;
+		}
+		if (debug)
+			printf("\t%d | %d | %d | [%s]\n", buffer[i], toupper(buffer[i]), ft_toupper(buffer[i]), test ? OK : KO);
+	}
+	return (ret);
+}
+
+t_bool	test_tolower(t_bool debug)
+{
+	t_bool ret = TRUE;
+	t_bool test = TRUE;
+	int i;
+	char buffer[256] = {0};
+
+	for (i = 0; i < 256; i++)
+		buffer[i] = i;
+	for (i = 0; i < 256; i++)
+	{
+		test = TRUE;
+		if (tolower(buffer[i]) != ft_tolower(buffer[i]))
+		{
+			ret = FALSE;
+			test = FALSE;
+		}
+		if (debug)
+			printf("\t%d | %d | %d | [%s]\n", buffer[i], tolower(buffer[i]), ft_tolower(buffer[i]), test ? OK : KO);
+	}
+	return (ret);
 }
 
 void test_bzero()
@@ -79,6 +298,7 @@ void test_bzero()
 	putchar(str[7]== 0 ? 'Z': str[7]);
 }
 
+/*
 void test_isalpha()
 {
 	//Is Alpha
@@ -104,7 +324,8 @@ void test_isalpha()
 	printf("Is alpha: %d\n", ft_isalpha(0x7c));
 	printf("Is alpha: %d\n", ft_isalpha(0x5e));
 }
-
+*/
+/*
 void test_isdigit()
 {
 	//Is Digit
@@ -129,7 +350,9 @@ void test_isdigit()
 	printf("Is digit: %d\n", ft_isdigit('.'));
 	printf("Is digit: %d\n", ft_isdigit(':'));
 }
+*/
 
+/*
 void test_isalnum()
 {
 	//Is Alpha num
@@ -188,7 +411,9 @@ void test_isalnum()
 	printf("Is digit: %d\n", ft_isalnum(0));
 
 }
+*/
 
+/*
 void test_isascii()
 {
 	//Is ASCII
@@ -212,7 +437,9 @@ void test_isascii()
 	printf("Is ascii: %d\n", ft_isascii(0x8a));
 	printf("Is ascii: %d\n", ft_isascii(129));
 }
+*/
 
+/*
 void test_isprint()
 {
 	//Is Print
@@ -241,7 +468,9 @@ void test_isprint()
 	printf("Is print: %d\n", ft_isprint(0x8a));
 	printf("Is print: %d\n", ft_isprint(129));
 }
+*/
 
+/*
 void test_toupper()
 {
 	//ToUpper
@@ -279,7 +508,9 @@ void test_toupper()
 	printf("ToUpper: %c\n", ft_toupper(0x8a));
 	printf("ToUpper: %c\n", ft_toupper(129));
 }
+*/
 
+/*
 void test_tolower()
 {
 	//ToLower
@@ -322,6 +553,7 @@ void test_tolower()
 	printf("ToLower: %c\n", ft_tolower(0x8a));
 	printf("ToLower: %c\n", ft_tolower(129));
 }
+*/
 
 void test_puts()
 {
