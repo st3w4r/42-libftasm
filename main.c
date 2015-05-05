@@ -15,6 +15,7 @@
 #include <strings.h>
 #include <ctype.h>
 #include <assert.h>
+#include <unistd.h>
 #include "libfts.h"
 
 #undef KO
@@ -41,7 +42,7 @@ void	test_bzero();
 // void	test_isprint();
 // void	test_toupper();
 // void	test_tolower();
-void	test_puts();
+// void	test_puts();
 void	test_strlen();
 void	test_strcat();
 void	test_memset();
@@ -63,6 +64,7 @@ t_bool	test_isascii(t_bool debug);
 t_bool	test_isprint(t_bool debug);
 t_bool	test_toupper(t_bool debug);
 t_bool	test_tolower(t_bool debug);
+t_bool	test_puts(t_bool debug);
 
 /*
 void	test_assert(int x)
@@ -97,6 +99,8 @@ int main(void)
 	print_res_test("ft_isprint", test_isprint);
 	print_res_test("ft_toupper", test_toupper);
 	print_res_test("ft_tolower", test_tolower);
+	print_res_test("ft_puts", test_puts);
+
 
 	// test_bzero();
 	// test_isalpha();
@@ -280,6 +284,35 @@ t_bool	test_tolower(t_bool debug)
 		}
 		if (debug)
 			printf("\t%d | %d | %d | [%s]\n", buffer[i], tolower(buffer[i]), ft_tolower(buffer[i]), test ? OK : KO);
+	}
+	return (ret);
+}
+
+t_bool	test_puts(t_bool debug)
+{
+	t_bool ret = TRUE;
+	t_bool test = TRUE;
+	FILE *fp;
+	char buff[255];
+	char buff2[255];
+
+	fp = freopen("test_puts_stdout", "w", stdout);
+
+	ft_puts("test");
+	puts("test");
+
+
+	fclose(fp);
+	freopen("/dev/tty", "w", stdout);
+	fp = fopen("test_puts_stdout", "r");
+
+	fscanf(fp, "%s", buff);
+	fscanf(fp, "%s", buff2);
+
+	if (ft_strcmp(buff, buff2) != 0)
+	{
+		ret = FALSE;
+		test = FALSE;
 	}
 	return (ret);
 }
@@ -555,6 +588,7 @@ void test_tolower()
 }
 */
 
+/*
 void test_puts()
 {
 	//ft_puts
@@ -565,6 +599,7 @@ void test_puts()
 	ft_puts("PLPLPLPLLASDPALSDLPASDL");
 	ft_puts(NULL);
 }
+*/
 	// puts(NULL);
 
 void test_strlen()
