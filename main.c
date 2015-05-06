@@ -54,7 +54,7 @@ void	test_strdup();
 void	test_cat();
 void	test_strcmp();
 // void	test_putchar();
-void	test_putchar_fd();
+// void	test_putchar_fd();
 void	test_memcmp();
 void	test_strequ();
 void	test_strcpy();
@@ -71,6 +71,7 @@ t_bool	test_puts(t_bool debug);
 t_bool	test_strlen(t_bool debug);
 
 t_bool	test_putchar(t_bool debug);
+t_bool	test_putchar_fd(t_bool debug);
 
 
 /*
@@ -98,8 +99,6 @@ void	print_res_test(char *name, t_bool (*f)(t_bool))
 
 int main(void)
 {
-	// int i = putchar(2);
-	// printf("%d", i);
 	//test_assert_string("Hello", "Hello");
 	print_res_test("ft_isalpha", test_isalpha);
 	print_res_test("ft_isdigit", test_isdigit);
@@ -112,6 +111,7 @@ int main(void)
 	print_res_test("ft_strlen", test_strlen);
 
 	print_res_test("ft_putchar", test_putchar);
+	print_res_test("ft_putchar_fd", test_putchar_fd);
 
 	// test_bzero();
 	// test_isalpha();
@@ -485,6 +485,69 @@ t_bool	test_putchar(t_bool debug)
 		}
 		if (debug)
 			printf(" -> %d -> %d | %d | [%s]\n", strings[pos], putchar(strings[pos]), ft_putchar(strings[pos]), test ? OK : KO);
+	}
+	return (ret);
+}
+
+t_bool	test_putchar_fd(t_bool debug)
+{
+	#undef BUFF_SIZE
+	#define BUFF_SIZE 50
+	#undef FD_TEST
+	#define FD_TEST 1
+	t_bool ret = TRUE;
+	t_bool test = TRUE;
+	char strings[] = {'a', 'b', 'c', 'd', 'A', 'Z', '\0', ' ', 1, -5, -1, -0, -128, 255, '\t', '\n', 0, '\01'};
+	char buff1[BUFF_SIZE + 1] = {0};
+	char buff2[BUFF_SIZE + 1] = {0};
+	int out_pipe[2];
+	int saved_stdout;
+	int ret1;
+	int ret2;
+
+	for (int pos = 0; pos < (sizeof(strings) / sizeof(char)); pos++)
+	{
+		/*TEST 1*/
+		bzero(buff1, BUFF_SIZE);
+		saved_stdout = dup(STDOUT_FILENO);
+		if(pipe(out_pipe) != 0) {
+			exit(1);
+		}
+		dup2(out_pipe[1], FD_TEST);
+		close(out_pipe[1]);
+		ret1 = 0;
+		ret1 = write(FD_TEST, &strings[pos], 1); /*PUTCHAR_FD FUNC*/
+		fflush(stdout);
+		read(out_pipe[0], buff1, BUFF_SIZE);
+
+		/*TEST 2*/
+		bzero(buff2, BUFF_SIZE);
+		if(pipe(out_pipe) != 0) {
+			exit(1);
+		}
+		dup2(out_pipe[1], FD_TEST);
+		close(out_pipe[1]);
+		ret2 = 0;
+		ret2 = ft_putchar_fd(strings[pos], FD_TEST); /*FT_PUTCHAR_FD FUNC*/
+		fflush(stdout);
+		read(out_pipe[0], buff2, BUFF_SIZE);
+
+		/*AFF*/
+		dup2(saved_stdout, STDOUT_FILENO);
+
+		test = TRUE;
+		if (strcmp(buff1, buff2) != 0)
+		{
+			ret = FALSE;
+			test = FALSE;
+		}
+		if (debug)
+		{
+			printf(" -> %d", strings[pos]);
+			write(FD_TEST, &strings[pos], 1);
+			ft_putchar_fd(strings[pos], FD_TEST);
+			printf("[%s]\n", test ? OK : KO);
+		}
 	}
 	return (ret);
 }
@@ -936,7 +999,7 @@ void	test_putchar()
 	putchar('\n');
 }
 */
-
+/*
 void	test_putchar_fd()
 {
 	ft_putchar_fd('A', 2);
@@ -949,7 +1012,7 @@ void	test_putchar_fd()
 	ft_putchar_fd('4', 1);
 	ft_putchar_fd('\n', 1);
 }
-
+*/
 void	test_memcmp()
 {
 	char s1[10] = "SalutA";
