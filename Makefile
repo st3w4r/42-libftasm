@@ -64,7 +64,6 @@ $(NAME): $(OBJ)
 	ar rc $(NAME) $(OBJ)
 	ranlib $(NAME)
 
-
 clean:
 	/bin/rm -f $(OBJ)
 

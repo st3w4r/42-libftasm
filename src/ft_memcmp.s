@@ -16,9 +16,6 @@ global _ft_memcmp
 
 section .text
 _ft_memcmp:
-
-section .text
-_ft_strcmp:
 	mov rax, -1
 	test rdi, rdi
 	jz done

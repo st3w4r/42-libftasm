@@ -28,6 +28,9 @@
 #define TRUE 1
 #define FALSE 0
 
+#undef DEBUG
+#define DEBUG 0
+
 
 typedef unsigned char t_bool;
 
@@ -82,7 +85,7 @@ void	print_res_test(char *name, t_bool (*f)(t_bool))
 {
 	t_bool b;
 
-	b = (*f)(0);
+	b = (*f)(DEBUG);
 	printf("[\x1B[1;37m%s\033[0m] -> [%s]\n", name, (b ? OK : KO));
 	if (!b)
 		b = (*f)(1);
@@ -100,7 +103,6 @@ int main(void)
 	print_res_test("ft_toupper", test_toupper);
 	print_res_test("ft_tolower", test_tolower);
 	print_res_test("ft_puts", test_puts);
-
 
 	// test_bzero();
 	// test_isalpha();
@@ -287,7 +289,7 @@ t_bool	test_tolower(t_bool debug)
 	}
 	return (ret);
 }
-
+/*
 t_bool	test_puts(t_bool debug)
 {
 	t_bool ret = TRUE;
@@ -295,25 +297,97 @@ t_bool	test_puts(t_bool debug)
 	FILE *fp;
 	char buff[255];
 	char buff2[255];
+	char *strings[] = {"test", "test2", "\n", "!@#$%^&*()-+", "\t", "A", "", " "};
+	int pos = 0;
 
-	fp = freopen("test_puts_stdout", "w", stdout);
-
-	ft_puts("test");
-	puts("test");
-
-
-	fclose(fp);
-	freopen("/dev/tty", "w", stdout);
-	fp = fopen("test_puts_stdout", "r");
-
-	fscanf(fp, "%s", buff);
-	fscanf(fp, "%s", buff2);
-
-	if (ft_strcmp(buff, buff2) != 0)
+	while (pos < (sizeof(strings) / sizeof(char*)))
 	{
-		ret = FALSE;
-		test = FALSE;
+		fp = freopen("test_puts_stdout", "w", stdout);
+
+		ft_puts(strings[pos]);
+		puts(strings[pos]);
+
+		fclose(fp);
+		freopen("/dev/tty", "w", stdout);
+		fp = fopen("test_puts_stdout", "r");
+
+		fscanf(fp, "%s", buff);
+		fscanf(fp, "%s", buff2);
+
+		if (strcmp(buff, buff2) != 0)
+		{
+			ret = FALSE;
+			test = FALSE;
+		}
+		if (debug)
+		{
+			printf("->%s\n", strings[pos]);
+			ft_puts(strings[pos]);
+			puts(strings[pos]);
+			printf("[%s]\n", test ? OK : KO);
+		}
+		++pos;
 	}
+	return (ret);
+}
+*/
+
+#define BUFF_SIZE 50
+
+t_bool	test_puts(t_bool debug)
+{
+	t_bool ret = TRUE;
+	t_bool test = TRUE;
+	char *strings[] = {"test", "test2", "\n", "!@#$%^&*()-+", "\t", "A", "", " ", "0123", "dewdwedew", "lo\x00lololololpas vu", "lol ewf ewf ewf wef 909 ew0 9", NULL};
+	int pos = 0;
+	char buff1[BUFF_SIZE + 1] = {0};
+	char buff2[BUFF_SIZE + 1] = {0};
+	int out_pipe[2];
+	int saved_stdout;
+
+	while (pos < (sizeof(strings) / sizeof(char*)))
+	{
+		/*TEST 1*/
+		bzero(buff1, BUFF_SIZE);
+		saved_stdout = dup(STDOUT_FILENO);
+		if(pipe(out_pipe) != 0) {
+			exit(1);
+		}
+		dup2(out_pipe[1], STDOUT_FILENO);
+		close(out_pipe[1]);
+		puts(strings[pos]); /*PUTS CMD*/
+		fflush(stdout);
+		read(out_pipe[0], buff1, BUFF_SIZE);
+
+		/*TEST 2*/
+		bzero(buff2, BUFF_SIZE);
+		if(pipe(out_pipe) != 0) {
+			exit(1);
+		}
+		dup2(out_pipe[1], STDOUT_FILENO);
+		close(out_pipe[1]);
+		ft_puts(strings[pos]); /*FT_PUTS CMD*/
+		fflush(stdout);
+		read(out_pipe[0], buff2, BUFF_SIZE);
+
+		/*AFF*/
+		dup2(saved_stdout, STDOUT_FILENO);
+
+		if (strcmp(buff1, buff2) != 0)
+		{
+			ret = FALSE;
+			test = FALSE;
+		}
+		if (debug)
+		{
+			printf("->%s\n", strings[pos]);
+			ft_puts(strings[pos]);
+			puts(strings[pos]);
+			printf("[%s]\n", test ? OK : KO);
+		}
+		++pos;
+	}
+
 	return (ret);
 }
 
