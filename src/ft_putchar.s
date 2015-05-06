@@ -31,6 +31,7 @@ putchar:
 	pop rdi
 
 done:
+	mov al, dil
 	mov rsp, rbp
 	pop rbp
 	ret

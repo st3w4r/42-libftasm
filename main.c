@@ -46,14 +46,14 @@ void	test_bzero();
 // void	test_toupper();
 // void	test_tolower();
 // void	test_puts();
-void	test_strlen();
+// void	test_strlen();
 void	test_strcat();
 void	test_memset();
 void	test_memcpy();
 void	test_strdup();
 void	test_cat();
 void	test_strcmp();
-void	test_putchar();
+// void	test_putchar();
 void	test_putchar_fd();
 void	test_memcmp();
 void	test_strequ();
@@ -68,6 +68,10 @@ t_bool	test_isprint(t_bool debug);
 t_bool	test_toupper(t_bool debug);
 t_bool	test_tolower(t_bool debug);
 t_bool	test_puts(t_bool debug);
+t_bool	test_strlen(t_bool debug);
+
+t_bool	test_putchar(t_bool debug);
+
 
 /*
 void	test_assert(int x)
@@ -94,6 +98,8 @@ void	print_res_test(char *name, t_bool (*f)(t_bool))
 
 int main(void)
 {
+	// int i = putchar(2);
+	// printf("%d", i);
 	//test_assert_string("Hello", "Hello");
 	print_res_test("ft_isalpha", test_isalpha);
 	print_res_test("ft_isdigit", test_isdigit);
@@ -103,6 +109,9 @@ int main(void)
 	print_res_test("ft_toupper", test_toupper);
 	print_res_test("ft_tolower", test_tolower);
 	print_res_test("ft_puts", test_puts);
+	print_res_test("ft_strlen", test_strlen);
+
+	print_res_test("ft_putchar", test_putchar);
 
 	// test_bzero();
 	// test_isalpha();
@@ -332,20 +341,20 @@ t_bool	test_puts(t_bool debug)
 }
 */
 
-#define BUFF_SIZE 50
 
 t_bool	test_puts(t_bool debug)
 {
+	#undef BUFF_SIZE
+	#define BUFF_SIZE 50
 	t_bool ret = TRUE;
 	t_bool test = TRUE;
 	char *strings[] = {"test", "test2", "\n", "!@#$%^&*()-+", "\t", "A", "", " ", "0123", "dewdwedew", "lo\x00lololololpas vu", "lol ewf ewf ewf wef 909 ew0 9", NULL};
-	int pos = 0;
 	char buff1[BUFF_SIZE + 1] = {0};
 	char buff2[BUFF_SIZE + 1] = {0};
 	int out_pipe[2];
 	int saved_stdout;
 
-	while (pos < (sizeof(strings) / sizeof(char*)))
+	for (int pos = 0; pos < (sizeof(strings) / sizeof(char*)); pos++)
 	{
 		/*TEST 1*/
 		bzero(buff1, BUFF_SIZE);
@@ -373,6 +382,7 @@ t_bool	test_puts(t_bool debug)
 		/*AFF*/
 		dup2(saved_stdout, STDOUT_FILENO);
 
+		test = TRUE;
 		if (strcmp(buff1, buff2) != 0)
 		{
 			ret = FALSE;
@@ -381,13 +391,101 @@ t_bool	test_puts(t_bool debug)
 		if (debug)
 		{
 			printf("->%s\n", strings[pos]);
-			ft_puts(strings[pos]);
 			puts(strings[pos]);
+			ft_puts(strings[pos]);
 			printf("[%s]\n", test ? OK : KO);
 		}
-		++pos;
 	}
+	return (ret);
+}
 
+t_bool	test_strlen(t_bool debug)
+{
+	t_bool ret = TRUE;
+	t_bool test = TRUE;
+	char *strings[] = {
+		"test",
+		"test2",
+		"\n", "!@#$%^&*()-+",
+		"\t", "A", "", " ",
+		"0123", "dewdwedew",
+		"lo\x00lololololpas vu",
+		"lol ewf ewf ewf wef 909 ew0 9",
+		"salut =)\x90\x90",
+		"42 FTW\x01\x00\x90",
+		"hey ooo \x90 dewfewfewfew",
+		"bon\x00 dwedeeeeeeeeeee",
+		"",
+		"lolo\x01lol"
+		};
+
+	for (int pos = 0; pos < (sizeof(strings) / sizeof(char*)); pos++)
+	{
+		test = TRUE;
+		if (strlen(strings[pos]) != ft_strlen(strings[pos]))
+		{
+			ret = FALSE;
+			test = FALSE;
+		}
+		if (debug)
+			printf("%s -> %lu | %lu | [%s]\n", strings[pos], strlen(strings[pos]), ft_strlen(strings[pos]), test ? OK : KO);
+	}
+	return (ret);
+}
+
+t_bool	test_putchar(t_bool debug)
+{
+	#undef BUFF_SIZE
+	#define BUFF_SIZE 50
+	t_bool ret = TRUE;
+	t_bool test = TRUE;
+	char strings[] = {'a', 'b', 'c', 'd', 'A', 'Z', '\0', ' ', 1, -5, -1, -0, -128, 255, '\t', '\n', 0, '\01'};
+	char buff1[BUFF_SIZE + 1] = {0};
+	char buff2[BUFF_SIZE + 1] = {0};
+	int out_pipe[2];
+	int saved_stdout;
+	int ret1;
+	int ret2;
+
+	for (int pos = 0; pos < (sizeof(strings) / sizeof(char)); pos++)
+	{
+		/*TEST 1*/
+		bzero(buff1, BUFF_SIZE);
+		saved_stdout = dup(STDOUT_FILENO);
+		if(pipe(out_pipe) != 0) {
+			exit(1);
+		}
+		dup2(out_pipe[1], STDOUT_FILENO);
+		close(out_pipe[1]);
+		ret1 = 0;
+		ret1 = putchar(strings[pos]); /*PUTCHAR CMD*/
+		fflush(stdout);
+		read(out_pipe[0], buff1, BUFF_SIZE);
+
+		/*TEST 2*/
+		bzero(buff2, BUFF_SIZE);
+		if(pipe(out_pipe) != 0) {
+			exit(1);
+		}
+		dup2(out_pipe[1], STDOUT_FILENO);
+		close(out_pipe[1]);
+		ret2 = 0;
+		ret2 = ft_putchar(strings[pos]); /*FT_PUTCHAR CMD*/
+		fflush(stdout);
+		read(out_pipe[0], buff2, BUFF_SIZE);
+
+		/*AFF*/
+		dup2(saved_stdout, STDOUT_FILENO);
+
+		test = TRUE;
+		if (ret1 != ret2 || strcmp(buff1, buff2) != 0)
+		{
+			ret = FALSE;
+			test = FALSE;
+		}
+		if (debug)
+			printf(" -> %d -> %d | %d | [%s]\n", strings[pos], putchar(strings[pos]), ft_putchar(strings[pos]), test ? OK : KO);
+	}
 	return (ret);
 }
 
@@ -676,6 +774,7 @@ void test_puts()
 */
 	// puts(NULL);
 
+/*
 void test_strlen()
 {
 	//ft_strlen
@@ -687,6 +786,7 @@ void test_strlen()
 	printf("Len: %lu\n", ft_strlen(""));
 	printf("Len: %lu\n", ft_strlen(NULL));
 }
+*/
 
 void	test_strcat()
 {
@@ -812,7 +912,7 @@ void	test_strcmp()
 	diff = strcmp(s1, s2);
 	printf("Diff: %d\n", diff);
 }
-
+/*
 void	test_putchar()
 {
 	ft_putchar('A');
@@ -835,6 +935,7 @@ void	test_putchar()
 	putchar('4');
 	putchar('\n');
 }
+*/
 
 void	test_putchar_fd()
 {
