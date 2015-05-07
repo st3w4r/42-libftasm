@@ -485,53 +485,73 @@ t_bool	test_strlen(t_bool debug)
 t_bool	test_strcat(t_bool debug)
 {
 	#undef SIZE
-	#define SIZE 200
+	#define SIZE 100
 	t_bool ret = TRUE;
-	t_bool test = TRUE;
+	t_bool test1 = TRUE;
+	t_bool test2 = TRUE;
 	char src1[][SIZE] = {
 		"test",
 		"ok",
-		"ici"
+		"ici",
+		"",
+		"x\0",
+		"\x02",
+		"\t"
 		};
 	char src2[][SIZE] = {
 		"test",
 		"ok",
-		"ici"
+		"ici",
+		"",
+		"x\0",
+		"\x02",
+		"\t"
 		};
 	char s_cat[][SIZE] = {
 		"O",
 		"B",
-		"A"
+		"A",
+		"AAsssdsdAsdasd",
+		"\0",
+		"\x02",
+		"\t",
 	};
 	char *dst1;
 	char *dst2;
 
 	for (int pos = 0; pos < (sizeof(src1) / SIZE); pos++)
 	{
-		test = TRUE;
+		test1 = TRUE;
+		test2 = TRUE;
 		dst1 = strcat(src1[pos], s_cat[pos]);
 		dst2 = ft_strcat(src2[pos], s_cat[pos]);
 
 		if (memcmp(dst1, dst2, SIZE) != 0)
 		{
 			ret = FALSE;
-			test = FALSE;
+			test1 = FALSE;
 		}
 		if (memcmp(src1[pos], src2[pos], SIZE) != 0)
 		{
 			ret = FALSE;
-			test = FALSE;
+			test2 = FALSE;
 		}
 		if (debug)
 		{
-			printf("%s | %s | [%s]\n",dst1, dst2, test ? OK : KO);
-			print_mem("dst1", dst1, TRUE, SIZE);
-			print_mem("dst2", dst2, TRUE, SIZE);
+			printf("=====BY TEST=====\n");
+			printf("%s | %s | [%s]\n",dst1, dst2, test1 ? OK : KO);
+			print_mem("strcat: dst1", dst1, TRUE, SIZE);
+			print_mem("ft_strcat: dst2", dst2, TRUE, SIZE);
+			printf("\n");
+
+			printf("%s | %s | [%s]\n",src1[pos], src2[pos], test2 ? OK : KO);
+			print_mem("strcat: src1", src1[pos], TRUE, SIZE);
+			print_mem("ft_strcat: src2", src2[pos], TRUE, SIZE);
+			printf("\n");
 		}
 	}
 	return (ret);
 }
-
 
 t_bool	test_putchar(t_bool debug)
 {
