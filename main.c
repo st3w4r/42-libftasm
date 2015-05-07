@@ -47,7 +47,7 @@ void	test_bzero();
 // void	test_tolower();
 // void	test_puts();
 // void	test_strlen();
-void	test_strcat();
+// void	test_strcat();
 void	test_memset();
 void	test_memcpy();
 void	test_strdup();
@@ -69,6 +69,7 @@ t_bool	test_toupper(t_bool debug);
 t_bool	test_tolower(t_bool debug);
 t_bool	test_puts(t_bool debug);
 t_bool	test_strlen(t_bool debug);
+t_bool	test_strcat(t_bool debug);
 
 t_bool	test_putchar(t_bool debug);
 t_bool	test_putchar_fd(t_bool debug);
@@ -101,9 +102,10 @@ void	print_mem(char *desc, void *addr, t_bool ascii, int len)
 	int i = 0;
 	int pos = 0;
 
-	printf("%s\n", desc);
+	printf("%s", desc);
 	while (i < len)
 	{
+		printf("\n");
 		//ADDRESS
 		if ((i % 16) == 0)
 			printf("%p\t", &p[i]);
@@ -122,10 +124,7 @@ void	print_mem(char *desc, void *addr, t_bool ascii, int len)
 
 		//ASCII
 		if ((i % 16) == 0 && ascii)
-		{
 			print_mem_ascii(buffer);
-			printf("\n");
-		}
 	}
 	if (ascii)
 		print_mem_ascii(buffer);
@@ -145,9 +144,9 @@ void	print_res_test(char *name, t_bool (*f)(t_bool))
 
 int main(void)
 {
-	char str[] = "testabcdefgABCDEFGHIJKLM012345678901234567890123456789";
-	// bzero(str, 5);
-	print_mem("s1", str, TRUE, sizeof str);
+	// char str[] = "testabcdefgABCDEFGHIJKLM012345678901234567890123456789";
+	// bzero(str, 10);
+	// print_mem("s1", str, TRUE, sizeof str);
 	//test_assert_string("Hello", "Hello");
 	print_res_test("ft_isalpha", test_isalpha);
 	print_res_test("ft_isdigit", test_isdigit);
@@ -158,6 +157,7 @@ int main(void)
 	print_res_test("ft_tolower", test_tolower);
 	print_res_test("ft_puts", test_puts);
 	print_res_test("ft_strlen", test_strlen);
+	print_res_test("ft_strcat", test_strcat);
 
 	print_res_test("ft_putchar", test_putchar);
 	print_res_test("ft_putchar_fd", test_putchar_fd);
@@ -482,6 +482,57 @@ t_bool	test_strlen(t_bool debug)
 	return (ret);
 }
 
+t_bool	test_strcat(t_bool debug)
+{
+	#undef SIZE
+	#define SIZE 200
+	t_bool ret = TRUE;
+	t_bool test = TRUE;
+	char src1[][SIZE] = {
+		"test",
+		"ok",
+		"ici"
+		};
+	char src2[][SIZE] = {
+		"test",
+		"ok",
+		"ici"
+		};
+	char s_cat[][SIZE] = {
+		"O",
+		"B",
+		"A"
+	};
+	char *dst1;
+	char *dst2;
+
+	for (int pos = 0; pos < (sizeof(src1) / SIZE); pos++)
+	{
+		test = TRUE;
+		dst1 = strcat(src1[pos], s_cat[pos]);
+		dst2 = ft_strcat(src2[pos], s_cat[pos]);
+
+		if (memcmp(dst1, dst2, SIZE) != 0)
+		{
+			ret = FALSE;
+			test = FALSE;
+		}
+		if (memcmp(src1[pos], src2[pos], SIZE) != 0)
+		{
+			ret = FALSE;
+			test = FALSE;
+		}
+		if (debug)
+		{
+			printf("%s | %s | [%s]\n",dst1, dst2, test ? OK : KO);
+			print_mem("dst1", dst1, TRUE, SIZE);
+			print_mem("dst2", dst2, TRUE, SIZE);
+		}
+	}
+	return (ret);
+}
+
+
 t_bool	test_putchar(t_bool debug)
 {
 	#undef BUFF_SIZE
@@ -600,6 +651,7 @@ t_bool	test_putchar_fd(t_bool debug)
 	}
 	return (ret);
 }
+
 
 void test_bzero()
 {
@@ -900,9 +952,9 @@ void test_strlen()
 }
 */
 
+/*
 void	test_strcat()
 {
-	/*
 	char s1[10] = "OK";
 	char s2[5] = "test";
 	// char s2[5] = "test";
@@ -910,15 +962,12 @@ void	test_strcat()
 
 	// ft_strcat(s1, s2);
 
-	printf("%s", ft_strcat(s1, s2));
-	*/
+	// printf("%s", ft_strcat(s1, s2));
 	char s10[10] = "OK";
 	char s12[5] = "test";
 	//char s13[10] = "LOL";
 	printf("%s", strcat(s10, s12));
-/*
-*/
-}
+}*/
 
 void	test_memset()
 {
