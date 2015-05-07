@@ -86,6 +86,52 @@ void	test_assert_string(char *s1, char *s2)
 }
 */
 
+void	print_mem_ascii(unsigned char *buffer)
+{
+	printf(" |");
+	for (int j = 0; j < 16; j++)
+		printf("%c", buffer[j]);
+	printf("|");
+}
+
+void	print_mem(char *desc, void *addr, t_bool ascii, int len)
+{
+	unsigned char *p = addr;
+	unsigned char buffer[16];
+	int i = 0;
+	int pos = 0;
+
+	printf("%s\n", desc);
+	while (i < len)
+	{
+		//ADDRESS
+		if ((i % 16) == 0)
+			printf("%p\t", &p[i]);
+
+		//MEMORY
+		int l = i + 16;
+		int k = 0;
+		bzero(buffer, 16);
+		for (i = i; (i < l) && (i < len); i++)
+		{
+			printf("%02x", p[i]);
+			buffer[k] = p[i];
+			k == 7 ? printf("  ") : printf(" ");
+			++k;
+		}
+
+		//ASCII
+		if ((i % 16) == 0 && ascii)
+		{
+			print_mem_ascii(buffer);
+			printf("\n");
+		}
+	}
+	if (ascii)
+		print_mem_ascii(buffer);
+	printf("\n");
+}
+
 void	print_res_test(char *name, t_bool (*f)(t_bool))
 {
 	t_bool b;
@@ -99,6 +145,9 @@ void	print_res_test(char *name, t_bool (*f)(t_bool))
 
 int main(void)
 {
+	char str[] = "testabcdefgABCDEFGHIJKLM012345678901234567890123456789";
+	// bzero(str, 5);
+	print_mem("s1", str, TRUE, sizeof str);
 	//test_assert_string("Hello", "Hello");
 	print_res_test("ft_isalpha", test_isalpha);
 	print_res_test("ft_isdigit", test_isdigit);
