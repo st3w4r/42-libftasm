@@ -49,8 +49,8 @@ void	test_bzero();
 // void	test_strlen();
 // void	test_strcat();
 // void	test_memset();
-void	test_memcpy();
-void	test_strdup();
+// void	test_memcpy();
+// void	test_strdup();
 void	test_cat();
 void	test_strcmp();
 // void	test_putchar();
@@ -71,6 +71,8 @@ t_bool	test_puts(t_bool debug);
 t_bool	test_strlen(t_bool debug);
 t_bool	test_strcat(t_bool debug);
 t_bool	test_memset(t_bool debug);
+t_bool	test_memcpy(t_bool debug);
+t_bool	test_strdup(t_bool debug);
 
 t_bool	test_putchar(t_bool debug);
 t_bool	test_putchar_fd(t_bool debug);
@@ -160,6 +162,8 @@ int main(void)
 	print_res_test("ft_strlen", test_strlen);
 	print_res_test("ft_strcat", test_strcat);
 	print_res_test("ft_memset", test_memset);
+	print_res_test("ft_memcpy", test_memcpy);
+	print_res_test("ft_strdup", test_strdup);
 
 	print_res_test("ft_putchar", test_putchar);
 	print_res_test("ft_putchar_fd", test_putchar_fd);
@@ -349,6 +353,7 @@ t_bool	test_tolower(t_bool debug)
 	}
 	return (ret);
 }
+
 /*
 t_bool	test_puts(t_bool debug)
 {
@@ -602,37 +607,188 @@ t_bool	test_memset(t_bool debug)
 	char *dst1;
 	char *dst2;
 
-		for (int pos = 0; pos < (sizeof(src1) / SIZE); pos++)
+	for (int pos = 0; pos < (sizeof(src1) / SIZE); pos++)
+	{
+		test1 = TRUE;
+		test2 = TRUE;
+		dst1 = memset(src1[pos], c_set[pos], size_arr[pos]);
+		dst2 = ft_memset(src2[pos], c_set[pos], size_arr[pos]);
+
+		if (memcmp(dst1, dst2, SIZE) != 0)
 		{
-			test1 = TRUE;
-			test2 = TRUE;
-			dst1 = memset(src1[pos], c_set[pos], size_arr[pos]);
-			dst2 = ft_memset(src2[pos], c_set[pos], size_arr[pos]);
-
-			if (memcmp(dst1, dst2, SIZE) != 0)
-			{
-				ret = FALSE;
-				test1 = FALSE;
-			}
-			if (memcmp(src1[pos], src2[pos], SIZE) != 0)
-			{
-				ret = FALSE;
-				test2 = FALSE;
-			}
-			if (debug)
-			{
-				printf("=====BY TEST=====\n");
-				printf("%s | %s | %d | [%s]\n",dst1, dst2, size_arr[pos], test1 ? OK : KO);
-				print_mem("memset: dst1", dst1, TRUE, SIZE);
-				print_mem("ft_memset: dst2", dst2, TRUE, SIZE);
-				printf("\n");
-
-				printf("%s | %s | %d | [%s]\n",src1[pos], src2[pos], size_arr[pos], test2 ? OK : KO);
-				print_mem("memset: src1", src1[pos], TRUE, SIZE);
-				print_mem("ft_memset: src2", src2[pos], TRUE, SIZE);
-				printf("\n");
-			}
+			ret = FALSE;
+			test1 = FALSE;
 		}
+		if (memcmp(src1[pos], src2[pos], SIZE) != 0)
+		{
+			ret = FALSE;
+			test2 = FALSE;
+		}
+		if (debug)
+		{
+			printf("=====BY TEST=====\n");
+			printf("%s | %s | %d | [%s]\n",dst1, dst2, size_arr[pos], test1 ? OK : KO);
+			print_mem("memset: dst1", dst1, TRUE, SIZE);
+			print_mem("ft_memset: dst2", dst2, TRUE, SIZE);
+			printf("\n");
+
+			printf("%s | %s | %d | [%s]\n",src1[pos], src2[pos], size_arr[pos], test2 ? OK : KO);
+			print_mem("memset: src1", src1[pos], TRUE, SIZE);
+			print_mem("ft_memset: src2", src2[pos], TRUE, SIZE);
+			printf("\n");
+		}
+	}
+	return (ret);
+}
+
+t_bool	test_memcpy(t_bool debug)
+{
+	#undef SIZE
+	#define SIZE 100
+	t_bool ret = TRUE;
+	t_bool test1 = TRUE;
+	t_bool test2 = TRUE;
+	char src1[][SIZE] = {
+		"testOkA asd  ddsd 	sww	sadsd",
+		"ok",
+		"ici",
+		"",
+		"x\0",
+		"\x02",
+		"\t",
+		"0123456789abcdefgh",
+		"\n",
+		"||||||\x00|||||||\\ _=+212312340"
+		};
+	char src2[][SIZE] = {
+		"testOkA asd  ddsd 	sww	sadsd",
+		"ok",
+		"ici",
+		"",
+		"x\0",
+		"\x02",
+		"\t",
+		"0123456789abcdefgh",
+		"\n",
+		"||||||\x00|||||||\\ _=+212312340"
+		};
+	char s_cat[][SIZE] = {
+		"O",
+		"B",
+		"A",
+		"AAsssdsdAsdasd",
+		"\0",
+		"\x02",
+		"\t",
+		"POPoPOpO",
+		"\00\00ASF",
+		"12345"
+	};
+	int size_arr[] = {0, 2, 4, 4, 5, 5, 100, 2, 13, 5};
+	char *dst1;
+	char *dst2;
+
+	for (int pos = 0; pos < (sizeof(src1) / SIZE); pos++)
+	{
+		test1 = TRUE;
+		test2 = TRUE;
+		dst1 = memcpy(src1[pos], s_cat[pos], size_arr[pos]);
+		dst2 = ft_memcpy(src2[pos], s_cat[pos], size_arr[pos]);
+
+		if (memcmp(dst1, dst2, SIZE) != 0)
+		{
+			ret = FALSE;
+			test1 = FALSE;
+		}
+		if (memcmp(src1[pos], src2[pos], SIZE) != 0)
+		{
+			ret = FALSE;
+			test2 = FALSE;
+		}
+		if (debug)
+		{
+			printf("=====BY TEST=====\n");
+			printf("%s | %s | %d | [%s]\n",dst1, dst2, size_arr[pos], test1 ? OK : KO);
+			print_mem("memcpy: dst1", dst1, TRUE, SIZE);
+			print_mem("ft_memcpy: dst2", dst2, TRUE, SIZE);
+			printf("\n");
+
+			printf("%s | %s | %d | [%s]\n",src1[pos], src2[pos], size_arr[pos], test2 ? OK : KO);
+			print_mem("memcpy: src1", src1[pos], TRUE, SIZE);
+			print_mem("ft_memcpy: src2", src2[pos], TRUE, SIZE);
+			printf("\n");
+		}
+	}
+	return (ret);
+}
+
+t_bool	test_strdup(t_bool debug)
+{
+	#undef SIZE
+	#define SIZE 100
+	t_bool ret = TRUE;
+	t_bool test1 = TRUE;
+	t_bool test2 = TRUE;
+	char src1[][SIZE] = {
+		"testOkA asd  ddsd 	sww	sadsd",
+		"ok",
+		"ici",
+		"",
+		"x\0",
+		"\x02",
+		"\t",
+		"0123456789abcdefgh",
+		"\n",
+		"||||||\x00|||||||\\ _=+212312340"
+		};
+	char src2[][SIZE] = {
+		"testOkA asd  ddsd 	sww	sadsd",
+		"ok",
+		"ici",
+		"",
+		"x\0",
+		"\x02",
+		"\t",
+		"0123456789abcdefgh",
+		"\n",
+		"||||||\x00|||||||\\ _=+212312340"
+		};
+	char *dst1;
+	char *dst2;
+
+	for (int pos = 0; pos < (sizeof(src1) / SIZE); pos++)
+	{
+		test1 = TRUE;
+		test2 = TRUE;
+		dst1 = strdup(src1[pos]);
+		dst2 = ft_strdup(src2[pos]);
+
+		// print_mem("strdup: dst1", strdup(src1[pos]), TRUE, SIZE);
+
+		if (memcmp(dst1, dst2, SIZE) != 0)
+		{
+			ret = FALSE;
+			test1 = FALSE;
+		}
+		if (memcmp(src1[pos], src2[pos], SIZE) != 0)
+		{
+			ret = FALSE;
+			test2 = FALSE;
+		}
+		if (0)
+		{
+			printf("=====BY TEST=====\n");
+			printf("%s | %s | [%s]\n",dst1, dst2, test1 ? OK : KO);
+			print_mem("strdup: dst1", dst1, TRUE, SIZE);
+			print_mem("ft_strdup: dst2", dst2, TRUE, SIZE);
+			printf("\n");
+
+			printf("%s | %s | [%s]\n",src1[pos], src2[pos], test2 ? OK : KO);
+			print_mem("strdup: src1", src1[pos], TRUE, SIZE);
+			print_mem("ft_strdup: src2", src2[pos], TRUE, SIZE);
+			printf("\n");
+		}
+	}
 	return (ret);
 }
 
@@ -1087,7 +1243,7 @@ void	test_memset()
 	putchar(str[6]);
 	putchar(str[7]);
 }*/
-
+/*
 void	test_memcpy()
 {
 	char str_dst[20] = "0123456789ABCD";
@@ -1111,16 +1267,15 @@ void	test_memcpy()
 	putchar(str_dst[11]);
 	putchar(str_dst[12]);
 	putchar(str_dst[13]);
-}
+}*/
 
-
+/*
 void	test_strdup()
 {
 
 	char str_src[11] = "Salut";
 	char *str_dst;
 	str_dst = ft_strdup(str_src);
-/*
 	str_dst[0] = 'H';
 	str_dst[1] = 'e';
 	str_dst[2] = 'l';
@@ -1132,7 +1287,6 @@ void	test_strdup()
 	str_dst[8] = 'A';
 	str_dst[9] = 'A';
 	str_dst[10] = 'A';
-*/
 	// i = ft_strlen(str_src);
 	// printf("%d\n", i);
 
@@ -1151,7 +1305,7 @@ void	test_strdup()
 	putchar(str_dst[10]== 0 ? 'Z': str_dst[10]);
 
 	free(str_dst);
-}
+}*/
 
 #include <fcntl.h>
 
