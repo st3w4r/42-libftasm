@@ -51,8 +51,8 @@ void	test_bzero();
 // void	test_memset();
 // void	test_memcpy();
 // void	test_strdup();
-void	test_cat();
-void	test_strcmp();
+// void	test_cat();
+// void	test_strcmp();
 // void	test_putchar();
 // void	test_putchar_fd();
 void	test_memcmp();
@@ -73,6 +73,8 @@ t_bool	test_strcat(t_bool debug);
 t_bool	test_memset(t_bool debug);
 t_bool	test_memcpy(t_bool debug);
 t_bool	test_strdup(t_bool debug);
+t_bool	test_cat(t_bool debug);
+t_bool	test_strcmp(t_bool debug);
 
 t_bool	test_putchar(t_bool debug);
 t_bool	test_putchar_fd(t_bool debug);
@@ -164,6 +166,8 @@ int main(void)
 	print_res_test("ft_memset", test_memset);
 	print_res_test("ft_memcpy", test_memcpy);
 	print_res_test("ft_strdup", test_strdup);
+	// print_res_test("ft_cat", test_cat);
+	print_res_test("ft_strcmp", test_strcmp);
 
 	print_res_test("ft_putchar", test_putchar);
 	print_res_test("ft_putchar_fd", test_putchar_fd);
@@ -790,6 +794,178 @@ t_bool	test_strdup(t_bool debug)
 	return (ret);
 }
 
+#include <fcntl.h>
+t_bool	test_cat(t_bool debug)
+{
+	t_bool ret = TRUE;
+	t_bool test = TRUE;
+	pid_t child;
+	int status;
+	int fd;
+	char *files[] = {
+		"./src/ft_bzero.s",
+		"./src/ft_strcmp.s"
+	};
+
+	for (int pos = 0; pos < (sizeof(files) / (sizeof(char*))); pos++)
+	{
+		test = TRUE;
+
+		if (debug)
+			printf("Test");
+	}
+	char cmd[] = "cat";
+	char *args[] = {"cat", files[0], NULL};
+
+	if ((child = fork()) < 0)
+		exit(0);
+	else if (child == 0)
+	{
+		execvp(cmd, args);
+		exit(0);
+	}
+	else
+		while (status != child) ;
+
+
+	puts("Test");
+	// fd = open(files[0], O_RDONLY);
+	// ft_cat(fd);
+
+
+/*
+	#undef BUFF_SIZE
+	#define BUFF_SIZE 50
+	t_bool ret = TRUE;
+	t_bool test = TRUE;
+	char buff1[BUFF_SIZE + 1] = {0};
+	char buff2[BUFF_SIZE + 1] = {0};
+	int out_pipe[2];
+	int saved_stdout;
+	int fd;
+	char *files[] = {
+		"./src/ft_bzero.s"
+	};
+
+	char cmd[] = "cat";
+
+	for (int pos = 0; pos < (sizeof(files) / sizeof(char*)); pos++)
+	{
+		// int pos = 0;
+		// printf("->%s\n", files[0]);
+
+		char *args[] = {"cat", files[pos], NULL};
+
+		//TEST 1
+		bzero(buff1, BUFF_SIZE);
+		saved_stdout = dup(STDOUT_FILENO);
+		if(pipe(out_pipe) != 0) {
+			exit(1);
+		}
+		dup2(out_pipe[1], STDOUT_FILENO);
+		close(out_pipe[1]);
+			// execvp(cmd, args); //CAT CMD//
+		fflush(stdout);
+		read(out_pipe[0], buff1, BUFF_SIZE);
+
+		//TEST 2
+		bzero(buff2, BUFF_SIZE);
+		if(pipe(out_pipe) != 0) {
+			exit(1);
+		}
+		dup2(out_pipe[1], STDOUT_FILENO);
+		close(out_pipe[1]);
+			fd = open(files[pos], O_RDONLY);
+				ft_cat(fd); //FT_CAT CMD//
+			close(fd);
+		fflush(stdout);
+		read(out_pipe[0], buff2, BUFF_SIZE);
+
+		//AFF
+		dup2(saved_stdout, STDOUT_FILENO);
+
+		test = TRUE;
+		if (strcmp(buff1, buff2) != 0)
+		{
+			ret = FALSE;
+			test = FALSE;
+		}
+		if (1)
+		{
+			printf("->%s\n", files[pos]);
+			// puts(files[pos]);
+			// ft_puts(strings[pos]);
+			printf("[%s]\n", test ? OK : KO);
+		}
+	}*/
+	return (ret);
+}
+
+t_bool	test_strcmp(t_bool debug)
+{
+	#undef SIZE
+	#define SIZE 100
+	t_bool ret = TRUE;
+	t_bool test = TRUE;
+	char *src1[] = {
+		"testOkA asd  ddsd 	sww	sadsd",
+		"ok",
+		"ici",
+		"",
+		"x\0",
+		"\x02",
+		"\t",
+		"0123456789abcdefgh",
+		"\n",
+		"||||||\x00|||||||\\ _=+212312340",
+		"testOkA asd  ddsd 	sww	sadsd", //DIFF
+		"ok",
+		"ici",
+		"",
+		"x\0",
+		"\x02",
+		"\t",
+		"0123456789abcdefgh",
+		"\n",
+		"||||||\x00|||||||\\ _=+212312340"
+		};
+	char *src2[] = {
+		"testOkA asd  ddsd 	sww	sadsd",
+		"ok",
+		"ici",
+		"",
+		"x\0",
+		"\x02",
+		"\t",
+		"0123456789abcdefgh",
+		"\n",
+		"||||||\x00|||||||\\ _=+212312340",
+		"testOkA asd  ddsd 	sww	sadsd ", //DIFF
+		"Aok",
+		"i1ci",
+		"\0",
+		"x",
+		"\x02\t",
+		"\t\n",
+		"6789abcdefgh",
+		"",
+		"||||||\x00|||||||\\ _=+212312340            "
+		};
+
+	for (int pos = 0; pos < (sizeof(src1) / (sizeof(char*))); pos++)
+	{
+		test = TRUE;
+		if (strcmp(src1[pos], src2[pos]) != ft_strcmp(src1[pos], src2[pos]))
+		{
+			ret = FALSE;
+			test = FALSE;
+		}
+		if (1)
+			printf("%s | %s | %d | %d | [%s]\n",src1[pos], src2[pos], strcmp(src1[pos], src2[pos]), ft_strcmp(src1[pos], src2[pos]), test ? OK : KO);
+	}
+	return (ret);
+}
+
 t_bool	test_putchar(t_bool debug)
 {
 	#undef BUFF_SIZE
@@ -1305,8 +1481,8 @@ void	test_strdup()
 	free(str_dst);
 }*/
 
+/*
 #include <fcntl.h>
-
 void	test_cat()
 {
 	int fd;
@@ -1315,8 +1491,8 @@ void	test_cat()
 	ft_cat(fd);
 	// fd = open("./ft_cat.s", O_RDONLY);
 	// ft_cat(fd);
-}
-
+}*/
+/*
 void	test_strcmp()
 {
 	char s1[10] = "SalutA";
@@ -1328,6 +1504,7 @@ void	test_strcmp()
 	diff = strcmp(s1, s2);
 	printf("Diff: %d\n", diff);
 }
+*/
 /*
 void	test_putchar()
 {
