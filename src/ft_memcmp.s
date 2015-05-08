@@ -33,11 +33,7 @@ strcmp:
 next:
 	mov al, byte[rdi + rcx]
 	mov bl, byte[rsi + rcx]
-	cmp al, 0x0
-	je end
-	cmp bl, 0x0
-	je end
-
+	
 	cmp rcx, rdx
 	jge end
 	add rcx, 1
