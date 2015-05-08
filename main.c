@@ -763,19 +763,17 @@ t_bool	test_strdup(t_bool debug)
 		dst1 = strdup(src1[pos]);
 		dst2 = ft_strdup(src2[pos]);
 
-		// print_mem("strdup: dst1", strdup(src1[pos]), TRUE, SIZE);
-
-		if (memcmp(dst1, dst2, SIZE) != 0)
+		if (strcmp(dst1, dst2) != 0)
 		{
 			ret = FALSE;
 			test1 = FALSE;
 		}
-		if (memcmp(src1[pos], src2[pos], SIZE) != 0)
+		if (strcmp(src1[pos], src2[pos]) != 0)
 		{
 			ret = FALSE;
 			test2 = FALSE;
 		}
-		if (0)
+		if (debug)
 		{
 			printf("=====BY TEST=====\n");
 			printf("%s | %s | [%s]\n",dst1, dst2, test1 ? OK : KO);
