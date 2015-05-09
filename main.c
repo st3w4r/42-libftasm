@@ -37,28 +37,6 @@ typedef unsigned char t_bool;
 
 /* Functions test */
 
-// void	test_bzero();
-// void	test_isalpha();
-// void	test_isdigit();
-// void	test_isalnum();
-// void	test_isascii();
-// void	test_isprint();
-// void	test_toupper();
-// void	test_tolower();
-// void	test_puts();
-// void	test_strlen();
-// void	test_strcat();
-// void	test_memset();
-// void	test_memcpy();
-// void	test_strdup();
-// void	test_cat();
-// void	test_strcmp();
-// void	test_putchar();
-// void	test_putchar_fd();
-// void	test_memcmp();
-// void	test_strequ();
-// void	test_strcpy();
-
 t_bool	test_bzero(t_bool debug);
 t_bool	test_isalpha(t_bool debug);
 t_bool	test_isdigit(t_bool debug);
@@ -70,14 +48,14 @@ t_bool	test_tolower(t_bool debug);
 t_bool	test_puts(t_bool debug);
 t_bool	test_strlen(t_bool debug);
 t_bool	test_strcat(t_bool debug);
-t_bool	test_memset(t_bool debug);
-t_bool	test_memcpy(t_bool debug);
 t_bool	test_strdup(t_bool debug);
-t_bool	test_cat(t_bool debug);
 t_bool	test_strcmp(t_bool debug);
-t_bool	test_memcmp(t_bool debug);
 t_bool	test_strequ(t_bool debug);
 t_bool	test_strcpy(t_bool debug);
+t_bool	test_memset(t_bool debug);
+t_bool	test_memcpy(t_bool debug);
+t_bool	test_cat(t_bool debug);
+t_bool	test_memcmp(t_bool debug);
 t_bool	test_putchar(t_bool debug);
 t_bool	test_putchar_fd(t_bool debug);
 
@@ -94,6 +72,7 @@ void	test_assert_string(char *s1, char *s2)
 }
 */
 
+/* Print memory*/
 void	print_mem_ascii(unsigned char *buffer)
 {
 	printf(" |");
@@ -138,6 +117,8 @@ void	print_mem(char *desc, void *addr, t_bool ascii, int len)
 	printf("\n");
 }
 
+/* Print and execute test*/
+
 void	print_res_test(char *name, t_bool (*f)(t_bool))
 {
 	t_bool b;
@@ -151,10 +132,6 @@ void	print_res_test(char *name, t_bool (*f)(t_bool))
 
 int main(void)
 {
-	// char str[] = "testabcdefgABCDEFGHIJKLM012345678901234567890123456789";
-	// bzero(str, 10);
-	// print_mem("s1", str, TRUE, sizeof str);
-	//test_assert_string("Hello", "Hello");
 	print_res_test("ft_bzero", test_bzero);
 	print_res_test("ft_isalpha", test_isalpha);
 	print_res_test("ft_isdigit", test_isdigit);
@@ -166,39 +143,16 @@ int main(void)
 	print_res_test("ft_puts", test_puts);
 	print_res_test("ft_strlen", test_strlen);
 	print_res_test("ft_strcat", test_strcat);
-	print_res_test("ft_memset", test_memset);
-	print_res_test("ft_memcpy", test_memcpy);
 	print_res_test("ft_strdup", test_strdup);
-	// print_res_test("ft_cat", test_cat);
 	print_res_test("ft_strcmp", test_strcmp);
-	print_res_test("ft_memcmp", test_memcmp);
 	print_res_test("ft_strequ", test_strequ);
 	print_res_test("ft_strcpy", test_strcpy);
-
+	print_res_test("ft_memset", test_memset);
+	print_res_test("ft_memcpy", test_memcpy);
+	print_res_test("ft_memcmp", test_memcmp);
 	print_res_test("ft_putchar", test_putchar);
 	print_res_test("ft_putchar_fd", test_putchar_fd);
-
-	// test_bzero();
-	// test_isalpha();
-	// test_isdigit();
-	// test_isalnum();
-	// test_isascii();
-	// test_isprint();
-	// test_toupper();
-	// test_tolower();
-	// test_puts();
-	// test_strlen();
-	// test_strcat();
-	// test_memset();
-	// test_memcpy();
-	// test_strdup();
-	// test_cat();
-	// test_strcmp();
-	// test_putchar();
-	// test_putchar_fd();
-	// test_memcmp();
-	// test_strequ();
-	//test_strcpy();
+	// print_res_test("ft_cat", test_cat);
 
 	return (0);
 }
@@ -416,50 +370,6 @@ t_bool	test_tolower(t_bool debug)
 	return (ret);
 }
 
-/*
-t_bool	test_puts(t_bool debug)
-{
-	t_bool ret = TRUE;
-	t_bool test = TRUE;
-	FILE *fp;
-	char buff[255];
-	char buff2[255];
-	char *strings[] = {"test", "test2", "\n", "!@#$%^&*()-+", "\t", "A", "", " "};
-	int pos = 0;
-
-	while (pos < (sizeof(strings) / sizeof(char*)))
-	{
-		fp = freopen("test_puts_stdout", "w", stdout);
-
-		ft_puts(strings[pos]);
-		puts(strings[pos]);
-
-		fclose(fp);
-		freopen("/dev/tty", "w", stdout);
-		fp = fopen("test_puts_stdout", "r");
-
-		fscanf(fp, "%s", buff);
-		fscanf(fp, "%s", buff2);
-
-		if (strcmp(buff, buff2) != 0)
-		{
-			ret = FALSE;
-			test = FALSE;
-		}
-		if (debug)
-		{
-			printf("->%s\n", strings[pos]);
-			ft_puts(strings[pos]);
-			puts(strings[pos]);
-			printf("[%s]\n", test ? OK : KO);
-		}
-		++pos;
-	}
-	return (ret);
-}
-*/
-
-
 t_bool	test_puts(t_bool debug)
 {
 	#undef BUFF_SIZE
@@ -616,6 +526,299 @@ t_bool	test_strcat(t_bool debug)
 			printf("%s | %s | [%s]\n",src1[pos], src2[pos], test2 ? OK : KO);
 			print_mem("strcat: src1", src1[pos], TRUE, SIZE);
 			print_mem("ft_strcat: src2", src2[pos], TRUE, SIZE);
+			printf("\n");
+		}
+	}
+	return (ret);
+}
+
+t_bool	test_strdup(t_bool debug)
+{
+	#undef SIZE
+	#define SIZE 100
+	t_bool ret = TRUE;
+	t_bool test1 = TRUE;
+	t_bool test2 = TRUE;
+	char src1[][SIZE] = {
+		"testOkA asd  ddsd 	sww	sadsd",
+		"ok",
+		"ici",
+		"",
+		"x\0",
+		"\x02",
+		"\t",
+		"0123456789abcdefgh",
+		"\n",
+		"||||||\x00|||||||\\ _=+212312340"
+		};
+	char src2[][SIZE] = {
+		"testOkA asd  ddsd 	sww	sadsd",
+		"ok",
+		"ici",
+		"",
+		"x\0",
+		"\x02",
+		"\t",
+		"0123456789abcdefgh",
+		"\n",
+		"||||||\x00|||||||\\ _=+212312340"
+		};
+	char *dst1;
+	char *dst2;
+
+	for (int pos = 0; pos < (sizeof(src1) / SIZE); pos++)
+	{
+		test1 = TRUE;
+		test2 = TRUE;
+		dst1 = strdup(src1[pos]);
+		dst2 = ft_strdup(src2[pos]);
+
+		if (strcmp(dst1, dst2) != 0)
+		{
+			ret = FALSE;
+			test1 = FALSE;
+		}
+		if (strcmp(src1[pos], src2[pos]) != 0)
+		{
+			ret = FALSE;
+			test2 = FALSE;
+		}
+		if (debug)
+		{
+			printf("=====BY TEST=====\n");
+			printf("%s | %s | [%s]\n",dst1, dst2, test1 ? OK : KO);
+			print_mem("strdup: dst1", dst1, TRUE, SIZE);
+			print_mem("ft_strdup: dst2", dst2, TRUE, SIZE);
+			printf("\n");
+
+			printf("%s | %s | [%s]\n",src1[pos], src2[pos], test2 ? OK : KO);
+			print_mem("strdup: src1", src1[pos], TRUE, SIZE);
+			print_mem("ft_strdup: src2", src2[pos], TRUE, SIZE);
+			printf("\n");
+		}
+	}
+	return (ret);
+}
+
+t_bool	test_strcmp(t_bool debug)
+{
+	t_bool ret = TRUE;
+	t_bool test = TRUE;
+	char *src1[] = {
+		"testOkA asd  ddsd 	sww	sadsd",
+		"ok",
+		"ici",
+		"",
+		"x\0",
+		"\x02",
+		"\t",
+		"0123456789abcdefgh",
+		"\n",
+		"||||||\x00|||||||\\ _=+212312340",
+		"testOkA asd  ddsd 	sww	sadsd", //DIFF
+		"ok",
+		"ici",
+		"",
+		"x\0",
+		"\x02",
+		"\t",
+		"0123456789abcdefgh",
+		"\n",
+		"||||||\x00|||||||\\ _=+212312340"
+		};
+	char *src2[] = {
+		"testOkA asd  ddsd 	sww	sadsd",
+		"ok",
+		"ici",
+		"",
+		"x\0",
+		"\x02",
+		"\t",
+		"0123456789abcdefgh",
+		"\n",
+		"||||||\x00|||||||\\ _=+212312340",
+		"testOkA asd  ddsd 	sww	sadsd ", //DIFF
+		"Aok",
+		"i1ci",
+		"\0",
+		"x",
+		"\x02\t",
+		"\t\n",
+		"6789abcdefgh",
+		"",
+		"||||||\x00|||||||\\ _=+212312340            "
+		};
+
+	for (int pos = 0; pos < (sizeof(src1) / (sizeof(char*))); pos++)
+	{
+		test = TRUE;
+		if (strcmp(src1[pos], src2[pos]) != ft_strcmp(src1[pos], src2[pos]))
+		{
+			ret = FALSE;
+			test = FALSE;
+		}
+		if (debug)
+			printf("%s | %s | %d | %d | [%s]\n",src1[pos], src2[pos], strcmp(src1[pos], src2[pos]), ft_strcmp(src1[pos], src2[pos]), test ? OK : KO);
+	}
+	return (ret);
+}
+
+t_bool	test_strequ(t_bool debug)
+{
+	#undef SIZE
+	#define SIZE 100
+	t_bool ret = TRUE;
+	t_bool test = TRUE;
+	char src1[][SIZE] = {
+		"testOkA asd  ddsd 	sww	sadsd",
+		"ok",
+		"ici",
+		"",
+		"x\0 42",
+		"\x02",
+		"\t",
+		"0123456789abcdefgh",
+		"\n",
+		"||||||\x00|||||||\\ _=+212312340",
+		"testOkA asd  ddsd 	sww	sadsd", //DIFF
+		"ok",
+		"ici",
+		"",
+		"x\0",
+		"\x02",
+		"\t",
+		"0123456789abcdefgh",
+		"\n",
+		"||||||\x00|||||||\\ _=+212312340",
+		"A\x00\t"
+		};
+	char src2[][SIZE] = {
+		"testOkA asd  ddsd 	sww	sadsd",
+		"ok",
+		"ici",
+		"",
+		"x\0 42",
+		"\x02",
+		"\t",
+		"0123456789abcdefgh",
+		"\n",
+		"||||||\x00|||||||\\ _=+212312340",
+		"testOkA asd  ddsd 	sww	sadsd ", //DIFF
+		"Aok",
+		"i1ci",
+		"\0",
+		"x",
+		"\x02\t",
+		"\t\n",
+		"6789abcdefgh",
+		"",
+		"||||||\x00|||||||\\ _=+212312340            ",
+		"A\x00\x01"
+		};
+
+	for (int pos = 0; pos < (sizeof(src1) / SIZE); pos++)
+	{
+		test = TRUE;
+		if ((strcmp(src1[pos], src2[pos]) == 0) != ft_strequ(src1[pos], src2[pos]))
+		{
+			ret = FALSE;
+			test = FALSE;
+		}
+		if (debug)
+		{
+			printf("%s | %s | %d | %d | [%s]\n",src1[pos], src2[pos], (strcmp(src1[pos], src2[pos]) == 0), ft_strequ(src1[pos], src2[pos]), test ? OK : KO);
+			printf("\n");
+			print_mem("src1", src1[pos], TRUE, SIZE);
+			print_mem("src2", src2[pos], TRUE, SIZE);
+			printf("\n");
+		}
+	}
+	return (ret);
+}
+
+t_bool	test_strcpy(t_bool debug)
+{
+	#undef SIZE
+	#define SIZE 100
+	t_bool ret = TRUE;
+	t_bool test1 = TRUE;
+	t_bool test2 = TRUE;
+	char src1[][SIZE] = {
+		"testOkA asd  ddsd 	sww	sadsd",
+		"ok",
+		"ici",
+		"",
+		"x\0",
+		"\x02",
+		"\t",
+		"0123456789abcdefgh",
+		"\n",
+		"||||||\x00|||||||\\ _=+212312340",
+		"HelloHelloHelloHelloHello",
+		"Hello",
+		"OOOOOOOOOOOOOOOOOOOOOOOOOOOO"
+		};
+	char src2[][SIZE] = {
+		"testOkA asd  ddsd 	sww	sadsd",
+		"ok",
+		"ici",
+		"",
+		"x\0",
+		"\x02",
+		"\t",
+		"0123456789abcdefgh",
+		"\n",
+		"||||||\x00|||||||\\ _=+212312340",
+		"HelloHelloHelloHelloHello",
+		"Hello",
+		"OOOOOOOOOOOOOOOOOOOOOOOOOOOO"
+		};
+	char s_cpy[][SIZE] = {
+		"O\x20",
+		"B",
+		"A",
+		"AAsssdsdAsdasd",
+		"\0",
+		"\x02",
+		"\t",
+		"POPoPOpO",
+		"\00\00ASF",
+		"12345",
+		"Monsieur",
+		"MonsieurMonsieurMonsieurMonsieurMonsieur",
+		"H"
+	};
+	char *dst1;
+	char *dst2;
+
+	for (int pos = 0; pos < (sizeof(src1) / SIZE); pos++)
+	{
+		test1 = TRUE;
+		test2 = TRUE;
+		dst1 = strcpy(src1[pos], s_cpy[pos]);
+		dst2 = ft_strcpy(src2[pos], s_cpy[pos]);
+
+		if (memcmp(dst1, dst2, strlen(dst1)) != 0)
+		{
+			ret = FALSE;
+			test1 = FALSE;
+		}
+		if (memcmp(src1[pos], src2[pos], strlen(dst1)) != 0)
+		{
+			ret = FALSE;
+			test2 = FALSE;
+		}
+		if (debug)
+		{
+			printf("=====BY TEST=====\n");
+			printf("%s | %s | [%s]\n",dst1, dst2, test1 ? OK : KO);
+			print_mem("strcpy: dst1", dst1, TRUE, SIZE);
+			print_mem("ft_strcpy: dst2", dst2, TRUE, SIZE);
+			printf("\n");
+
+			printf("%s | %s | [%s]\n",src1[pos], src2[pos], test2 ? OK : KO);
+			print_mem("strcpy: src1", src1[pos], TRUE, SIZE);
+			print_mem("ft_strcpy: src2", src2[pos], TRUE, SIZE);
 			printf("\n");
 		}
 	}
@@ -784,244 +987,6 @@ t_bool	test_memcpy(t_bool debug)
 	return (ret);
 }
 
-t_bool	test_strdup(t_bool debug)
-{
-	#undef SIZE
-	#define SIZE 100
-	t_bool ret = TRUE;
-	t_bool test1 = TRUE;
-	t_bool test2 = TRUE;
-	char src1[][SIZE] = {
-		"testOkA asd  ddsd 	sww	sadsd",
-		"ok",
-		"ici",
-		"",
-		"x\0",
-		"\x02",
-		"\t",
-		"0123456789abcdefgh",
-		"\n",
-		"||||||\x00|||||||\\ _=+212312340"
-		};
-	char src2[][SIZE] = {
-		"testOkA asd  ddsd 	sww	sadsd",
-		"ok",
-		"ici",
-		"",
-		"x\0",
-		"\x02",
-		"\t",
-		"0123456789abcdefgh",
-		"\n",
-		"||||||\x00|||||||\\ _=+212312340"
-		};
-	char *dst1;
-	char *dst2;
-
-	for (int pos = 0; pos < (sizeof(src1) / SIZE); pos++)
-	{
-		test1 = TRUE;
-		test2 = TRUE;
-		dst1 = strdup(src1[pos]);
-		dst2 = ft_strdup(src2[pos]);
-
-		if (strcmp(dst1, dst2) != 0)
-		{
-			ret = FALSE;
-			test1 = FALSE;
-		}
-		if (strcmp(src1[pos], src2[pos]) != 0)
-		{
-			ret = FALSE;
-			test2 = FALSE;
-		}
-		if (debug)
-		{
-			printf("=====BY TEST=====\n");
-			printf("%s | %s | [%s]\n",dst1, dst2, test1 ? OK : KO);
-			print_mem("strdup: dst1", dst1, TRUE, SIZE);
-			print_mem("ft_strdup: dst2", dst2, TRUE, SIZE);
-			printf("\n");
-
-			printf("%s | %s | [%s]\n",src1[pos], src2[pos], test2 ? OK : KO);
-			print_mem("strdup: src1", src1[pos], TRUE, SIZE);
-			print_mem("ft_strdup: src2", src2[pos], TRUE, SIZE);
-			printf("\n");
-		}
-	}
-	return (ret);
-}
-
-#include <fcntl.h>
-t_bool	test_cat(t_bool debug)
-{
-	t_bool ret = TRUE;
-	t_bool test = TRUE;
-	pid_t child;
-	int status;
-	int fd;
-	char *files[] = {
-		"./src/ft_bzero.s",
-		"./src/ft_strcmp.s"
-	};
-
-	for (int pos = 0; pos < (sizeof(files) / (sizeof(char*))); pos++)
-	{
-		test = TRUE;
-
-		if (debug)
-			printf("Test");
-	}
-	char cmd[] = "cat";
-	char *args[] = {"cat", files[0], NULL};
-
-	if ((child = fork()) < 0)
-		exit(0);
-	else if (child == 0)
-	{
-		execvp(cmd, args);
-		exit(0);
-	}
-	else
-		while (status != child) ;
-
-
-	puts("Test");
-	// fd = open(files[0], O_RDONLY);
-	// ft_cat(fd);
-
-
-/*
-	#undef BUFF_SIZE
-	#define BUFF_SIZE 50
-	t_bool ret = TRUE;
-	t_bool test = TRUE;
-	char buff1[BUFF_SIZE + 1] = {0};
-	char buff2[BUFF_SIZE + 1] = {0};
-	int out_pipe[2];
-	int saved_stdout;
-	int fd;
-	char *files[] = {
-		"./src/ft_bzero.s"
-	};
-
-	char cmd[] = "cat";
-
-	for (int pos = 0; pos < (sizeof(files) / sizeof(char*)); pos++)
-	{
-		// int pos = 0;
-		// printf("->%s\n", files[0]);
-
-		char *args[] = {"cat", files[pos], NULL};
-
-		//TEST 1
-		bzero(buff1, BUFF_SIZE);
-		saved_stdout = dup(STDOUT_FILENO);
-		if(pipe(out_pipe) != 0) {
-			exit(1);
-		}
-		dup2(out_pipe[1], STDOUT_FILENO);
-		close(out_pipe[1]);
-			// execvp(cmd, args); //CAT CMD//
-		fflush(stdout);
-		read(out_pipe[0], buff1, BUFF_SIZE);
-
-		//TEST 2
-		bzero(buff2, BUFF_SIZE);
-		if(pipe(out_pipe) != 0) {
-			exit(1);
-		}
-		dup2(out_pipe[1], STDOUT_FILENO);
-		close(out_pipe[1]);
-			fd = open(files[pos], O_RDONLY);
-				ft_cat(fd); //FT_CAT CMD//
-			close(fd);
-		fflush(stdout);
-		read(out_pipe[0], buff2, BUFF_SIZE);
-
-		//AFF
-		dup2(saved_stdout, STDOUT_FILENO);
-
-		test = TRUE;
-		if (strcmp(buff1, buff2) != 0)
-		{
-			ret = FALSE;
-			test = FALSE;
-		}
-		if (1)
-		{
-			printf("->%s\n", files[pos]);
-			// puts(files[pos]);
-			// ft_puts(strings[pos]);
-			printf("[%s]\n", test ? OK : KO);
-		}
-	}*/
-	return (ret);
-}
-
-t_bool	test_strcmp(t_bool debug)
-{
-	t_bool ret = TRUE;
-	t_bool test = TRUE;
-	char *src1[] = {
-		"testOkA asd  ddsd 	sww	sadsd",
-		"ok",
-		"ici",
-		"",
-		"x\0",
-		"\x02",
-		"\t",
-		"0123456789abcdefgh",
-		"\n",
-		"||||||\x00|||||||\\ _=+212312340",
-		"testOkA asd  ddsd 	sww	sadsd", //DIFF
-		"ok",
-		"ici",
-		"",
-		"x\0",
-		"\x02",
-		"\t",
-		"0123456789abcdefgh",
-		"\n",
-		"||||||\x00|||||||\\ _=+212312340"
-		};
-	char *src2[] = {
-		"testOkA asd  ddsd 	sww	sadsd",
-		"ok",
-		"ici",
-		"",
-		"x\0",
-		"\x02",
-		"\t",
-		"0123456789abcdefgh",
-		"\n",
-		"||||||\x00|||||||\\ _=+212312340",
-		"testOkA asd  ddsd 	sww	sadsd ", //DIFF
-		"Aok",
-		"i1ci",
-		"\0",
-		"x",
-		"\x02\t",
-		"\t\n",
-		"6789abcdefgh",
-		"",
-		"||||||\x00|||||||\\ _=+212312340            "
-		};
-
-	for (int pos = 0; pos < (sizeof(src1) / (sizeof(char*))); pos++)
-	{
-		test = TRUE;
-		if (strcmp(src1[pos], src2[pos]) != ft_strcmp(src1[pos], src2[pos]))
-		{
-			ret = FALSE;
-			test = FALSE;
-		}
-		if (debug)
-			printf("%s | %s | %d | %d | [%s]\n",src1[pos], src2[pos], strcmp(src1[pos], src2[pos]), ft_strcmp(src1[pos], src2[pos]), test ? OK : KO);
-	}
-	return (ret);
-}
-
 t_bool	test_memcmp(t_bool debug)
 {
 	#undef SIZE
@@ -1089,168 +1054,6 @@ t_bool	test_memcmp(t_bool debug)
 			printf("\n");
 			print_mem("src1", src1[pos], FALSE, SIZE);
 			print_mem("src2", src2[pos], FALSE, SIZE);
-			printf("\n");
-		}
-	}
-	return (ret);
-}
-
-t_bool	test_strequ(t_bool debug)
-{
-	#undef SIZE
-	#define SIZE 100
-	t_bool ret = TRUE;
-	t_bool test = TRUE;
-	char src1[][SIZE] = {
-		"testOkA asd  ddsd 	sww	sadsd",
-		"ok",
-		"ici",
-		"",
-		"x\0 42",
-		"\x02",
-		"\t",
-		"0123456789abcdefgh",
-		"\n",
-		"||||||\x00|||||||\\ _=+212312340",
-		"testOkA asd  ddsd 	sww	sadsd", //DIFF
-		"ok",
-		"ici",
-		"",
-		"x\0",
-		"\x02",
-		"\t",
-		"0123456789abcdefgh",
-		"\n",
-		"||||||\x00|||||||\\ _=+212312340",
-		"A\x00\t"
-		};
-	char src2[][SIZE] = {
-		"testOkA asd  ddsd 	sww	sadsd",
-		"ok",
-		"ici",
-		"",
-		"x\0 42",
-		"\x02",
-		"\t",
-		"0123456789abcdefgh",
-		"\n",
-		"||||||\x00|||||||\\ _=+212312340",
-		"testOkA asd  ddsd 	sww	sadsd ", //DIFF
-		"Aok",
-		"i1ci",
-		"\0",
-		"x",
-		"\x02\t",
-		"\t\n",
-		"6789abcdefgh",
-		"",
-		"||||||\x00|||||||\\ _=+212312340            ",
-		"A\x00\x01"
-		};
-
-	for (int pos = 0; pos < (sizeof(src1) / SIZE); pos++)
-	{
-		test = TRUE;
-		if ((strcmp(src1[pos], src2[pos]) == 0) != ft_strequ(src1[pos], src2[pos]))
-		{
-			ret = FALSE;
-			test = FALSE;
-		}
-		if (debug)
-		{
-			printf("%s | %s | %d | %d | [%s]\n",src1[pos], src2[pos], (strcmp(src1[pos], src2[pos]) == 0), ft_strequ(src1[pos], src2[pos]), test ? OK : KO);
-			printf("\n");
-			print_mem("src1", src1[pos], TRUE, SIZE);
-			print_mem("src2", src2[pos], TRUE, SIZE);
-			printf("\n");
-		}
-	}
-	return (ret);
-}
-
-t_bool	test_strcpy(t_bool debug)
-{
-	#undef SIZE
-	#define SIZE 100
-	t_bool ret = TRUE;
-	t_bool test1 = TRUE;
-	t_bool test2 = TRUE;
-	char src1[][SIZE] = {
-		"testOkA asd  ddsd 	sww	sadsd",
-		"ok",
-		"ici",
-		"",
-		"x\0",
-		"\x02",
-		"\t",
-		"0123456789abcdefgh",
-		"\n",
-		"||||||\x00|||||||\\ _=+212312340",
-		"HelloHelloHelloHelloHello",
-		"Hello",
-		"OOOOOOOOOOOOOOOOOOOOOOOOOOOO"
-		};
-	char src2[][SIZE] = {
-		"testOkA asd  ddsd 	sww	sadsd",
-		"ok",
-		"ici",
-		"",
-		"x\0",
-		"\x02",
-		"\t",
-		"0123456789abcdefgh",
-		"\n",
-		"||||||\x00|||||||\\ _=+212312340",
-		"HelloHelloHelloHelloHello",
-		"Hello",
-		"OOOOOOOOOOOOOOOOOOOOOOOOOOOO"
-		};
-	char s_cpy[][SIZE] = {
-		"O\x20",
-		"B",
-		"A",
-		"AAsssdsdAsdasd",
-		"\0",
-		"\x02",
-		"\t",
-		"POPoPOpO",
-		"\00\00ASF",
-		"12345",
-		"Monsieur",
-		"MonsieurMonsieurMonsieurMonsieurMonsieur",
-		"H"
-	};
-	char *dst1;
-	char *dst2;
-
-	for (int pos = 0; pos < (sizeof(src1) / SIZE); pos++)
-	{
-		test1 = TRUE;
-		test2 = TRUE;
-		dst1 = strcpy(src1[pos], s_cpy[pos]);
-		dst2 = ft_strcpy(src2[pos], s_cpy[pos]);
-
-		if (memcmp(dst1, dst2, strlen(dst1)) != 0)
-		{
-			ret = FALSE;
-			test1 = FALSE;
-		}
-		if (memcmp(src1[pos], src2[pos], strlen(dst1)) != 0)
-		{
-			ret = FALSE;
-			test2 = FALSE;
-		}
-		if (debug)
-		{
-			printf("=====BY TEST=====\n");
-			printf("%s | %s | [%s]\n",dst1, dst2, test1 ? OK : KO);
-			print_mem("strcpy: dst1", dst1, TRUE, SIZE);
-			print_mem("ft_strcpy: dst2", dst2, TRUE, SIZE);
-			printf("\n");
-
-			printf("%s | %s | [%s]\n",src1[pos], src2[pos], test2 ? OK : KO);
-			print_mem("strcpy: src1", src1[pos], TRUE, SIZE);
-			print_mem("ft_strcpy: src2", src2[pos], TRUE, SIZE);
 			printf("\n");
 		}
 	}
@@ -1376,509 +1179,109 @@ t_bool	test_putchar_fd(t_bool debug)
 	return (ret);
 }
 
-/*
-void test_bzero()
-{
-	char str[10] = "Salut";
-	ft_bzero(&str, 2);
-	putchar(str[0]== 0 ? 'Z': str[0]);
-	putchar(str[1]== 0 ? 'Z': str[1]);
-	putchar(str[2]== 0 ? 'Z': str[2]);
-	putchar(str[3]== 0 ? 'Z': str[3]);
-	putchar(str[4]== 0 ? 'Z': str[4]);
-	putchar(str[5]== 0 ? 'Z': str[5]);
-	putchar(str[6]== 0 ? 'Z': str[6]);
-	putchar(str[7]== 0 ? 'Z': str[7]);
-}
-*/
-/*
-void test_isalpha()
-{
-	//Is Alpha
-	// Majuscule
-	printf("Is alpha: %d\n", ft_isalpha('A'));
-	printf("Is alpha: %d\n", ft_isalpha('B'));
-	printf("Is alpha: %d\n", ft_isalpha('Z'));
-
-	printf("Is alpha: %d\n", ft_isalpha('a'));
-	printf("Is alpha: %d\n", ft_isalpha('b'));
-	printf("Is alpha: %d\n", ft_isalpha('z'));
-
-	printf("Is alpha: %d\n", ft_isalpha(0x41));
-	printf("Is alpha: %d\n", ft_isalpha(0x5a));
-
-	//False
-	printf("Is alpha: %d\n", ft_isalpha(0x40));
-	printf("Is alpha: %d\n", ft_isalpha(0x5b));
-	printf("Is alpha: %d\n", ft_isalpha(0x5c));
-
-	// Minuscule
-	//False
-	printf("Is alpha: %d\n", ft_isalpha(0x7c));
-	printf("Is alpha: %d\n", ft_isalpha(0x5e));
-}
-*/
-/*
-void test_isdigit()
-{
-	//Is Digit
-	//True
-	printf("Is digit: %d\n", ft_isdigit(0x30));
-	printf("Is digit: %d\n", ft_isdigit('0'));
-	printf("Is digit: %d\n", ft_isdigit('1'));
-	printf("Is digit: %d\n", ft_isdigit('2'));
-	printf("Is digit: %d\n", ft_isdigit('3'));
-	printf("Is digit: %d\n", ft_isdigit('4'));
-	printf("Is digit: %d\n", ft_isdigit('5'));
-	printf("Is digit: %d\n", ft_isdigit('6'));
-	printf("Is digit: %d\n", ft_isdigit('7'));
-	printf("Is digit: %d\n", ft_isdigit('8'));
-	printf("Is digit: %d\n", ft_isdigit('9'));
-	printf("Is digit: %d\n", ft_isdigit(0x39));
-
-	//False
-	printf("Is digit: %d\n", ft_isdigit(0x29));
-	printf("Is digit: %d\n", ft_isdigit(0x3a));
-	printf("Is digit: %d\n", ft_isdigit('/'));
-	printf("Is digit: %d\n", ft_isdigit('.'));
-	printf("Is digit: %d\n", ft_isdigit(':'));
-}
-*/
-
-/*
-void test_isalnum()
-{
-	//Is Alpha num
-	printf("__TRUE__\n");
-	printf("Is digit: %d\n", ft_isalnum(0x30));
-	printf("Is digit: %d\n", ft_isalnum('0'));
-	printf("Is digit: %d\n", ft_isalnum('1'));
-	printf("Is digit: %d\n", ft_isalnum('2'));
-	printf("Is digit: %d\n", ft_isalnum('3'));
-	printf("Is digit: %d\n", ft_isalnum('4'));
-	printf("Is digit: %d\n", ft_isalnum('5'));
-	printf("Is digit: %d\n", ft_isalnum('6'));
-	printf("Is digit: %d\n", ft_isalnum('7'));
-	printf("Is digit: %d\n", ft_isalnum('8'));
-	printf("Is digit: %d\n", ft_isalnum('9'));
-	printf("Is digit: %d\n", ft_isalnum(0x39));
-
-	// Majuscule
-	printf("Is alpha: %d\n", ft_isalnum('A'));
-	printf("Is alpha: %d\n", ft_isalnum('B'));
-	printf("Is alpha: %d\n", ft_isalnum('Z'));
-
-	printf("Is alpha: %d\n", ft_isalnum('a'));
-	printf("Is alpha: %d\n", ft_isalnum('b'));
-	printf("Is alpha: %d\n", ft_isalnum('z'));
-
-	printf("Is alpha: %d\n", ft_isalnum(0x41));
-	printf("Is alpha: %d\n", ft_isalnum(0x5a));
-
-	printf("__FALSE__\n");
-
-	//False
-	printf("Is alpha: %d\n", ft_isalnum(0x40));
-	printf("Is alpha: %d\n", ft_isalnum(0x5b));
-	printf("Is alpha: %d\n", ft_isalnum(0x5c));
-
-	// Minuscule
-	//False
-	printf("Is alpha: %d\n", ft_isalnum(0x7c));
-	printf("Is alpha: %d\n", ft_isalnum(0x5e));
-
-	//False
-	printf("Is digit: %d\n", ft_isalnum(0x29));
-	printf("Is digit: %d\n", ft_isalnum(0x3a));
-	printf("Is digit: %d\n", ft_isalnum('/'));
-	printf("Is digit: %d\n", ft_isalnum('.'));
-	printf("Is digit: %d\n", ft_isalnum(':'));
-
-
-	//False
-	printf("Is digit: %d\n", ft_isalnum(0x29));
-	printf("Is digit: %d\n", ft_isalnum(0x3a));
-	printf("Is digit: %d\n", ft_isalnum('/'));
-	printf("Is digit: %d\n", ft_isalnum('.'));
-	printf("Is digit: %d\n", ft_isalnum(':'));
-	printf("Is digit: %d\n", ft_isalnum(0));
-
-}
-*/
-
-/*
-void test_isascii()
-{
-	//Is ASCII
-	//True
-	printf("__TRUE__\n");
-
-	printf("Is ascii: %d\n", ft_isascii(0x29));
-	printf("Is ascii: %d\n", ft_isascii(0));
-	printf("Is ascii: %d\n", ft_isascii(0x51));
-	printf("Is ascii: %d\n", ft_isascii(101));
-	printf("Is ascii: %d\n", ft_isascii(44));
-	printf("Is ascii: %d\n", ft_isascii(127));
-	printf("Is ascii: %d\n", ft_isascii('a'));
-
-
-	//False
-	printf("__FALSE__\n");
-
-	printf("Is ascii: %d\n", ft_isascii(-1));
-	printf("Is ascii: %d\n", ft_isascii(128));
-	printf("Is ascii: %d\n", ft_isascii(0x8a));
-	printf("Is ascii: %d\n", ft_isascii(129));
-}
-*/
-
-/*
-void test_isprint()
-{
-	//Is Print
-	//True
-	printf("__TRUE__\n");
-
-	printf("Is print: %d\n", ft_isprint(0x29));
-	printf("Is print: %d\n", ft_isprint(0x51));
-	printf("Is print: %d\n", ft_isprint(101));
-	printf("Is print: %d\n", ft_isprint(44));
-	printf("Is print: %d\n", ft_isprint('a'));
-	printf("Is print: %d\n", ft_isprint(0x20));
-	printf("Is print: %d\n", ft_isprint(' '));
-	printf("Is print: %d\n", ft_isprint(55));
-
-
-	//False
-	printf("__FALSE__\n");
-
-	printf("Is print: %d\n", ft_isprint('	'));
-	printf("Is print: %d\n", ft_isprint('\t'));
-	printf("Is print: %d\n", ft_isprint(127));
-	printf("Is print: %d\n", ft_isprint(0));
-	printf("Is print: %d\n", ft_isprint(-1));
-	printf("Is print: %d\n", ft_isprint(128));
-	printf("Is print: %d\n", ft_isprint(0x8a));
-	printf("Is print: %d\n", ft_isprint(129));
-}
-*/
-
-/*
-void test_toupper()
-{
-	//ToUpper
-	//True
-	printf("__TRUE__\n");
-
-	printf("ToUpper: %c\n", ft_toupper('a'));
-	printf("ToUpper: %c\n", ft_toupper('b'));
-	printf("ToUpper: %c\n", ft_toupper('y'));
-	printf("ToUpper: %c\n", ft_toupper('z'));
-	printf("ToUpper: %c\n", ft_toupper('e'));
-	printf("ToUpper: %c\n", ft_toupper('o'));
-	printf("ToUpper: %c\n", ft_toupper(98));
-	printf("ToUpper: %c\n", ft_toupper(97));
-	printf("ToUpper: %c\n", ft_toupper(122));
-
-
-	//False
-	printf("__FALSE__\n");
-
-	printf("ToUpper: %c\n", ft_toupper('A'));
-	printf("ToUpper: %c\n", ft_toupper('B'));
-	printf("ToUpper: %c\n", ft_toupper('Z'));
-	printf("ToUpper: %c\n", ft_toupper(0));
-	printf("ToUpper: %c\n", ft_toupper(92));
-	printf("ToUpper: %c\n", ft_toupper(96));
-	printf("ToUpper: %c\n", ft_toupper(123));
-	printf("ToUpper: %c\n", ft_toupper(' '));
-	printf("ToUpper: %c\n", ft_toupper('	'));
-	printf("ToUpper: %c\n", ft_toupper('\t'));
-	printf("ToUpper: %c\n", ft_toupper(127));
-	printf("ToUpper: %c\n", ft_toupper(0));
-	printf("ToUpper: %c\n", ft_toupper(-1));
-	printf("ToUpper: %c\n", ft_toupper(128));
-	printf("ToUpper: %c\n", ft_toupper(0x8a));
-	printf("ToUpper: %c\n", ft_toupper(129));
-}
-*/
-
-/*
-void test_tolower()
-{
-	//ToLower
-	printf("__ToLower__\n");
-	//True
-	printf("__TRUE__\n");
-	printf("ToLower: %c\n", ft_tolower('A'));
-	printf("ToLower: %c\n", ft_tolower('B'));
-	printf("ToLower: %c\n", ft_tolower('C'));
-	printf("ToLower: %c\n", ft_tolower('Z'));
-	printf("ToLower: %c\n", ft_tolower('E'));
-	printf("ToLower: %c\n", ft_tolower('O'));
-	printf("ToLower: %c\n", ft_tolower(66));
-	printf("ToLower: %c\n", ft_tolower(67));
-	printf("ToLower: %c\n", ft_tolower(90));
-
-
-	//False
-	printf("__FALSE__\n");
-	printf("ToLower: %c\n", ft_tolower('a'));
-	printf("ToLower: %c\n", ft_tolower('b'));
-	printf("ToLower: %c\n", ft_tolower('y'));
-	printf("ToLower: %c\n", ft_tolower('z'));
-	printf("ToLower: %c\n", ft_tolower('e'));
-	printf("ToLower: %c\n", ft_tolower('o'));
-	printf("ToLower: %c\n", ft_tolower(98));
-	printf("ToLower: %c\n", ft_tolower(97));
-	printf("ToLower: %c\n", ft_tolower(122));
-	printf("ToLower: %c\n", ft_tolower(0));
-	printf("ToLower: %c\n", ft_tolower(92));
-	printf("ToLower: %c\n", ft_tolower(96));
-	printf("ToLower: %c\n", ft_tolower(123));
-	printf("ToLower: %c\n", ft_tolower(' '));
-	printf("ToLower: %c\n", ft_tolower('	'));
-	printf("ToLower: %c\n", ft_tolower('\t'));
-	printf("ToLower: %c\n", ft_tolower(127));
-	printf("ToLower: %c\n", ft_tolower(0));
-	printf("ToLower: %c\n", ft_tolower(-1));
-	printf("ToLower: %c\n", ft_tolower(128));
-	printf("ToLower: %c\n", ft_tolower(0x8a));
-	printf("ToLower: %c\n", ft_tolower(129));
-}
-*/
-
-/*
-void test_puts()
-{
-	//ft_puts
-	// printf("__ft_puts__\n");
-	ft_puts("Ok");
-	ft_puts("");
-	ft_puts("YES");
-	ft_puts("PLPLPLPLLASDPALSDLPASDL");
-	ft_puts(NULL);
-}
-*/
-	// puts(NULL);
-
-/*
-void test_strlen()
-{
-	//ft_strlen
-	printf("Len: %lu\n", ft_strlen("TESTokTESTokTESTok"));
-	printf("Len: %lu\n", ft_strlen("TEST"));
-	printf("Len: %lu\n", ft_strlen("123"));
-	printf("Len: %lu\n", ft_strlen("12"));
-	printf("Len: %lu\n", ft_strlen("1"));
-	printf("Len: %lu\n", ft_strlen(""));
-	printf("Len: %lu\n", ft_strlen(NULL));
-}
-*/
-
-/*
-void	test_strcat()
-{
-	char s1[10] = "OK";
-	char s2[5] = "test";
-	// char s2[5] = "test";
-	// char s3[10] = "LOL";
-
-	// ft_strcat(s1, s2);
-
-	// printf("%s", ft_strcat(s1, s2));
-	char s10[10] = "OK";
-	char s12[5] = "test";
-	//char s13[10] = "LOL";
-	printf("%s", strcat(s10, s12));
-}*/
-/*
-void	test_memset()
-{
-	char str[10] = "Salut";
-	// ft_memset(&str, 'B', 2);
-	printf("%s\n", ft_memset(&str, 'B', 3));
-
-	putchar(str[0]);
-	putchar(str[1]);
-	putchar(str[2]);
-	putchar(str[3]);
-	putchar(str[4]);
-	putchar(str[5]);
-	putchar(str[6]);
-	putchar(str[7]);
-}*/
-/*
-void	test_memcpy()
-{
-	char str_dst[20] = "0123456789ABCD";
-	char str_src[20] = "SalutHello";
-
-	ft_memcpy(&str_dst, &str_src, 5);
-	printf("%s\n", str_src);
-	printf("%s\n", str_dst);
-
-	putchar(str_dst[0]);
-	putchar(str_dst[1]);
-	putchar(str_dst[2]);
-	putchar(str_dst[3]);
-	putchar(str_dst[4]);
-	putchar(str_dst[5]);
-	putchar(str_dst[6]);
-	putchar(str_dst[7]);
-	putchar(str_dst[8]);
-	putchar(str_dst[9]);
-	putchar(str_dst[10]);
-	putchar(str_dst[11]);
-	putchar(str_dst[12]);
-	putchar(str_dst[13]);
-}*/
-
-/*
-void	test_strdup()
-{
-
-	char str_src[11] = "Salut";
-	char *str_dst;
-	str_dst = ft_strdup(str_src);
-	str_dst[0] = 'H';
-	str_dst[1] = 'e';
-	str_dst[2] = 'l';
-	str_dst[3] = 'l';
-	str_dst[4] = 'o';
-	str_dst[5] = '\0';
-	str_dst[6] = 'A';
-	str_dst[7] = 'A';
-	str_dst[8] = 'A';
-	str_dst[9] = 'A';
-	str_dst[10] = 'A';
-	// i = ft_strlen(str_src);
-	// printf("%d\n", i);
-
-	printf("%s\n", str_dst);
-
-	putchar(str_dst[0]== 0 ? 'Z': str_dst[0]);
-	putchar(str_dst[1]== 0 ? 'Z': str_dst[1]);
-	putchar(str_dst[2]== 0 ? 'Z': str_dst[2]);
-	putchar(str_dst[3]== 0 ? 'Z': str_dst[3]);
-	putchar(str_dst[4]== 0 ? 'Z': str_dst[4]);
-	putchar(str_dst[5]== 0 ? 'Z': str_dst[5]);
-	putchar(str_dst[6]== 0 ? 'Z': str_dst[6]);
-	putchar(str_dst[7]== 0 ? 'Z': str_dst[7]);
-	putchar(str_dst[8]== 0 ? 'Z': str_dst[8]);
-	putchar(str_dst[9]== 0 ? 'Z': str_dst[9]);
-	putchar(str_dst[10]== 0 ? 'Z': str_dst[10]);
-
-	free(str_dst);
-}*/
-
-/*
 #include <fcntl.h>
-void	test_cat()
+t_bool	test_cat(t_bool debug)
 {
+	t_bool ret = TRUE;
+	t_bool test = TRUE;
+	pid_t child;
+	int status;
 	int fd;
+	char *files[] = {
+		"./src/ft_bzero.s",
+		"./src/ft_strcmp.s"
+	};
 
-	fd = open("./ft_bzero.s", O_RDONLY);
-	ft_cat(fd);
-	// fd = open("./ft_cat.s", O_RDONLY);
+	for (int pos = 0; pos < (sizeof(files) / (sizeof(char*))); pos++)
+	{
+		test = TRUE;
+
+		if (debug)
+			printf("Test");
+	}
+	char cmd[] = "cat";
+	char *args[] = {"cat", files[0], NULL};
+
+	if ((child = fork()) < 0)
+		exit(0);
+	else if (child == 0)
+	{
+		execvp(cmd, args);
+		exit(0);
+	}
+	else
+		while (status != child) ;
+
+
+	puts("Test");
+	// fd = open(files[0], O_RDONLY);
 	// ft_cat(fd);
-}*/
-/*
-void	test_strcmp()
-{
-	char s1[10] = "SalutA";
-	char s2[10] = "SalutC";
-	int diff;
 
-	diff = ft_strcmp(s1, s2);
-	printf("Diff: %d\n", diff);
-	diff = strcmp(s1, s2);
-	printf("Diff: %d\n", diff);
+
+/*
+	#undef BUFF_SIZE
+	#define BUFF_SIZE 50
+	t_bool ret = TRUE;
+	t_bool test = TRUE;
+	char buff1[BUFF_SIZE + 1] = {0};
+	char buff2[BUFF_SIZE + 1] = {0};
+	int out_pipe[2];
+	int saved_stdout;
+	int fd;
+	char *files[] = {
+		"./src/ft_bzero.s"
+	};
+
+	char cmd[] = "cat";
+
+	for (int pos = 0; pos < (sizeof(files) / sizeof(char*)); pos++)
+	{
+		// int pos = 0;
+		// printf("->%s\n", files[0]);
+
+		char *args[] = {"cat", files[pos], NULL};
+
+		//TEST 1
+		bzero(buff1, BUFF_SIZE);
+		saved_stdout = dup(STDOUT_FILENO);
+		if(pipe(out_pipe) != 0) {
+			exit(1);
+		}
+		dup2(out_pipe[1], STDOUT_FILENO);
+		close(out_pipe[1]);
+			// execvp(cmd, args); //CAT CMD//
+		fflush(stdout);
+		read(out_pipe[0], buff1, BUFF_SIZE);
+
+		//TEST 2
+		bzero(buff2, BUFF_SIZE);
+		if(pipe(out_pipe) != 0) {
+			exit(1);
+		}
+		dup2(out_pipe[1], STDOUT_FILENO);
+		close(out_pipe[1]);
+			fd = open(files[pos], O_RDONLY);
+				ft_cat(fd); //FT_CAT CMD//
+			close(fd);
+		fflush(stdout);
+		read(out_pipe[0], buff2, BUFF_SIZE);
+
+		//AFF
+		dup2(saved_stdout, STDOUT_FILENO);
+
+		test = TRUE;
+		if (strcmp(buff1, buff2) != 0)
+		{
+			ret = FALSE;
+			test = FALSE;
+		}
+		if (1)
+		{
+			printf("->%s\n", files[pos]);
+			// puts(files[pos]);
+			// ft_puts(strings[pos]);
+			printf("[%s]\n", test ? OK : KO);
+		}
+	}*/
+	return (ret);
 }
-*/
-/*
-void	test_putchar()
-{
-	ft_putchar('A');
-	ft_putchar('a');
-	ft_putchar('Z');
-	ft_putchar('z');
-	ft_putchar('0');
-	ft_putchar(' ');
-	ft_putchar(0);
-	ft_putchar('4');
-	ft_putchar('\n');
-
-	putchar('A');
-	putchar('a');
-	putchar('Z');
-	putchar('z');
-	putchar('0');
-	putchar(' ');
-	putchar(0);
-	putchar('4');
-	putchar('\n');
-}
-*/
-/*
-void	test_putchar_fd()
-{
-	ft_putchar_fd('A', 2);
-	ft_putchar_fd('a', 2);
-	ft_putchar_fd('Z', 2);
-	ft_putchar_fd('z', 1);
-	ft_putchar_fd('0', 1);
-	ft_putchar_fd(' ', 1);
-	ft_putchar_fd(0, 1);
-	ft_putchar_fd('4', 1);
-	ft_putchar_fd('\n', 1);
-}
-*/
-/*
-void	test_memcmp()
-{
-	char s1[10] = "SalutA";
-	char s2[10] = "SalutB";
-	int diff;
-
-	diff = ft_memcmp(s1, s2, 5);
-	printf("Diff: %d\n", diff);
-	diff = memcmp(s1, s2, 5);
-	printf("Diff: %d\n", diff);
-}*/
-/*
-void	test_strequ()
-{
-	char s1[10] = "SalutA";
-	char s2[10] = "SalutA";
-	int diff;
-
-	diff = ft_strequ(s1, s2);
-	printf("Diff: %d\n", diff);
-}*/
-/*
-void	test_strcpy()
-{
-	char str_dst[20] = "0123456789ABCD";
-	char str_src[20] = "SalutHello";
-
-	ft_strcpy(str_dst, str_src);
-	printf("%s\n", str_src);
-	printf("%s\n", str_dst);
-
-	putchar(str_dst[0]);
-	putchar(str_dst[1]);
-	putchar(str_dst[2]);
-	putchar(str_dst[3]);
-	putchar(str_dst[4]);
-	putchar(str_dst[5]);
-	putchar(str_dst[6]);
-	putchar(str_dst[7]);
-	putchar(str_dst[8]);
-	putchar(str_dst[9]);
-	putchar(str_dst[10]);
-	putchar(str_dst[11]);
-	putchar(str_dst[12]);
-	putchar(str_dst[13]);
-}
-*/
