@@ -54,23 +54,12 @@ t_bool	test_strequ(t_bool debug);
 t_bool	test_strcpy(t_bool debug);
 t_bool	test_memset(t_bool debug);
 t_bool	test_memcpy(t_bool debug);
-t_bool	test_cat(t_bool debug);
 t_bool	test_memcmp(t_bool debug);
 t_bool	test_putchar(t_bool debug);
 t_bool	test_putchar_fd(t_bool debug);
+t_bool	test_cat(t_bool debug);
+t_bool	test_cat_fd_0(t_bool debug);
 
-
-/*
-void	test_assert(int x)
-{
-		assert(x);
-}
-
-void	test_assert_string(char *s1, char *s2)
-{
-	assert(strcmp(s1, s2) == 0);
-}
-*/
 
 /* Print memory*/
 void	print_mem_ascii(unsigned char *buffer)
@@ -152,7 +141,8 @@ int main(void)
 	print_res_test("ft_memcmp", test_memcmp);
 	print_res_test("ft_putchar", test_putchar);
 	print_res_test("ft_putchar_fd", test_putchar_fd);
-	// print_res_test("ft_cat", test_cat);
+	print_res_test("ft_cat", test_cat);
+	print_res_test("ft_cat fd 0", test_cat_fd_0);
 
 	return (0);
 }
@@ -1182,63 +1172,28 @@ t_bool	test_putchar_fd(t_bool debug)
 #include <fcntl.h>
 t_bool	test_cat(t_bool debug)
 {
-	t_bool ret = TRUE;
-	t_bool test = TRUE;
-	pid_t child;
-	int status;
-	int fd;
-	char *files[] = {
-		"./src/ft_bzero.s",
-		"./src/ft_strcmp.s"
-	};
-
-	for (int pos = 0; pos < (sizeof(files) / (sizeof(char*))); pos++)
-	{
-		test = TRUE;
-
-		if (debug)
-			printf("Test");
-	}
-	char cmd[] = "cat";
-	char *args[] = {"cat", files[0], NULL};
-
-	if ((child = fork()) < 0)
-		exit(0);
-	else if (child == 0)
-	{
-		execvp(cmd, args);
-		exit(0);
-	}
-	else
-		while (status != child) ;
-
-
-	puts("Test");
-	// fd = open(files[0], O_RDONLY);
-	// ft_cat(fd);
-
-
-/*
 	#undef BUFF_SIZE
-	#define BUFF_SIZE 50
-	t_bool ret = TRUE;
-	t_bool test = TRUE;
-	char buff1[BUFF_SIZE + 1] = {0};
-	char buff2[BUFF_SIZE + 1] = {0};
-	int out_pipe[2];
-	int saved_stdout;
-	int fd;
-	char *files[] = {
-		"./src/ft_bzero.s"
+	#define BUFF_SIZE 10000
+	t_bool	ret = TRUE;
+	t_bool	test = TRUE;
+	char	buff1[BUFF_SIZE + 1] = {0};
+	char	buff2[BUFF_SIZE + 1] = {0};
+	int		out_pipe[2];
+	int		saved_stdout;
+	pid_t	father;
+	int		fd;
+	char	*files[] = {
+		"./src/ft_bzero.s",
+		"./src/ft_strcmp.s",
+		"./src/ft_memset.s",
+		"./Makefile",
+		"./auteur"
 	};
 
 	char cmd[] = "cat";
 
 	for (int pos = 0; pos < (sizeof(files) / sizeof(char*)); pos++)
 	{
-		// int pos = 0;
-		// printf("->%s\n", files[0]);
-
 		char *args[] = {"cat", files[pos], NULL};
 
 		//TEST 1
@@ -1249,7 +1204,18 @@ t_bool	test_cat(t_bool debug)
 		}
 		dup2(out_pipe[1], STDOUT_FILENO);
 		close(out_pipe[1]);
-			// execvp(cmd, args); //CAT CMD//
+
+		//CAT CMD//
+		father = fork();
+		if (father > 0)
+			wait(0);
+		else if (father == 0)
+		{
+			if (execvp(cmd, args) == -1)
+				puts("Exec format error.\n");
+			exit(0);
+		}
+
 		fflush(stdout);
 		read(out_pipe[0], buff1, BUFF_SIZE);
 
@@ -1260,9 +1226,11 @@ t_bool	test_cat(t_bool debug)
 		}
 		dup2(out_pipe[1], STDOUT_FILENO);
 		close(out_pipe[1]);
+			//FT_CAT CMD//
 			fd = open(files[pos], O_RDONLY);
 				ft_cat(fd); //FT_CAT CMD//
 			close(fd);
+
 		fflush(stdout);
 		read(out_pipe[0], buff2, BUFF_SIZE);
 
@@ -1270,18 +1238,62 @@ t_bool	test_cat(t_bool debug)
 		dup2(saved_stdout, STDOUT_FILENO);
 
 		test = TRUE;
-		if (strcmp(buff1, buff2) != 0)
+		if (memcmp(buff1, buff2, BUFF_SIZE) != 0)
 		{
 			ret = FALSE;
 			test = FALSE;
 		}
-		if (1)
+		if (debug)
 		{
 			printf("->%s\n", files[pos]);
-			// puts(files[pos]);
-			// ft_puts(strings[pos]);
 			printf("[%s]\n", test ? OK : KO);
+
+			printf("\x1B[1;37mCat:\033[0m\n");
+			//CAT CMD//
+			father = fork();
+			if (father > 0)
+				wait(0);
+			else if (father == 0)
+			{
+				if (execvp(cmd, args) == -1)
+					puts("Exec format error.\n");
+				exit(0);
+			}
+			//FT_CAT CMD//
+			printf("\n\x1B[1;37mft_cat:\033[0m\n");
+			fd = open(files[pos], O_RDONLY);
+				ft_cat(fd); //FT_CAT CMD//
+			close(fd);
 		}
-	}*/
+	}
+	return (ret);
+}
+
+t_bool	test_cat_fd_0(t_bool debug)
+{
+	t_bool	ret = TRUE;
+	t_bool	test = TRUE;
+	pid_t	father;
+
+	//TEST FD 0//
+	//CAT CMD//
+	printf("\n\x1B[1;37mcat:\033[0m\n");
+
+	char cmd[] = "cat";
+	char *args[] = {"cat", NULL};
+
+	father = fork();
+	if (father > 0)
+		wait(0);
+	else if (father == 0)
+	{
+		if (execvp(cmd, args) == -1)
+			puts("Exec format error.\n");
+		exit(0);
+	}
+
+	//FT_CAT CMD//
+	printf("\n\x1B[1;37mft_cat:\033[0m\n");
+	ft_cat(0); //FT_CAT CMD//
 	return (ret);
 }
