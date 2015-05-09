@@ -37,7 +37,7 @@ typedef unsigned char t_bool;
 
 /* Functions test */
 
-void	test_bzero();
+// void	test_bzero();
 // void	test_isalpha();
 // void	test_isdigit();
 // void	test_isalnum();
@@ -56,10 +56,10 @@ void	test_bzero();
 // void	test_putchar();
 // void	test_putchar_fd();
 // void	test_memcmp();
-void	test_strequ();
-void	test_strcpy();
+// void	test_strequ();
+// void	test_strcpy();
 
-
+t_bool	test_bzero(t_bool debug);
 t_bool	test_isalpha(t_bool debug);
 t_bool	test_isdigit(t_bool debug);
 t_bool	test_isalnum(t_bool debug);
@@ -76,7 +76,8 @@ t_bool	test_strdup(t_bool debug);
 t_bool	test_cat(t_bool debug);
 t_bool	test_strcmp(t_bool debug);
 t_bool	test_memcmp(t_bool debug);
-
+t_bool	test_strequ(t_bool debug);
+t_bool	test_strcpy(t_bool debug);
 t_bool	test_putchar(t_bool debug);
 t_bool	test_putchar_fd(t_bool debug);
 
@@ -154,6 +155,7 @@ int main(void)
 	// bzero(str, 10);
 	// print_mem("s1", str, TRUE, sizeof str);
 	//test_assert_string("Hello", "Hello");
+	print_res_test("ft_bzero", test_bzero);
 	print_res_test("ft_isalpha", test_isalpha);
 	print_res_test("ft_isdigit", test_isdigit);
 	print_res_test("ft_isalnum", test_isalnum);
@@ -170,6 +172,8 @@ int main(void)
 	// print_res_test("ft_cat", test_cat);
 	print_res_test("ft_strcmp", test_strcmp);
 	print_res_test("ft_memcmp", test_memcmp);
+	print_res_test("ft_strequ", test_strequ);
+	print_res_test("ft_strcpy", test_strcpy);
 
 	print_res_test("ft_putchar", test_putchar);
 	print_res_test("ft_putchar_fd", test_putchar_fd);
@@ -197,6 +201,58 @@ int main(void)
 	//test_strcpy();
 
 	return (0);
+}
+
+t_bool	test_bzero(t_bool debug)
+{
+	#undef SIZE
+	#define SIZE 100
+	t_bool ret = TRUE;
+	t_bool test1 = TRUE;
+	t_bool test2 = TRUE;
+	char src1[][SIZE] = {
+		"test",
+		"ok",
+		"iciAB",
+		"",
+		"x\0",
+		"\x02",
+		"\t",
+		"OKokOKokOKOK"
+		};
+	char src2[][SIZE] = {
+		"test",
+		"ok",
+		"iciAB",
+		"",
+		"x\0",
+		"\x02",
+		"\t",
+		"OKokOKokOKOK"
+		};
+	int size_arr[] = {0, 2, 4, 4, 5, 5, 100, 3};
+
+	for (int pos = 0; pos < (sizeof(src1) / SIZE); pos++)
+	{
+		test1 = TRUE;
+		test2 = TRUE;
+		bzero(src1[pos], size_arr[pos]);
+		ft_bzero(src2[pos], size_arr[pos]);
+
+		if (memcmp(src1[pos], src2[pos], SIZE) != 0)
+		{
+			ret = FALSE;
+			test2 = FALSE;
+		}
+		if (debug)
+		{
+			printf("%s | %s | [%s]\n",src1[pos], src2[pos], test2 ? OK : KO);
+			print_mem("bzero: src1", src1[pos], TRUE, SIZE);
+			print_mem("ft_bzero: src2", src2[pos], TRUE, SIZE);
+			printf("\n");
+		}
+	}
+	return (ret);
 }
 
 t_bool	test_isalpha(t_bool debug)
@@ -678,7 +734,7 @@ t_bool	test_memcpy(t_bool debug)
 		"\n",
 		"||||||\x00|||||||\\ _=+212312340"
 		};
-	char s_cat[][SIZE] = {
+	char s_cpy[][SIZE] = {
 		"O",
 		"B",
 		"A",
@@ -698,8 +754,8 @@ t_bool	test_memcpy(t_bool debug)
 	{
 		test1 = TRUE;
 		test2 = TRUE;
-		dst1 = memcpy(src1[pos], s_cat[pos], size_arr[pos]);
-		dst2 = ft_memcpy(src2[pos], s_cat[pos], size_arr[pos]);
+		dst1 = memcpy(src1[pos], s_cpy[pos], size_arr[pos]);
+		dst2 = ft_memcpy(src2[pos], s_cpy[pos], size_arr[pos]);
 
 		if (memcmp(dst1, dst2, SIZE) != 0)
 		{
@@ -1039,6 +1095,168 @@ t_bool	test_memcmp(t_bool debug)
 	return (ret);
 }
 
+t_bool	test_strequ(t_bool debug)
+{
+	#undef SIZE
+	#define SIZE 100
+	t_bool ret = TRUE;
+	t_bool test = TRUE;
+	char src1[][SIZE] = {
+		"testOkA asd  ddsd 	sww	sadsd",
+		"ok",
+		"ici",
+		"",
+		"x\0 42",
+		"\x02",
+		"\t",
+		"0123456789abcdefgh",
+		"\n",
+		"||||||\x00|||||||\\ _=+212312340",
+		"testOkA asd  ddsd 	sww	sadsd", //DIFF
+		"ok",
+		"ici",
+		"",
+		"x\0",
+		"\x02",
+		"\t",
+		"0123456789abcdefgh",
+		"\n",
+		"||||||\x00|||||||\\ _=+212312340",
+		"A\x00\t"
+		};
+	char src2[][SIZE] = {
+		"testOkA asd  ddsd 	sww	sadsd",
+		"ok",
+		"ici",
+		"",
+		"x\0 42",
+		"\x02",
+		"\t",
+		"0123456789abcdefgh",
+		"\n",
+		"||||||\x00|||||||\\ _=+212312340",
+		"testOkA asd  ddsd 	sww	sadsd ", //DIFF
+		"Aok",
+		"i1ci",
+		"\0",
+		"x",
+		"\x02\t",
+		"\t\n",
+		"6789abcdefgh",
+		"",
+		"||||||\x00|||||||\\ _=+212312340            ",
+		"A\x00\x01"
+		};
+
+	for (int pos = 0; pos < (sizeof(src1) / SIZE); pos++)
+	{
+		test = TRUE;
+		if ((strcmp(src1[pos], src2[pos]) == 0) != ft_strequ(src1[pos], src2[pos]))
+		{
+			ret = FALSE;
+			test = FALSE;
+		}
+		if (debug)
+		{
+			printf("%s | %s | %d | %d | [%s]\n",src1[pos], src2[pos], (strcmp(src1[pos], src2[pos]) == 0), ft_strequ(src1[pos], src2[pos]), test ? OK : KO);
+			printf("\n");
+			print_mem("src1", src1[pos], TRUE, SIZE);
+			print_mem("src2", src2[pos], TRUE, SIZE);
+			printf("\n");
+		}
+	}
+	return (ret);
+}
+
+t_bool	test_strcpy(t_bool debug)
+{
+	#undef SIZE
+	#define SIZE 100
+	t_bool ret = TRUE;
+	t_bool test1 = TRUE;
+	t_bool test2 = TRUE;
+	char src1[][SIZE] = {
+		"testOkA asd  ddsd 	sww	sadsd",
+		"ok",
+		"ici",
+		"",
+		"x\0",
+		"\x02",
+		"\t",
+		"0123456789abcdefgh",
+		"\n",
+		"||||||\x00|||||||\\ _=+212312340",
+		"HelloHelloHelloHelloHello",
+		"Hello",
+		"OOOOOOOOOOOOOOOOOOOOOOOOOOOO"
+		};
+	char src2[][SIZE] = {
+		"testOkA asd  ddsd 	sww	sadsd",
+		"ok",
+		"ici",
+		"",
+		"x\0",
+		"\x02",
+		"\t",
+		"0123456789abcdefgh",
+		"\n",
+		"||||||\x00|||||||\\ _=+212312340",
+		"HelloHelloHelloHelloHello",
+		"Hello",
+		"OOOOOOOOOOOOOOOOOOOOOOOOOOOO"
+		};
+	char s_cpy[][SIZE] = {
+		"O\x20",
+		"B",
+		"A",
+		"AAsssdsdAsdasd",
+		"\0",
+		"\x02",
+		"\t",
+		"POPoPOpO",
+		"\00\00ASF",
+		"12345",
+		"Monsieur",
+		"MonsieurMonsieurMonsieurMonsieurMonsieur",
+		"H"
+	};
+	char *dst1;
+	char *dst2;
+
+	for (int pos = 0; pos < (sizeof(src1) / SIZE); pos++)
+	{
+		test1 = TRUE;
+		test2 = TRUE;
+		dst1 = strcpy(src1[pos], s_cpy[pos]);
+		dst2 = ft_strcpy(src2[pos], s_cpy[pos]);
+
+		if (memcmp(dst1, dst2, strlen(dst1)) != 0)
+		{
+			ret = FALSE;
+			test1 = FALSE;
+		}
+		if (memcmp(src1[pos], src2[pos], strlen(dst1)) != 0)
+		{
+			ret = FALSE;
+			test2 = FALSE;
+		}
+		if (debug)
+		{
+			printf("=====BY TEST=====\n");
+			printf("%s | %s | [%s]\n",dst1, dst2, test1 ? OK : KO);
+			print_mem("strcpy: dst1", dst1, TRUE, SIZE);
+			print_mem("ft_strcpy: dst2", dst2, TRUE, SIZE);
+			printf("\n");
+
+			printf("%s | %s | [%s]\n",src1[pos], src2[pos], test2 ? OK : KO);
+			print_mem("strcpy: src1", src1[pos], TRUE, SIZE);
+			print_mem("ft_strcpy: src2", src2[pos], TRUE, SIZE);
+			printf("\n");
+		}
+	}
+	return (ret);
+}
+
 t_bool	test_putchar(t_bool debug)
 {
 	#undef BUFF_SIZE
@@ -1158,7 +1376,7 @@ t_bool	test_putchar_fd(t_bool debug)
 	return (ret);
 }
 
-
+/*
 void test_bzero()
 {
 	char str[10] = "Salut";
@@ -1172,7 +1390,7 @@ void test_bzero()
 	putchar(str[6]== 0 ? 'Z': str[6]);
 	putchar(str[7]== 0 ? 'Z': str[7]);
 }
-
+*/
 /*
 void test_isalpha()
 {
@@ -1628,7 +1846,7 @@ void	test_memcmp()
 	diff = memcmp(s1, s2, 5);
 	printf("Diff: %d\n", diff);
 }*/
-
+/*
 void	test_strequ()
 {
 	char s1[10] = "SalutA";
@@ -1637,8 +1855,8 @@ void	test_strequ()
 
 	diff = ft_strequ(s1, s2);
 	printf("Diff: %d\n", diff);
-}
-
+}*/
+/*
 void	test_strcpy()
 {
 	char str_dst[20] = "0123456789ABCD";
@@ -1663,3 +1881,4 @@ void	test_strcpy()
 	putchar(str_dst[12]);
 	putchar(str_dst[13]);
 }
+*/
