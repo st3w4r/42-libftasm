@@ -55,6 +55,7 @@ t_bool	test_strcpy(t_bool debug);
 t_bool	test_memset(t_bool debug);
 t_bool	test_memcpy(t_bool debug);
 t_bool	test_memcmp(t_bool debug);
+t_bool	test_memdel(t_bool debug);
 t_bool	test_putchar(t_bool debug);
 t_bool	test_putchar_fd(t_bool debug);
 t_bool	test_cat(t_bool debug);
@@ -139,6 +140,7 @@ int main(void)
 	print_res_test("ft_memset", test_memset);
 	print_res_test("ft_memcpy", test_memcpy);
 	print_res_test("ft_memcmp", test_memcmp);
+	print_res_test("ft_memdel", test_memdel);
 	print_res_test("ft_putchar", test_putchar);
 	print_res_test("ft_putchar_fd", test_putchar_fd);
 	print_res_test("ft_cat", test_cat);
@@ -1046,6 +1048,58 @@ t_bool	test_memcmp(t_bool debug)
 			printf("\n");
 		}
 	}
+	return (ret);
+}
+
+void	memdel(void **ap)
+{
+	if (ap && *ap)
+	{
+		free(*ap);
+		*ap = NULL;
+	}
+}
+
+void	strdel(char **as)
+{
+	memdel((void**)as);
+}
+
+
+t_bool	test_memdel(t_bool debug)
+{
+	#undef SIZE
+	#define SIZE 100
+	t_bool ret = TRUE;
+	t_bool test = TRUE;
+	char *str;
+	char src1[][SIZE] = {
+		"testOkA asd  ddsd 	sww	sadsd",
+		"ok",
+		"test",
+		"",
+		0
+	};
+
+	for (int pos = 0; pos < (sizeof(src1) / SIZE); pos++)
+	{
+		str = strdup(src1[pos]);
+		ft_memdel((void*)&str);
+
+		test = TRUE;
+		if (str != NULL)
+		{
+			ret = FALSE;
+			test = FALSE;
+		}
+		if (debug)
+		{
+			printf("%s | %s | [%s]\n", src1[pos], str, test ? OK : KO);
+			print_mem("Str Free", &str, FALSE, SIZE);
+			printf("\n");
+		}
+	}
+
 	return (ret);
 }
 
