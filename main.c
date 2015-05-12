@@ -142,8 +142,7 @@ int main(void)
 	print_res_test("ft_putchar", test_putchar);
 	print_res_test("ft_putchar_fd", test_putchar_fd);
 	print_res_test("ft_cat", test_cat);
-	print_res_test("ft_cat fd 0", test_cat_fd_0);
-
+	// print_res_test("ft_cat fd 0", test_cat_fd_0);
 	return (0);
 }
 
