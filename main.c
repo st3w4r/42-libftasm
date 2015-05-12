@@ -56,6 +56,7 @@ t_bool	test_memset(t_bool debug);
 t_bool	test_memcpy(t_bool debug);
 t_bool	test_memcmp(t_bool debug);
 t_bool	test_memdel(t_bool debug);
+t_bool	test_memalloc(t_bool debug);
 t_bool	test_putchar(t_bool debug);
 t_bool	test_putchar_fd(t_bool debug);
 t_bool	test_cat(t_bool debug);
@@ -141,6 +142,7 @@ int main(void)
 	print_res_test("ft_memcpy", test_memcpy);
 	print_res_test("ft_memcmp", test_memcmp);
 	print_res_test("ft_memdel", test_memdel);
+	print_res_test("ft_memalloc", test_memalloc);
 	print_res_test("ft_putchar", test_putchar);
 	print_res_test("ft_putchar_fd", test_putchar_fd);
 	print_res_test("ft_cat", test_cat);
@@ -1100,6 +1102,83 @@ t_bool	test_memdel(t_bool debug)
 		}
 	}
 
+	return (ret);
+}
+
+void	*memalloc(size_t size)
+{
+	void *mem;
+
+	if ((mem = (void*)malloc(size)) && size)
+	{
+		bzero(mem, size);
+		return (mem);
+	}
+	return (NULL);
+}
+
+t_bool	test_memalloc(t_bool debug)
+{
+	#undef SIZE
+	#define SIZE 100
+	#undef SIZE_MEM
+	#define SIZE_MEM 24
+	t_bool ret = TRUE;
+	t_bool test = TRUE;
+	char *str1;
+	char *str2;
+	char *buff;
+	char src1[][SIZE] = {
+		"testOkA asd  ddsd 	sww	sadsd",
+		"ok",
+		"ici",
+		"",
+		"x\0 42",
+		"\x02",
+		"\t",
+		"0123456789abcdefgh",
+		"\n",
+		"||||||\x00|||||||\\ _=+212312340",
+		"testOkA asd  ddsd 	sww	sadsd ", //DIFF
+		"Aok",
+		"i1ci",
+		"\0",
+		"x",
+		"\x02\t",
+		"\t\n",
+		"6789abcdefgh",
+		"",
+		"||||||\x00|||||||\\ _=+212312340            ",
+		};
+
+	for (int pos = 0; pos < (sizeof(src1) / SIZE); pos++)
+	{
+		buff = malloc(SIZE);
+		memset(buff, 'B', SIZE);
+		free(buff);
+		str1 = ft_memalloc(SIZE_MEM);
+		free(str1);
+
+		buff = malloc(SIZE);
+		memset(buff, 'B', SIZE);
+		free(buff);
+		str2 = memalloc(SIZE_MEM);
+		free(str2);
+
+		test = TRUE;
+		if (memcmp(str1, str2, SIZE_MEM) != 0)
+		{
+			ret = FALSE;
+			test = FALSE;
+		}
+		if (debug)
+		{
+			printf("%s | %s | [%s]\n",str1, str2, test ? OK : KO);
+			print_mem("memalloc: str1", str1, TRUE, SIZE);
+			print_mem("ft_memalloc: str2", str2, TRUE, SIZE);
+			printf("\n");
+		}
+	}
 	return (ret);
 }
 

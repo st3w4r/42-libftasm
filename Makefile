@@ -50,7 +50,8 @@ SRC =	ft_bzero.s \
 		ft_memcmp.s \
 		ft_strequ.s \
 		ft_strcpy.s \
-		ft_memdel.s
+		ft_memdel.s \
+		ft_memalloc.s
 
 OBJ = $(addprefix $(PATH_SRC), $(SRC:.s=.o))
 
