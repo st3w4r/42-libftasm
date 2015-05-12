@@ -20,12 +20,12 @@ PATH_SRC = ./src/
 
 
 AS = nasm
-ASFLAGS = -f macho64 -g
+ASFLAGS = -f macho64
 CC = cc
 # CFLAGS = -f macho64
 # CFLAGS = -Ofast -I $(PATH_INC) -g
 
-LIBS = -L ./ -lfts -g
+LIBS = -L ./ -lfts
 
 #____________FILES____________#
 
@@ -49,7 +49,8 @@ SRC =	ft_bzero.s \
 		ft_putchar_fd.s \
 		ft_memcmp.s \
 		ft_strequ.s \
-		ft_strcpy.s
+		ft_strcpy.s \
+		ft_memdel.s
 
 OBJ = $(addprefix $(PATH_SRC), $(SRC:.s=.o))
 

@@ -25,6 +25,7 @@ void		ft_puts(char *s);
 void		*ft_memset(void *b, int c, size_t len);
 void		*ft_memcpy(void *dst, const void *src, size_t n);
 int			ft_memcmp(const void *s1, const void *s2, size_t n);
+void		ft_memdel(void **ap);
 void		ft_cat(int fd);
 size_t		ft_strlen(char *s);
 char		*ft_strdup(const char *src);
