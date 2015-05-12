@@ -52,6 +52,7 @@ t_bool	test_strdup(t_bool debug);
 t_bool	test_strcmp(t_bool debug);
 t_bool	test_strequ(t_bool debug);
 t_bool	test_strcpy(t_bool debug);
+t_bool	test_strnew(t_bool debug);
 t_bool	test_memset(t_bool debug);
 t_bool	test_memcpy(t_bool debug);
 t_bool	test_memcmp(t_bool debug);
@@ -138,6 +139,7 @@ int main(void)
 	print_res_test("ft_strcmp", test_strcmp);
 	print_res_test("ft_strequ", test_strequ);
 	print_res_test("ft_strcpy", test_strcpy);
+	print_res_test("ft_strnew", test_strnew);
 	print_res_test("ft_memset", test_memset);
 	print_res_test("ft_memcpy", test_memcpy);
 	print_res_test("ft_memcmp", test_memcmp);
@@ -814,6 +816,67 @@ t_bool	test_strcpy(t_bool debug)
 			print_mem("ft_strcpy: src2", src2[pos], TRUE, SIZE);
 			printf("\n");
 		}
+	}
+	return (ret);
+}
+
+t_bool	test_strnew(t_bool debug)
+{
+	#undef SIZE
+	#define SIZE 100
+	#undef SIZE_MEM
+	#define SIZE_MEM 50
+	t_bool ret = TRUE;
+	t_bool test = TRUE;
+	char *str1;
+	char *str2;
+	char src1[][SIZE_MEM] = {
+		"testOkA asd  ddsd 	sww	sadsd",
+		"ok",
+		"ici",
+		"",
+		"x\0 42",
+		"\x02",
+		"\t",
+		"0123456789abcdefgh",
+		"\n",
+		"||||||\x00|||||||\\ _=+212312340",
+		"testOkA asd  ddsd 	sww	sadsd ",
+		"Aok",
+		"i1ci",
+		"\0",
+		"x",
+		"\x02\t",
+		"\t\n",
+		"6789abcdefgh",
+		"",
+		"||||||\x00|||||||\\ _=+212312340            ",
+		};
+
+	for (int pos = 0; pos < (sizeof(src1) / SIZE_MEM); pos++)
+	{
+		str1 = ft_strnew(SIZE_MEM);
+		ft_strcat(str1, src1[pos]);
+
+		str2 = malloc(SIZE_MEM + 1);
+		str2 = memset(str2, 0, SIZE_MEM + 1);
+		ft_strcat(str2, src1[pos]);
+
+		test = TRUE;
+		if (memcmp(str1, str2, SIZE_MEM + 1) != 0)
+		{
+			ret = FALSE;
+			test = FALSE;
+		}
+		if (debug)
+		{
+			printf("%s | %s | [%s]\n",str1, str2, test ? OK : KO);
+			print_mem("ft_strnew: str1", str1, TRUE, SIZE);
+			print_mem("ft_strnew: str2", str2, TRUE, SIZE);
+			printf("\n");
+		}
+		free(str1);
+		free(str2);
 	}
 	return (ret);
 }

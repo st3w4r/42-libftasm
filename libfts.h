@@ -36,5 +36,6 @@ int			ft_strequ(char const *s1, char const *s2);
 int	    	ft_putchar(char c);
 int	    	ft_putchar_fd(char c, int fd);
 char		*ft_strcpy(char *dst, const char *src);
+char		*ft_strnew(size_t size);
 
 #endif
