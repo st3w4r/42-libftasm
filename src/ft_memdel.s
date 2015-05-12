@@ -30,8 +30,7 @@ memory_free:
 	mov rdi, [rax]
 	call _free
 	mov rax, [rbp - 8]
-	xor rdx, rdx
-	mov [rax], rdx
+	mov qword[rax], 0
 
 done:
 	add rsp, 16

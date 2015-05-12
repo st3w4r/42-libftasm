@@ -1053,21 +1053,6 @@ t_bool	test_memcmp(t_bool debug)
 	return (ret);
 }
 
-void	memdel(void **ap)
-{
-	if (ap && *ap)
-	{
-		free(*ap);
-		*ap = NULL;
-	}
-}
-
-void	strdel(char **as)
-{
-	memdel((void**)as);
-}
-
-
 t_bool	test_memdel(t_bool debug)
 {
 	#undef SIZE

@@ -25,6 +25,8 @@ _ft_memalloc:
 
 	mov [rbp - 0x8], rdi
 	call _malloc
+	test rax, rax
+	jz ret_null
 
 	mov rdi, rax
 	mov rsi, [rbp - 0x8]
@@ -34,8 +36,7 @@ _ft_memalloc:
 	jmp done
 
 ret_null:
-	xor rdx, rdx
-	mov rax, rdx
+	xor rax, rax
 
 done:
 	mov rsp, rbp
