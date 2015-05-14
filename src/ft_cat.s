@@ -52,7 +52,6 @@ cat:
 	syscall
 	jc error
 
-
 	pop rax
 	pop rsi
 	pop rdx

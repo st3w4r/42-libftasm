@@ -21,7 +21,7 @@ PATH_SRC = ./src/
 
 AS = nasm
 ASFLAGS = -f macho64
-CC = cc
+CC = cc -Wall -Wextra -Werror
 # CFLAGS = -f macho64
 # CFLAGS = -Ofast -I $(PATH_INC) -g
 

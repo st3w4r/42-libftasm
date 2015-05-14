@@ -78,7 +78,6 @@ void	print_mem(char *desc, void *addr, t_bool ascii, int len)
 	unsigned char *p = addr;
 	unsigned char buffer[16];
 	int i = 0;
-	int pos = 0;
 
 	printf("%s", desc);
 	while (i < len)
@@ -92,10 +91,11 @@ void	print_mem(char *desc, void *addr, t_bool ascii, int len)
 		int l = i + 16;
 		int k = 0;
 		bzero(buffer, 16);
-		for (i = i; (i < l) && (i < len); i++)
+
+		for (int pos = i; (pos < l) && (pos < len); pos++)
 		{
-			printf("%02x", p[i]);
-			buffer[k] = p[i];
+			printf("%02x", p[pos]);
+			buffer[k] = p[pos];
 			k == 7 ? printf("  ") : printf(" ");
 			++k;
 		}
@@ -183,7 +183,7 @@ t_bool	test_bzero(t_bool debug)
 		};
 	int size_arr[] = {0, 2, 4, 4, 5, 5, 100, 3};
 
-	for (int pos = 0; pos < (sizeof(src1) / SIZE); pos++)
+	for (size_t pos = 0; pos < (sizeof(src1) / SIZE); pos++)
 	{
 		test1 = TRUE;
 		test2 = TRUE;
@@ -380,7 +380,7 @@ t_bool	test_puts(t_bool debug)
 	int saved_stdout;
 	int i;
 
-	for (int pos = 0; pos < (sizeof(strings) / sizeof(char*)); pos++)
+	for (size_t pos = 0; pos < (sizeof(strings) / sizeof(char*)); pos++)
 	{
 		/*TEST 1*/
 		bzero(buff1, BUFF_SIZE);
@@ -445,7 +445,7 @@ t_bool	test_strlen(t_bool debug)
 		"lolo\x01lol"
 		};
 
-	for (int pos = 0; pos < (sizeof(strings) / sizeof(char*)); pos++)
+	for (size_t pos = 0; pos < (sizeof(strings) / sizeof(char*)); pos++)
 	{
 		test = TRUE;
 		if (strlen(strings[pos]) != ft_strlen(strings[pos]))
@@ -496,7 +496,7 @@ t_bool	test_strcat(t_bool debug)
 	char *dst1;
 	char *dst2;
 
-	for (int pos = 0; pos < (sizeof(src1) / SIZE); pos++)
+	for (size_t pos = 0; pos < (sizeof(src1) / SIZE); pos++)
 	{
 		test1 = TRUE;
 		test2 = TRUE;
@@ -564,7 +564,7 @@ t_bool	test_strdup(t_bool debug)
 	char *dst1;
 	char *dst2;
 
-	for (int pos = 0; pos < (sizeof(src1) / SIZE); pos++)
+	for (size_t pos = 0; pos < (sizeof(src1) / SIZE); pos++)
 	{
 		test1 = TRUE;
 		test2 = TRUE;
@@ -647,7 +647,7 @@ t_bool	test_strcmp(t_bool debug)
 		"||||||\x00|||||||\\ _=+212312340            "
 		};
 
-	for (int pos = 0; pos < (sizeof(src1) / (sizeof(char*))); pos++)
+	for (size_t pos = 0; pos < (sizeof(src1) / (sizeof(char*))); pos++)
 	{
 		test = TRUE;
 		if (strcmp(src1[pos], src2[pos]) != ft_strcmp(src1[pos], src2[pos]))
@@ -714,7 +714,7 @@ t_bool	test_strequ(t_bool debug)
 		"A\x00\x01"
 		};
 
-	for (int pos = 0; pos < (sizeof(src1) / SIZE); pos++)
+	for (size_t pos = 0; pos < (sizeof(src1) / SIZE); pos++)
 	{
 		test = TRUE;
 		if ((strcmp(src1[pos], src2[pos]) == 0) != ft_strequ(src1[pos], src2[pos]))
@@ -789,7 +789,7 @@ t_bool	test_strcpy(t_bool debug)
 	char *dst1;
 	char *dst2;
 
-	for (int pos = 0; pos < (sizeof(src1) / SIZE); pos++)
+	for (size_t pos = 0; pos < (sizeof(src1) / SIZE); pos++)
 	{
 		test1 = TRUE;
 		test2 = TRUE;
@@ -856,7 +856,7 @@ t_bool	test_strnew(t_bool debug)
 		"||||||\x00|||||||\\ _=+212312340            ",
 		};
 
-	for (int pos = 0; pos < (sizeof(src1) / SIZE_MEM); pos++)
+	for (size_t pos = 0; pos < (sizeof(src1) / SIZE_MEM); pos++)
 	{
 		str1 = ft_strnew(SIZE_MEM);
 		ft_strcat(str1, src1[pos]);
@@ -931,7 +931,7 @@ t_bool	test_memset(t_bool debug)
 	char *dst1;
 	char *dst2;
 
-	for (int pos = 0; pos < (sizeof(src1) / SIZE); pos++)
+	for (size_t pos = 0; pos < (sizeof(src1) / SIZE); pos++)
 	{
 		test1 = TRUE;
 		test2 = TRUE;
@@ -1012,7 +1012,7 @@ t_bool	test_memcpy(t_bool debug)
 	char *dst1;
 	char *dst2;
 
-	for (int pos = 0; pos < (sizeof(src1) / SIZE); pos++)
+	for (size_t pos = 0; pos < (sizeof(src1) / SIZE); pos++)
 	{
 		test1 = TRUE;
 		test2 = TRUE;
@@ -1099,7 +1099,7 @@ t_bool	test_memcmp(t_bool debug)
 		"A\x00\x01"
 		};
 
-	for (int pos = 0; pos < (sizeof(src1) / SIZE); pos++)
+	for (size_t pos = 0; pos < (sizeof(src1) / SIZE); pos++)
 	{
 		test = TRUE;
 		if (memcmp(src1[pos], src2[pos], SIZE) != ft_memcmp(src1[pos], src2[pos], SIZE))
@@ -1131,10 +1131,10 @@ t_bool	test_memdel(t_bool debug)
 		"ok",
 		"test",
 		"",
-		0
+		{0}
 	};
 
-	for (int pos = 0; pos < (sizeof(src1) / SIZE); pos++)
+	for (size_t pos = 0; pos < (sizeof(src1) / SIZE); pos++)
 	{
 		str = strdup(src1[pos]);
 		ft_memdel((void*)&str);
@@ -1202,7 +1202,7 @@ t_bool	test_memalloc(t_bool debug)
 		"||||||\x00|||||||\\ _=+212312340            ",
 		};
 
-	for (int pos = 0; pos < (sizeof(src1) / SIZE); pos++)
+	for (size_t pos = 0; pos < (sizeof(src1) / SIZE); pos++)
 	{
 		buff = malloc(SIZE);
 		memset(buff, 'B', SIZE);
@@ -1247,7 +1247,7 @@ t_bool	test_putchar(t_bool debug)
 	int ret1;
 	int ret2;
 
-	for (int pos = 0; pos < (sizeof(strings) / sizeof(char)); pos++)
+	for (size_t pos = 0; pos < (sizeof(strings) / sizeof(char)); pos++)
 	{
 		/*TEST 1*/
 		bzero(buff1, BUFF_SIZE);
@@ -1305,7 +1305,7 @@ t_bool	test_putchar_fd(t_bool debug)
 	int ret1;
 	int ret2;
 
-	for (int pos = 0; pos < (sizeof(strings) / sizeof(char)); pos++)
+	for (size_t pos = 0; pos < (sizeof(strings) / sizeof(char)); pos++)
 	{
 		/*TEST 1*/
 		bzero(buff1, BUFF_SIZE);
@@ -1375,7 +1375,7 @@ t_bool	test_cat(t_bool debug)
 
 	char cmd[] = "cat";
 
-	for (int pos = 0; pos < (sizeof(files) / sizeof(char*)); pos++)
+	for (size_t pos = 0; pos < (sizeof(files) / sizeof(char*)); pos++)
 	{
 		char *args[] = {"cat", files[pos], NULL};
 
@@ -1455,8 +1455,9 @@ t_bool	test_cat(t_bool debug)
 t_bool	test_cat_fd_0(t_bool debug)
 {
 	t_bool	ret = TRUE;
-	t_bool	test = TRUE;
 	pid_t	father;
+
+	(void)debug;
 
 	//TEST FD 0//
 	//CAT CMD//
@@ -1476,6 +1477,7 @@ t_bool	test_cat_fd_0(t_bool debug)
 	}
 
 	//FT_CAT CMD//
+
 	printf("\n\x1B[1;37mft_cat:\033[0m\n");
 	ft_cat(0); //FT_CAT CMD//
 	return (ret);
@@ -1484,7 +1486,7 @@ t_bool	test_cat_fd_0(t_bool debug)
 t_bool	test_cat_fd_test(t_bool debug)
 {
 	t_bool	ret = TRUE;
-	t_bool	test = TRUE;
+	(void)debug;
 
 	printf("\n\x1B[1;37mTest cat:\033[0m\n");
 	ft_cat(0);
