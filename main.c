@@ -62,7 +62,7 @@ t_bool	test_putchar(t_bool debug);
 t_bool	test_putchar_fd(t_bool debug);
 t_bool	test_cat(t_bool debug);
 t_bool	test_cat_fd_0(t_bool debug);
-
+t_bool	test_cat_fd_test(t_bool debug);
 
 /* Print memory*/
 void	print_mem_ascii(unsigned char *buffer)
@@ -148,7 +148,9 @@ int main(void)
 	print_res_test("ft_putchar", test_putchar);
 	print_res_test("ft_putchar_fd", test_putchar_fd);
 	print_res_test("ft_cat", test_cat);
-	// print_res_test("ft_cat fd 0", test_cat_fd_0);
+	print_res_test("ft_cat fd 0", test_cat_fd_0);
+	print_res_test("ft_cat test", test_cat_fd_test);
+
 	return (0);
 }
 
@@ -376,6 +378,7 @@ t_bool	test_puts(t_bool debug)
 	char buff2[BUFF_SIZE + 1] = {0};
 	int out_pipe[2];
 	int saved_stdout;
+	int i;
 
 	for (int pos = 0; pos < (sizeof(strings) / sizeof(char*)); pos++)
 	{
@@ -387,7 +390,7 @@ t_bool	test_puts(t_bool debug)
 		}
 		dup2(out_pipe[1], STDOUT_FILENO);
 		close(out_pipe[1]);
-		puts(strings[pos]); /*PUTS CMD*/
+		i = puts(strings[pos]); /*PUTS CMD*/
 		fflush(stdout);
 		read(out_pipe[0], buff1, BUFF_SIZE);
 
@@ -1475,5 +1478,19 @@ t_bool	test_cat_fd_0(t_bool debug)
 	//FT_CAT CMD//
 	printf("\n\x1B[1;37mft_cat:\033[0m\n");
 	ft_cat(0); //FT_CAT CMD//
+	return (ret);
+}
+
+t_bool	test_cat_fd_test(t_bool debug)
+{
+	t_bool	ret = TRUE;
+	t_bool	test = TRUE;
+
+	printf("\n\x1B[1;37mTest cat:\033[0m\n");
+	ft_cat(0);
+	ft_cat(open(__FILE__, O_RDONLY));
+	ft_cat(open("test", O_RDONLY));
+	ft_cat(-42);
+
 	return (ret);
 }
