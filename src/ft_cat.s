@@ -40,7 +40,7 @@ cat:
 	mov rax, MACH_SYSCALL(READ)
 	syscall
 	jc error
-;test
+
 	mov rdi, STDOUT
 	mov rdx, rax ; Mettre la size lu dans la size a afficher
 	pop rsi ; Mettre ptr sur str
