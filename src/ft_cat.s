@@ -36,10 +36,11 @@ cat:
 	push rdi ; Envoi de fd
 	push rdx ; Envoi de size
 	push rsi ; Envoi de ptr
- 
+
 	mov rax, MACH_SYSCALL(READ)
 	syscall
-
+	jc error
+;test
 	mov rdi, STDOUT
 	mov rdx, rax ; Mettre la size lu dans la size a afficher
 	pop rsi ; Mettre ptr sur str
@@ -49,6 +50,8 @@ cat:
 
 	mov rax, MACH_SYSCALL(WRITE)
 	syscall
+	jc error
+
 
 	pop rax
 	pop rsi
@@ -62,3 +65,7 @@ done:
 	mov rsp, rbp
 	pop rbp
 	ret
+
+error:
+	mov rax, -1
+	jmp done
