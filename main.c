@@ -6,7 +6,7 @@
 /*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/12 23:25:31 by ybarbier          #+#    #+#             */
-/*   Updated: 2015/04/12 23:25:33 by ybarbier         ###   ########.fr       */
+/*   Updated: 2015/06/13 16:06:24 by ybarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	print_mem(char *desc, void *addr, t_bool ascii, int len)
 	unsigned char *p = addr;
 	unsigned char buffer[16];
 	int i = 0;
+	int pos = 0;
 
 	printf("%s", desc);
 	while (i < len)
@@ -92,14 +93,14 @@ void	print_mem(char *desc, void *addr, t_bool ascii, int len)
 		int k = 0;
 		bzero(buffer, 16);
 
-		for (int pos = i; (pos < l) && (pos < len); pos++)
-		{
+		for (pos = i; (pos < l) && (pos < len); pos++)
+			{
 			printf("%02x", p[pos]);
 			buffer[k] = p[pos];
 			k == 7 ? printf("  ") : printf(" ");
 			++k;
 		}
-
+		i = pos;
 		//ASCII
 		if ((i % 16) == 0 && ascii)
 			print_mem_ascii(buffer);
@@ -156,8 +157,8 @@ int main(void)
 
 t_bool	test_bzero(t_bool debug)
 {
-	#undef SIZE
-	#define SIZE 100
+#undef SIZE
+#define SIZE 100
 	t_bool ret = TRUE;
 	t_bool test1 = TRUE;
 	t_bool test2 = TRUE;
@@ -170,7 +171,7 @@ t_bool	test_bzero(t_bool debug)
 		"\x02",
 		"\t",
 		"OKokOKokOKOK"
-		};
+	};
 	char src2[][SIZE] = {
 		"test",
 		"ok",
@@ -180,7 +181,7 @@ t_bool	test_bzero(t_bool debug)
 		"\x02",
 		"\t",
 		"OKokOKokOKOK"
-		};
+	};
 	int size_arr[] = {0, 2, 4, 4, 5, 5, 100, 3};
 
 	for (size_t pos = 0; pos < (sizeof(src1) / SIZE); pos++)
@@ -369,8 +370,8 @@ t_bool	test_tolower(t_bool debug)
 
 t_bool	test_puts(t_bool debug)
 {
-	#undef BUFF_SIZE
-	#define BUFF_SIZE 50
+#undef BUFF_SIZE
+#define BUFF_SIZE 50
 	t_bool ret = TRUE;
 	t_bool test = TRUE;
 	char *strings[] = {"test", "test2", "\n", "!@#$%^&*()-+", "\t", "A", "", " ", "0123", "dewdwedew", "lo\x00lololololpas vu", "lol ewf ewf ewf wef 909 ew0 9", NULL};
@@ -443,7 +444,7 @@ t_bool	test_strlen(t_bool debug)
 		"bon\x00 dwedeeeeeeeeeee",
 		"",
 		"lolo\x01lol"
-		};
+	};
 
 	for (size_t pos = 0; pos < (sizeof(strings) / sizeof(char*)); pos++)
 	{
@@ -461,8 +462,8 @@ t_bool	test_strlen(t_bool debug)
 
 t_bool	test_strcat(t_bool debug)
 {
-	#undef SIZE
-	#define SIZE 100
+#undef SIZE
+#define SIZE 100
 	t_bool ret = TRUE;
 	t_bool test1 = TRUE;
 	t_bool test2 = TRUE;
@@ -474,7 +475,7 @@ t_bool	test_strcat(t_bool debug)
 		"x\0",
 		"\x02",
 		"\t"
-		};
+	};
 	char src2[][SIZE] = {
 		"test",
 		"ok",
@@ -483,7 +484,7 @@ t_bool	test_strcat(t_bool debug)
 		"x\0",
 		"\x02",
 		"\t"
-		};
+	};
 	char s_cat[][SIZE] = {
 		"O",
 		"B",
@@ -532,8 +533,8 @@ t_bool	test_strcat(t_bool debug)
 
 t_bool	test_strdup(t_bool debug)
 {
-	#undef SIZE
-	#define SIZE 100
+#undef SIZE
+#define SIZE 100
 	t_bool ret = TRUE;
 	t_bool test1 = TRUE;
 	t_bool test2 = TRUE;
@@ -548,7 +549,7 @@ t_bool	test_strdup(t_bool debug)
 		"0123456789abcdefgh",
 		"\n",
 		"||||||\x00|||||||\\ _=+212312340"
-		};
+	};
 	char src2[][SIZE] = {
 		"testOkA asd  ddsd 	sww	sadsd",
 		"ok",
@@ -560,7 +561,7 @@ t_bool	test_strdup(t_bool debug)
 		"0123456789abcdefgh",
 		"\n",
 		"||||||\x00|||||||\\ _=+212312340"
-		};
+	};
 	char *dst1;
 	char *dst2;
 
@@ -623,7 +624,7 @@ t_bool	test_strcmp(t_bool debug)
 		"0123456789abcdefgh",
 		"\n",
 		"||||||\x00|||||||\\ _=+212312340"
-		};
+	};
 	char *src2[] = {
 		"testOkA asd  ddsd 	sww	sadsd",
 		"ok",
@@ -645,7 +646,7 @@ t_bool	test_strcmp(t_bool debug)
 		"6789abcdefgh",
 		"",
 		"||||||\x00|||||||\\ _=+212312340            "
-		};
+	};
 
 	for (size_t pos = 0; pos < (sizeof(src1) / (sizeof(char*))); pos++)
 	{
@@ -663,8 +664,8 @@ t_bool	test_strcmp(t_bool debug)
 
 t_bool	test_strequ(t_bool debug)
 {
-	#undef SIZE
-	#define SIZE 100
+#undef SIZE
+#define SIZE 100
 	t_bool ret = TRUE;
 	t_bool test = TRUE;
 	char src1[][SIZE] = {
@@ -689,7 +690,7 @@ t_bool	test_strequ(t_bool debug)
 		"\n",
 		"||||||\x00|||||||\\ _=+212312340",
 		"A\x00\t"
-		};
+	};
 	char src2[][SIZE] = {
 		"testOkA asd  ddsd 	sww	sadsd",
 		"ok",
@@ -712,7 +713,7 @@ t_bool	test_strequ(t_bool debug)
 		"",
 		"||||||\x00|||||||\\ _=+212312340            ",
 		"A\x00\x01"
-		};
+	};
 
 	for (size_t pos = 0; pos < (sizeof(src1) / SIZE); pos++)
 	{
@@ -736,8 +737,8 @@ t_bool	test_strequ(t_bool debug)
 
 t_bool	test_strcpy(t_bool debug)
 {
-	#undef SIZE
-	#define SIZE 100
+#undef SIZE
+#define SIZE 100
 	t_bool ret = TRUE;
 	t_bool test1 = TRUE;
 	t_bool test2 = TRUE;
@@ -755,7 +756,7 @@ t_bool	test_strcpy(t_bool debug)
 		"HelloHelloHelloHelloHello",
 		"Hello",
 		"OOOOOOOOOOOOOOOOOOOOOOOOOOOO"
-		};
+	};
 	char src2[][SIZE] = {
 		"testOkA asd  ddsd 	sww	sadsd",
 		"ok",
@@ -770,7 +771,7 @@ t_bool	test_strcpy(t_bool debug)
 		"HelloHelloHelloHelloHello",
 		"Hello",
 		"OOOOOOOOOOOOOOOOOOOOOOOOOOOO"
-		};
+	};
 	char s_cpy[][SIZE] = {
 		"O\x20",
 		"B",
@@ -825,10 +826,10 @@ t_bool	test_strcpy(t_bool debug)
 
 t_bool	test_strnew(t_bool debug)
 {
-	#undef SIZE
-	#define SIZE 100
-	#undef SIZE_MEM
-	#define SIZE_MEM 50
+#undef SIZE
+#define SIZE 100
+#undef SIZE_MEM
+#define SIZE_MEM 50
 	t_bool ret = TRUE;
 	t_bool test = TRUE;
 	char *str1;
@@ -854,7 +855,7 @@ t_bool	test_strnew(t_bool debug)
 		"6789abcdefgh",
 		"",
 		"||||||\x00|||||||\\ _=+212312340            ",
-		};
+	};
 
 	for (size_t pos = 0; pos < (sizeof(src1) / SIZE_MEM); pos++)
 	{
@@ -886,8 +887,8 @@ t_bool	test_strnew(t_bool debug)
 
 t_bool	test_memset(t_bool debug)
 {
-	#undef SIZE
-	#define SIZE 100
+#undef SIZE
+#define SIZE 100
 	t_bool ret = TRUE;
 	t_bool test1 = TRUE;
 	t_bool test2 = TRUE;
@@ -902,7 +903,7 @@ t_bool	test_memset(t_bool debug)
 		"0123456789abcdefgh",
 		"\n",
 		"||||||\x00|||||||\\ _=+212312340"
-		};
+	};
 	char src2[][SIZE] = {
 		"testOkA asd  ddsd 	sww	sadsd",
 		"ok",
@@ -914,7 +915,7 @@ t_bool	test_memset(t_bool debug)
 		"0123456789abcdefgh",
 		"\n",
 		"||||||\x00|||||||\\ _=+212312340"
-		};
+	};
 	char c_set[] = {
 		'O',
 		'B',
@@ -967,8 +968,8 @@ t_bool	test_memset(t_bool debug)
 
 t_bool	test_memcpy(t_bool debug)
 {
-	#undef SIZE
-	#define SIZE 100
+#undef SIZE
+#define SIZE 100
 	t_bool ret = TRUE;
 	t_bool test1 = TRUE;
 	t_bool test2 = TRUE;
@@ -983,7 +984,7 @@ t_bool	test_memcpy(t_bool debug)
 		"0123456789abcdefgh",
 		"\n",
 		"||||||\x00|||||||\\ _=+212312340"
-		};
+	};
 	char src2[][SIZE] = {
 		"testOkA asd  ddsd 	sww	sadsd",
 		"ok",
@@ -995,7 +996,7 @@ t_bool	test_memcpy(t_bool debug)
 		"0123456789abcdefgh",
 		"\n",
 		"||||||\x00|||||||\\ _=+212312340"
-		};
+	};
 	char s_cpy[][SIZE] = {
 		"O",
 		"B",
@@ -1048,8 +1049,8 @@ t_bool	test_memcpy(t_bool debug)
 
 t_bool	test_memcmp(t_bool debug)
 {
-	#undef SIZE
-	#define SIZE 100
+#undef SIZE
+#define SIZE 100
 	t_bool ret = TRUE;
 	t_bool test = TRUE;
 	char src1[][SIZE] = {
@@ -1074,7 +1075,7 @@ t_bool	test_memcmp(t_bool debug)
 		"\n",
 		"||||||\x00|||||||\\ _=+212312340",
 		"A\x00\t"
-		};
+	};
 	char src2[][SIZE] = {
 		"testOkA asd  ddsd 	sww	sadsd",
 		"ok",
@@ -1097,7 +1098,7 @@ t_bool	test_memcmp(t_bool debug)
 		"",
 		"||||||\x00|||||||\\ _=+212312340            ",
 		"A\x00\x01"
-		};
+	};
 
 	for (size_t pos = 0; pos < (sizeof(src1) / SIZE); pos++)
 	{
@@ -1121,8 +1122,8 @@ t_bool	test_memcmp(t_bool debug)
 
 t_bool	test_memdel(t_bool debug)
 {
-	#undef SIZE
-	#define SIZE 100
+#undef SIZE
+#define SIZE 100
 	t_bool ret = TRUE;
 	t_bool test = TRUE;
 	char *str;
@@ -1170,10 +1171,10 @@ void	*memalloc(size_t size)
 
 t_bool	test_memalloc(t_bool debug)
 {
-	#undef SIZE
-	#define SIZE 100
-	#undef SIZE_MEM
-	#define SIZE_MEM 24
+#undef SIZE
+#define SIZE 100
+#undef SIZE_MEM
+#define SIZE_MEM 24
 	t_bool ret = TRUE;
 	t_bool test = TRUE;
 	char *str1;
@@ -1200,7 +1201,7 @@ t_bool	test_memalloc(t_bool debug)
 		"6789abcdefgh",
 		"",
 		"||||||\x00|||||||\\ _=+212312340            ",
-		};
+	};
 
 	for (size_t pos = 0; pos < (sizeof(src1) / SIZE); pos++)
 	{
@@ -1235,8 +1236,8 @@ t_bool	test_memalloc(t_bool debug)
 
 t_bool	test_putchar(t_bool debug)
 {
-	#undef BUFF_SIZE
-	#define BUFF_SIZE 50
+#undef BUFF_SIZE
+#define BUFF_SIZE 50
 	t_bool ret = TRUE;
 	t_bool test = TRUE;
 	char strings[] = {'a', 'b', 'c', 'd', 'A', 'Z', '\0', ' ', 1, -5, -1, -0, -128, 255, '\t', '\n', 0, '\01'};
@@ -1291,10 +1292,10 @@ t_bool	test_putchar(t_bool debug)
 
 t_bool	test_putchar_fd(t_bool debug)
 {
-	#undef BUFF_SIZE
-	#define BUFF_SIZE 50
-	#undef FD_TEST
-	#define FD_TEST 1
+#undef BUFF_SIZE
+#define BUFF_SIZE 50
+#undef FD_TEST
+#define FD_TEST 1
 	t_bool ret = TRUE;
 	t_bool test = TRUE;
 	char strings[] = {'a', 'b', 'c', 'd', 'A', 'Z', '\0', ' ', 1, -5, -1, -0, -128, 255, '\t', '\n', 0, '\01'};
@@ -1355,8 +1356,8 @@ t_bool	test_putchar_fd(t_bool debug)
 #include <fcntl.h>
 t_bool	test_cat(t_bool debug)
 {
-	#undef BUFF_SIZE
-	#define BUFF_SIZE 10000
+#undef BUFF_SIZE
+#define BUFF_SIZE 10000
 	t_bool	ret = TRUE;
 	t_bool	test = TRUE;
 	char	buff1[BUFF_SIZE + 1] = {0};
@@ -1409,10 +1410,10 @@ t_bool	test_cat(t_bool debug)
 		}
 		dup2(out_pipe[1], STDOUT_FILENO);
 		close(out_pipe[1]);
-			//FT_CAT CMD//
-			fd = open(files[pos], O_RDONLY);
-				ft_cat(fd); //FT_CAT CMD//
-			close(fd);
+		//FT_CAT CMD//
+		fd = open(files[pos], O_RDONLY);
+		ft_cat(fd); //FT_CAT CMD//
+		close(fd);
 
 		fflush(stdout);
 		read(out_pipe[0], buff2, BUFF_SIZE);
@@ -1445,7 +1446,7 @@ t_bool	test_cat(t_bool debug)
 			//FT_CAT CMD//
 			printf("\n\x1B[1;37mft_cat:\033[0m\n");
 			fd = open(files[pos], O_RDONLY);
-				ft_cat(fd); //FT_CAT CMD//
+			ft_cat(fd); //FT_CAT CMD//
 			close(fd);
 		}
 	}
